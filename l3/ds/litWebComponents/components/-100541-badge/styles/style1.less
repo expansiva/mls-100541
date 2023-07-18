@@ -1,4 +1,6 @@
-badge-100541.style1 { //don't change this line 
+badge-100541.style1 {
+
+    //don't change this line 
     .badge {
         display: inline-flex;
         align-items: center;
@@ -45,12 +47,28 @@ badge-100541.style1 { //don't change this line
     /* Pulse modifier */
     .badge--pulse {
         animation: pulse 1.5s infinite;
-        opacity: .7;
     }
+
+    .badge--pulse.badge--primary {
+        --pulse-color: @bg-primary-color;
+    }
+
+    .badge--pulse.badge--success {
+        --pulse-color: @success-color;
+    }
+
+    .badge--pulse.badge--warning {
+        --pulse-color: @warning-color;
+    }
+
+    .badge--pulse.badge--danger {
+        --pulse-color: @error-color;
+    }
+
 
     @keyframes pulse {
         0% {
-            box-shadow: 0 0 0 0 @bg-primary-color;
+            box-shadow: 0 0 0 0 var(--pulse-color);
         }
 
         70% {
