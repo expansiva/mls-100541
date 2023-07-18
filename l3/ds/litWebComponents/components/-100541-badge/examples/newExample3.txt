@@ -1,0 +1,1 @@
+{ "_100541_badge": {"class":"style1","variant":"warning","pill":"true","text":"Warning"} }
