@@ -1,0 +1,50 @@
+spinner-100541.spinner { //don't change this line 
+ 	  .a-spinner {
+        .a-spinner_container {
+            display: flex;
+            align-items: center;
+        }
+        .a-spinner_dot {
+            animation: opacityFade 1.5s linear infinite;
+            display: inline-block;
+            top: 0;
+            bottom: 0;
+            margin: 8px;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background-color: @active-color;
+
+            &.a-spinner_dot--1 {
+                animation-delay: 0s;
+            }
+            &.a-spinner_dot--2 {
+                animation-delay: 0.5s;
+            }
+            &.a-spinner_dot--3 {
+                animation-delay: 1s;
+            }
+        }
+        @keyframes opacityFade {
+            0%,
+            33%,
+            100% {
+                opacity: 1;
+            }
+            16.5% {
+                opacity: 0;
+            }
+        }
+
+        &.a-spinner--small {
+            .a-spinner_dot{
+                margin: 4px;
+                height: 8px;
+                width: 8px;
+                border-radius: 50%;
+            }
+           
+        }
+    }
+}
+
