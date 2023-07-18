@@ -71,7 +71,7 @@ export class StarRating100541 extends LitElement {
 
       if (i <= starIndex) {
         starElement.style.color = 'orange';
-      } else {
+      } else if(starElement){
         starElement.style.color = '';
       }
 
@@ -94,7 +94,7 @@ export class StarRating100541 extends LitElement {
 
       if (i <= this.ratingValue) {
         starElement.style.color = 'orange';
-      } else {
+      } else if(starElement) {
         starElement.style.color = '';
       }
     }
