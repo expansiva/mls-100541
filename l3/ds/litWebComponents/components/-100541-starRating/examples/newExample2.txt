@@ -1,0 +1,1 @@
+{ "_100541_starRating": {"class":"starrating","max":"3"} }
