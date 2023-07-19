@@ -6,7 +6,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-import {ReactiveElement, PropertyDeclaration} from '_100541_litReactiveElement';
+import { ReactiveElement, PropertyDeclaration } from '_100541_litReactiveElement';
+
 type Omit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
 
 export type Constructor<T> = {
@@ -476,3 +477,21 @@ export function state(options?: InternalPropertyDeclaration) {
     state: true,
   });
 }
+
+// Shoelace Decorators
+
+// @defaultValue decorator
+//
+// Runs when the corresponding attribute of the observed property changes, e.g. after calling Element.setAttribute or after updating
+// the observed property.
+//
+// The decorator checks whether the value of the attribute is different from the value of the property and in that case
+// it saves the new value.
+//
+//
+// Usage:
+//
+//  @property({ type: Boolean, reflect: true }) checked = false;
+//
+//  @defaultValue('checked') defaultChecked = false;
+//
