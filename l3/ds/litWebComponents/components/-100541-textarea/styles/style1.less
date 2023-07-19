@@ -1,0 +1,106 @@
+textarea-100541.style1 {
+    //don't change this line 
+    display: block;
+
+    .textarea {
+        display: flex;
+        align-items: center;
+        position: relative;
+        width: 100%;
+        font-family: @font-family-primary;
+        font-weight: @font-weight-normal;
+        line-height: @line-height-medium;
+        letter-spacing: normal;
+        vertical-align: middle;
+        cursor: text;
+    }
+
+    /* Standard textareas */
+    .textarea--standard {
+        background-color: @bg-primary-color-darker;
+        border: 1px solid @bg-primary-color;
+    }
+
+    .textarea--standard:hover:not(.textarea--disabled) {
+        opacity: .8;
+    }
+
+    .textarea--standard:hover:not(.textarea--disabled) .textarea__control {
+        color: @text-primary-color-darker;
+    }
+
+    .textarea--standard.textarea--focused:not(.textarea--disabled) {
+        background-color: @bg-primary-color-darker;
+        border-color: @active-color;
+        color: @text-primary-color-darker;
+    }
+
+
+    .textarea--standard.textarea--disabled {
+        background-color: @grey-color-dark;
+        border-color: @grey-color-darker;
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    /* Filled textareas */
+    .textarea--filled {
+        border: none;
+    
+    }
+
+    .textarea--filled.textarea--disabled {
+        background-color: @bg-primary-color-darker;
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .textarea__control {
+        flex: 1 1 auto;
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        line-height: 1.4;
+        color: @text-primary-color;
+        border: none;
+        background: none;
+        box-shadow: none;
+        cursor: inherit;
+        -webkit-appearance: none;
+    }
+
+    .textarea__control::-webkit-search-decoration,
+    .textarea__control::-webkit-search-cancel-button,
+    .textarea__control::-webkit-search-results-button,
+    .textarea__control::-webkit-search-results-decoration {
+        -webkit-appearance: none;
+    }
+
+    .textarea__control::placeholder {
+        color: @bg-primary-color-lighter;
+        user-select: none;
+    }
+
+    .textarea__control:focus {
+        outline: none;
+    }
+
+    /*
+    * Resize types
+    */
+
+    .textarea--resize-none .textarea__control {
+        resize: none;
+    }
+
+    .textarea--resize-vertical .textarea__control {
+        resize: vertical;
+    }
+
+    .textarea--resize-auto .textarea__control {
+        height: auto;
+        resize: none;
+        overflow-y: hidden;
+    }
+}
+
