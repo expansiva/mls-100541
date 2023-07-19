@@ -56,7 +56,10 @@ export * from '_100541_litHtml';
 import {LitUnstable} from '_100541_litHtml';
 import { ReactiveUnstable } from '_100541_litReactiveElement';
 
-export { classMap } from '_100541_litClassMap'
+export * from '_100541_litClassMap';
+export * from '_100541_litIfDefined';
+export * from '_100541_litLive';
+
 export const repeat = (array:any[], func:Function = ()=>{} , func2:Function = ()=>{}) =>  {
     console.info(array, func, func2);
 } 
