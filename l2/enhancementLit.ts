@@ -136,7 +136,7 @@ export const getPublishDetails = (_mfile: mls.l2.editor.IMFile): mls.l2.editor.I
         ref: "https://cdn.jsdelivr.net/npm/lit-element@3.3.2/+esm",
 
     });
-    
+
     return ret;
 }
 
@@ -229,18 +229,22 @@ function getPropiertiesByDecorators(model: mls.l2.editor.IMFile): mls.l2.js.IPro
     const objDecorators: IDecoratorDictionary = JSON.parse(decorators);
     Object.entries(objDecorators).forEach((entrie) => {
         const item: IDecoratorDetails = entrie[1];
-        const prop: mls.l2.js.IProperties = {} as mls.l2.js.IProperties;
         if (item.type === 'PropertyDeclaration') {
             const propertyName = item.parentName;
-            prop.propertyName = propertyName;
-            prop.sectionName = 'principal';
-            prop.hint = '';
-            prop.propertyType = getPropType(item.decorators[0].text).toLowerCase();
-            rc.push(prop);
+            item.decorators.forEach((decorator) => {
+                if (decorator.text.startsWith('property(')) {
+                    const prop: mls.l2.js.IProperties = {} as mls.l2.js.IProperties;
+                    prop.propertyName = propertyName;
+                    prop.sectionName = 'principal';
+                    prop.hint = '';
+                    prop.propertyType = getPropType(item.decorators[0].text).toLowerCase();
+                    rc.push(prop);
+                }
+            })
         }
     });
     const defaultProps = getDefaultPropierties();
-    return [...defaultProps,...rc];
+    return [...defaultProps, ...rc];
 }
 
 function getMoreInfoInJsDoc(model: mls.l2.editor.IMFile, propierties: mls.l2.js.IProperties[]): mls.l2.js.IProperties[] {
@@ -249,7 +253,6 @@ function getMoreInfoInJsDoc(model: mls.l2.editor.IMFile, propierties: mls.l2.js.
     const objDocs: IJSDoc[] = JSON.parse(devDoc);
     const jsDocProps = getJSDocPropierties(objDocs);
     for (const prop of propierties) {
-
         const propInPropsJsDoc = jsDocProps.find((_prop) => _prop.propertyName === prop.propertyName);
         if (propInPropsJsDoc) {
             prop.hint = propInPropsJsDoc.hint;
