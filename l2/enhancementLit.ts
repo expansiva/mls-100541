@@ -71,22 +71,17 @@ export const convertTagToFileName = (tag: string) => {
 }
 
 export const convertFileNameToTag = (widget: string) => {
-
     const regex = /_([0-9]+)_?(.*)/;
     const match = widget.match(regex);
-
     if (match) {
         const [, number, rest] = match;
         const convertedSrc = rest.replace(/([A-Z])/g, '-$1').toLowerCase();
         widget = `${convertedSrc}-${number}`;
     }
-
     return widget;
-
 }
 
 export const prepareAdd = (prompt: string): { sourceTS: string, aiHeader: string, aiBody: string, aiDelimiter: string } => {
-
     const aiHeader = `
         typescript, crie e me mostre em apenas um codigo um web componente baseado no lit element, que inicia com:::
         import { html, css, LitElement } from 'lit'; 
@@ -113,7 +108,6 @@ export const onAfterChange = (model: mls.l2.editor.IMFile): string => {
 };
 
 export const getPromptDefault = (): string => {
-
     return `
     Propriedade: O componente aceitará uma propriedade 'name'.
 
@@ -123,7 +117,6 @@ export const getPromptDefault = (): string => {
 export const getPublishDetails = (_mfile: mls.l2.editor.IMFile): mls.l2.editor.IRequire[] => {
 
     const ret: mls.l2.editor.IRequire[] = [];
-
     ret.push({
         type: "cdn",
         name: "lit",
@@ -136,7 +129,6 @@ export const getPublishDetails = (_mfile: mls.l2.editor.IMFile): mls.l2.editor.I
         ref: "https://cdn.jsdelivr.net/npm/lit-element@3.3.2/+esm",
 
     });
-
     return ret;
 }
 
@@ -196,14 +188,14 @@ function getDecoratorClassInfo(decoratorString: string): IDecoratorClassInfo {
     return result;
 }
 
-export function getPropierties(model: mls.l2.editor.IMFile): mls.l2.js.IProperties[] {
-    let rc: mls.l2.js.IProperties[] = [];
+export function getPropierties(model: mls.l2.editor.IMFile): IL2Properties[] {
+    let rc: IL2Properties[] = [];
     rc = getPropiertiesByDecorators(model);
     rc = getMoreInfoInJsDoc(model, rc)
     return rc;
 }
 
-function getDefaultPropierties(): mls.l2.js.IProperties[] {
+function getDefaultPropierties(): IL2Properties[] {
     return [
         {
             propertyName: 'class',
@@ -217,27 +209,30 @@ function getDefaultPropierties(): mls.l2.js.IProperties[] {
             propertyType: 'string',
             sectionName: 'principal',
             defaultValue: '',
+            pattern: '^[_a-zA-Z]\\w*$',
             hint: 'identifier for javascript manipulation'
         }
     ]
 }
 
-function getPropiertiesByDecorators(model: mls.l2.editor.IMFile): mls.l2.js.IProperties[] {
+function getPropiertiesByDecorators(model: mls.l2.editor.IMFile): IL2Properties[] {
     const { decorators } = model.compilerResults;
     if (!decorators) return [];
-    const rc: mls.l2.js.IProperties[] = [];
+    const rc: IL2Properties[] = [];
     const objDecorators: IDecoratorDictionary = JSON.parse(decorators);
+
     Object.entries(objDecorators).forEach((entrie) => {
         const item: IDecoratorDetails = entrie[1];
         if (item.type === 'PropertyDeclaration') {
             const propertyName = item.parentName;
             item.decorators.forEach((decorator) => {
                 if (decorator.text.startsWith('property(')) {
-                    const prop: mls.l2.js.IProperties = {} as mls.l2.js.IProperties;
+                    const prop: IL2Properties = {} as IL2Properties;
+                    const propertyType = getPropType(decorator.text)?.toLowerCase();
                     prop.propertyName = propertyName;
                     prop.sectionName = 'principal';
                     prop.hint = '';
-                    prop.propertyType = getPropType(item.decorators[0].text).toLowerCase();
+                    if (propertyType) prop.propertyType = propertyType;
                     rc.push(prop);
                 }
             })
@@ -247,25 +242,26 @@ function getPropiertiesByDecorators(model: mls.l2.editor.IMFile): mls.l2.js.IPro
     return [...defaultProps, ...rc];
 }
 
-function getMoreInfoInJsDoc(model: mls.l2.editor.IMFile, propierties: mls.l2.js.IProperties[]): mls.l2.js.IProperties[] {
+function getMoreInfoInJsDoc(model: mls.l2.editor.IMFile, propierties: IL2Properties[]): IL2Properties[] {
     const { devDoc } = model.compilerResults;
     if (!devDoc) return propierties;
     const objDocs: IJSDoc[] = JSON.parse(devDoc);
     const jsDocProps = getJSDocPropierties(objDocs);
-    for (const prop of propierties) {
+    for (let i = 0; i < propierties.length; i++) {
+        let prop = propierties[i];
         const propInPropsJsDoc = jsDocProps.find((_prop) => _prop.propertyName === prop.propertyName);
         if (propInPropsJsDoc) {
-            prop.hint = propInPropsJsDoc.hint;
-            prop.sectionName = propInPropsJsDoc.sectionName;
-            prop.defaultValue = propInPropsJsDoc.defaultValue;
-            prop.propertyType = prop.propertyType || propInPropsJsDoc.propertyType;
+            prop = {
+                ...propInPropsJsDoc, ...prop
+            }
+            propierties[i] = prop;
         }
     }
     return propierties;
 }
 
-function getJSDocPropierties(objDocs: IJSDoc[]): mls.l2.js.IProperties[] {
-    const rc: mls.l2.js.IProperties[] = [];
+function getJSDocPropierties(objDocs: IJSDoc[]): IL2Properties[] {
+    const rc: IL2Properties[] = [];
     for (const doc of objDocs) {
         if (doc.type !== 'class') continue;
         const docMembersProp = doc.members.filter((m) => {
@@ -279,12 +275,24 @@ function getJSDocPropierties(objDocs: IJSDoc[]): mls.l2.js.IProperties[] {
         });
 
         docMembersProp.forEach((prop) => {
-            const propItem: mls.l2.js.IProperties = {} as mls.l2.js.IProperties;
-            propItem.propertyName = prop.name;
-            propItem.defaultValue = '';
+            const propItem: IL2Properties = {} as IL2Properties;
+            const fieldType = getFieldTypeInfo(prop.tags);
+            const sectionName = getSectionsTag(fieldType);
+            const propType = getPropTypeTag(fieldType);
             propItem.hint = prop.comment;
-            propItem.sectionName = getSectionsTag(prop.tags)
-            propItem.propertyType = getPropTypeTag(prop.tags);
+            propItem.propertyName = prop.name;
+            if (fieldType?.defaultValue) propItem.defaultValue = fieldType?.defaultValue;
+            if (propType) propItem.propertyType = propType;
+            if (sectionName) propItem.sectionName = sectionName;
+            if (fieldType?.cols) propItem.cols = fieldType?.cols;
+            if (fieldType?.rows) propItem.rows = fieldType?.rows;
+            if (fieldType?.pattern) propItem.pattern = fieldType?.pattern;
+            if (fieldType?.max) propItem.max = fieldType?.max;
+            if (fieldType?.min) propItem.min = fieldType?.min;
+            if (fieldType?.step) propItem.step = fieldType?.step;
+            if (fieldType?.maxLength) propItem.maxLength = fieldType?.maxLength;
+            if (fieldType?.items) propItem.items = fieldType?.items;
+
             rc.push(propItem)
         })
     }
@@ -298,7 +306,7 @@ function getPropType(propertyString: string): string {
         const typeProp = match[1];
         return typeProp;
     }
-    return 'String';
+    return undefined;
 }
 
 function isDecoratorProp(modifiers: string[]): boolean {
@@ -310,21 +318,34 @@ function isDecoratorProp(modifiers: string[]): boolean {
     return false;
 }
 
-function getSectionsTag(tags: ITag[]): mls.l2.js.ISectionName {
-    const tag = tags.find((item) => item.tagName === 'section');
+function getFieldTypeInfo(tags: ITag[]): IL2Properties {
+    const tag = tags.find((item) => item.tagName === 'fieldType');
+    if (!tag) return undefined;
+    try {
+        const rc = JSON.parse(tag.comment);
+        return rc;
+    } catch (err) {
+        return undefined;
+    }
+}
+
+function getSectionsTag(fieldType: IL2Properties): mls.l2.js.ISectionName {
     const defaultSection = 'principal'
-    if (!tag) return defaultSection // default
-    const tagValue = tag.comment.trim();
-    if (['principal', 'optional', 'advanced'].includes(tagValue)) return tagValue as mls.l2.js.ISectionName
+    if (!fieldType) return defaultSection;
+    const { sectionName } = fieldType;
+    if (!sectionName) return defaultSection;
+    const valueFormated = sectionName.toLowerCase().trim();
+    if (['principal', 'optional', 'advanced'].includes(valueFormated)) return valueFormated as mls.l2.js.ISectionName
     return defaultSection;
 }
 
-function getPropTypeTag(tags: ITag[]): string {
-    const tag = tags.find((item) => item.tagName === 'propType');
+function getPropTypeTag(fieldType: IL2Properties): string {
     const defaultType = 'string'
-    if (!tag) return defaultType // default
-    const tagValue = tag.comment.trim();
-    if (['string', 'number', 'boolean'].includes(tagValue)) return tagValue;
+    if (!fieldType) return defaultType;
+    const { propertyType } = fieldType;
+    if (!propertyType) return defaultType;
+    const valueFormated = propertyType.toLowerCase().trim();
+    if (['string', 'number', 'boolean', 'list'].includes(valueFormated)) return valueFormated;
     return defaultType;
 }
 
@@ -380,5 +401,16 @@ export interface IDecoratorDetails {
 
 export interface IDecoratorDictionary {
     [key: number]: IDecoratorDetails
+}
+
+export interface IL2Properties extends mls.l2.js.IProperties {
+    pattern?: string,
+    maxLength?: number,
+    max?: number,
+    min?: number,
+    step?: number,
+    rows?: number,
+    cols?: number,
+    items?: string[]
 }
 
