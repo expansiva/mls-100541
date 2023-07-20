@@ -6,8 +6,11 @@ import { html, LitElement, classMap } from 'lit';
 @customElement('badge-100541')
 export default class Badge extends LitElement {
 
-  /** The badge's theme variant. */
-  @property({ reflect: true }) variant: 'primary' | 'success'  | 'warning' | 'danger' = 'primary';
+  /**
+  * The badge's theme variant.
+  * @fieldType { "propertyType":"list", "items": ["primary" , "success" , "warning" , "danger"]}
+  */
+  @property({ reflect: true }) variant: 'primary' | 'success' | 'warning' | 'danger' = 'primary';
 
   /** Draws a pill-style badge with rounded edges. */
   @property({ type: Boolean, reflect: true }) pill = false;
@@ -28,14 +31,14 @@ export default class Badge extends LitElement {
       <span
         part="base"
         class=${classMap({
-          badge: true,
-          'badge--primary': this.variant === 'primary',
-          'badge--success': this.variant === 'success',
-          'badge--warning': this.variant === 'warning',
-          'badge--danger': this.variant === 'danger',
-          'badge--pill': this.pill,
-          'badge--pulse': this.pulse
-        })}
+      badge: true,
+      'badge--primary': this.variant === 'primary',
+      'badge--success': this.variant === 'success',
+      'badge--warning': this.variant === 'warning',
+      'badge--danger': this.variant === 'danger',
+      'badge--pill': this.pill,
+      'badge--pulse': this.pulse
+    })}
         role="status"
       >
       ${this.text}
