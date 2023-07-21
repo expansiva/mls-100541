@@ -1,20 +1,18 @@
 /// <mls shortName="divider" project="100541" enhancement="_100541_enhancementLit" groupName="divider" />
 
-import { html, css, LitElement } from 'lit';
+/**
+ * This code has been forked and modified from a project found on https://github.com/shoelace-style/shoelace.
+ * The original project is licensed under the MIT license.
+ */
+import { LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-
 
 /**
  * @summary Dividers are used to visually separate or group elements.
  * @documentation https://shoelace.style/components/divider
  * @status stable
  * @since 2.0
- *
- * @cssproperty --color - The color of the divider.
- * @cssproperty --width - The width of the divider.
- * @cssproperty --spacing - The spacing of the divider.
  */
-
 @customElement('divider-100541')
 export default class Divider extends LitElement {
 
