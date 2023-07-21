@@ -1,1 +1,1 @@
-{ "_100541_countDown": {"class":"countdown100541"} }
+{ "_100541_countDown": {"class":"countdown100541","timer":"10"} }
