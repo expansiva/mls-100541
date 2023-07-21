@@ -143,7 +143,6 @@ export default class LitCheckbox extends LitElement {
     return html`
       <label
         part="base"
-        ${console.info({ disabled: this.disabled })}
         class=${classMap({
       checkbox: true,
       'checkbox--checked': this.checked,
