@@ -1,5 +1,9 @@
 /// <mls shortName="textarea" project="100541" enhancement="_100541_enhancementLit" groupName="form" />
 
+/**
+ * This code has been forked and modified from a project found on https://github.com/shoelace-style/shoelace.
+ * The original project is licensed under the MIT license.
+ */
 import {
     html,
     classMap,
