@@ -192,6 +192,7 @@ export function getPropierties(model: mls.l2.editor.IMFile): IL2Properties[] {
     let rc: IL2Properties[] = [];
     rc = getPropiertiesByDecorators(model);
     rc = getMoreInfoInJsDoc(model, rc)
+    console.info(rc)
     return rc;
 }
 
@@ -230,8 +231,8 @@ function getPropiertiesByDecorators(model: mls.l2.editor.IMFile): IL2Properties[
                     const prop: IL2Properties = {} as IL2Properties;
                     const propertyType = getPropType(decorator.text)?.toLowerCase();
                     prop.propertyName = propertyName;
-                    prop.sectionName = 'principal';
-                    prop.hint = '';
+                    // prop.sectionName = 'principal';
+                    prop.isHtmlProperty = isHtmlProperty(decorator.text) || false;
                     if (propertyType) prop.propertyType = propertyType;
                     rc.push(prop);
                 }
@@ -305,6 +306,16 @@ function getPropType(propertyString: string): string {
     if (match && match.length > 1) {
         const typeProp = match[1];
         return typeProp;
+    }
+    return undefined;
+}
+
+function isHtmlProperty(propertyString: string): boolean {
+    const typeRegex = /reflect:\s*([A-Za-z]+)/;
+    const match = propertyString.match(typeRegex);
+    if (match && match.length > 1) {
+        const isHtmlProperty = match[1] === 'true' || false;
+        return isHtmlProperty;
     }
     return undefined;
 }
@@ -406,6 +417,7 @@ export interface IDecoratorDictionary {
 export interface IL2Properties extends mls.l2.js.IProperties {
     pattern?: string,
     maxLength?: number,
+    isHtmlProperty?: boolean,
     max?: number,
     min?: number,
     step?: number,
