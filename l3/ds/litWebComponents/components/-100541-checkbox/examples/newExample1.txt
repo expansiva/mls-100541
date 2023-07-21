@@ -1,0 +1,1 @@
+{ "_100541_checkbox": {"class":"style1","label":"checkbox","size":"medium"} }
