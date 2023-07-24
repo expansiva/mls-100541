@@ -30,7 +30,6 @@ export const onBeforeCompile = (model: mls.l2.editor.IMFile) => {
     };
 
     monaco.languages.typescript.typescriptDefaults.setCompilerOptions(op);
-
     model.compilerResults.modelNeedCompile = true;
 
 }
@@ -47,6 +46,7 @@ export const getDesignDetails = (model: mls.l2.editor.IMFile): Promise<mls.l2.js
             const ret = {} as mls.l2.js.IDesignDetailsReturn;
             ret.defaultHtmlExamplePreview = preparePreviewHtml(model);
             ret.properties = getPropierties(model);
+            ret['dependencies'] = getComponentDependencies(model);
             resolve(ret);
         } catch (e) {
             reject(e);
@@ -56,7 +56,6 @@ export const getDesignDetails = (model: mls.l2.editor.IMFile): Promise<mls.l2.js
 }
 
 export const convertTagToFileName = (tag: string) => {
-
     const regex = /(.+)-(\d+)/;
     const match = tag.match(regex);
 
@@ -65,9 +64,7 @@ export const convertTagToFileName = (tag: string) => {
         const convertedSrc = rest.replace(/-(.)/g, (_, letter) => letter.toUpperCase());
         tag = `_${number}_${convertedSrc}`;
     }
-
     return tag;
-
 }
 
 export const convertFileNameToTag = (widget: string) => {
@@ -188,12 +185,47 @@ function getDecoratorClassInfo(decoratorString: string): IDecoratorClassInfo {
     return result;
 }
 
+export function getComponentDependencies(model: mls.l2.editor.IMFile): string[] {
+
+    const { devDoc } = model.compilerResults;
+    if (!devDoc) return [];
+    const objDocs: IJSDoc[] = JSON.parse(devDoc);
+    const classInfoString = getJsDocClassInfoTag(objDocs);
+
+    // Regular expression to match the dependencies array
+    const regex = /"dependencies"\s*:\s*(\[.*?\])/;
+    // Executing the regular expression and extracting the matched group
+    const match = classInfoString.match(regex);
+
+    // Check if the regex found a match and extract the dependencies array
+    let dependenciesArray = [];
+    if (match && match.length === 2) {
+        try {
+            dependenciesArray = JSON.parse(match[1]);
+            dependenciesArray = dependenciesArray.map((tag) => convertTagToFileName(tag));
+        } catch (error) {
+            // Handle the error if the JSON parsing fails
+            console.error('Error parsing dependencies array:', error);
+            dependenciesArray =  [];
+        }
+    }
+    return dependenciesArray;
+}
+
 export function getPropierties(model: mls.l2.editor.IMFile): IL2Properties[] {
     let rc: IL2Properties[] = [];
     rc = getPropiertiesByDecorators(model);
     rc = getMoreInfoInJsDoc(model, rc)
-    console.info(rc)
     return rc;
+}
+
+function getJsDocClassInfoTag(objDocs: IJSDoc[]): string {
+    for (const doc of objDocs) {
+        if (doc.type !== 'class') continue;
+        const tagComponentDetails = doc.tags.find((tag) => tag.tagName === 'componentDetails');
+        if (!tagComponentDetails) return '';
+        return tagComponentDetails.comment;
+    }
 }
 
 function getDefaultPropierties(): IL2Properties[] {
@@ -231,8 +263,6 @@ function getPropiertiesByDecorators(model: mls.l2.editor.IMFile): IL2Properties[
                     const prop: IL2Properties = {} as IL2Properties;
                     const propertyType = getPropType(decorator.text)?.toLowerCase();
                     prop.propertyName = propertyName;
-                    // prop.sectionName = 'principal';
-                    prop.isHtmlProperty = isHtmlProperty(decorator.text) || false;
                     if (propertyType) prop.propertyType = propertyType;
                     rc.push(prop);
                 }
@@ -293,7 +323,6 @@ function getJSDocPropierties(objDocs: IJSDoc[]): IL2Properties[] {
             if (fieldType?.step) propItem.step = fieldType?.step;
             if (fieldType?.maxLength) propItem.maxLength = fieldType?.maxLength;
             if (fieldType?.items) propItem.items = fieldType?.items;
-
             rc.push(propItem)
         })
     }
@@ -306,16 +335,6 @@ function getPropType(propertyString: string): string {
     if (match && match.length > 1) {
         const typeProp = match[1];
         return typeProp;
-    }
-    return undefined;
-}
-
-function isHtmlProperty(propertyString: string): boolean {
-    const typeRegex = /reflect:\s*([A-Za-z]+)/;
-    const match = propertyString.match(typeRegex);
-    if (match && match.length > 1) {
-        const isHtmlProperty = match[1] === 'true' || false;
-        return isHtmlProperty;
     }
     return undefined;
 }
@@ -417,7 +436,6 @@ export interface IDecoratorDictionary {
 export interface IL2Properties extends mls.l2.js.IProperties {
     pattern?: string,
     maxLength?: number,
-    isHtmlProperty?: boolean,
     max?: number,
     min?: number,
     step?: number,
