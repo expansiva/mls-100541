@@ -1,0 +1,1 @@
+{ "_100541_progressBar": {"class":"style1","value":"0","indeterminate":"true","label":"Progress"} }
