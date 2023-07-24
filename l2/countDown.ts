@@ -6,7 +6,12 @@ import { customElement, property } from 'lit/decorators.js';
 @customElement('count-down-100541')
 export class CountDown100541 extends LitElement {
 
-  @property({ type: Number, reflect: true }) timer = 10;
+  /**
+   * teste
+   * @fieldType { "type":"number", "max": "10", "min":"2"}
+   */
+  @property({ type: Number, reflect: true })
+  timer = 10;
 
   private elFill;
 
