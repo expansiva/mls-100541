@@ -1,1 +1,1 @@
-{ "_100541_checkbox": {"class":"style1","label":"large","size":"large","checked":"checked"} }
+{ "_100541_checkbox": {"class":"style1","label":"large","size":"medium","checked":"checked"} }
