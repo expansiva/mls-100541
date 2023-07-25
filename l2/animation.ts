@@ -1,5 +1,10 @@
 /// <mls shortName="animation" project="100541" enhancement="_100541_enhancementLit" groupName="animation" />
 
+/**
+ * This code has been forked and modified from a project found on https://github.com/shoelace-style/shoelace.
+ * The original project is licensed under the MIT license.
+ */
+
 import { html, LitElement } from 'lit';
 import { customElement, property, queryAsync } from 'lit/decorators.js';
 
