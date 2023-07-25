@@ -29,7 +29,7 @@ export class Animations extends LitElement {
 
     /**
     * The name of the built-in animation to use. For custom animations, use the `keyframes` prop.
-    * @fieldType { "propertyType":"list", "defaultValue":"none", "items": ["bounce","flash","headShake","heartBeat"]}
+    * @fieldType { "propertyType":"list", "defaultValue":"none", "items": ["bounce","flash","headShake","heartBeat","jello","pulse","rubberBand","shake","shakeX","shakeY","swing","tada","wobble","backInDown","backInLeft","backInRight","backInUp","backOutDown","backOutLeft","backOutRight","backOutUp"]}
     */
     @property() name = 'none';
 
@@ -201,7 +201,141 @@ export class Animations extends LitElement {
             { offset: 0.28, transform: 'scale(1)' },
             { offset: 0.42, transform: 'scale(1.3)' },
             { offset: 0.7, transform: 'scale(1)' }
-        ]
+        ],
+        jello: [
+            { offset: 0, transform: 'translate3d(0, 0, 0)' },
+            { offset: 0.111, transform: 'translate3d(0, 0, 0)' },
+            { offset: 0.222, transform: 'skewX(-12.5deg) skewY(-12.5deg)' },
+            { offset: 0.33299999999999996, transform: 'skewX(6.25deg) skewY(6.25deg)' },
+            { offset: 0.444, transform: 'skewX(-3.125deg) skewY(-3.125deg)' },
+            { offset: 0.555, transform: 'skewX(1.5625deg) skewY(1.5625deg)' },
+            { offset: 0.6659999999999999, transform: 'skewX(-0.78125deg) skewY(-0.78125deg)' },
+            { offset: 0.777, transform: 'skewX(0.390625deg) skewY(0.390625deg)' },
+            { offset: 0.888, transform: 'skewX(-0.1953125deg) skewY(-0.1953125deg)' },
+            { offset: 1, transform: 'translate3d(0, 0, 0)' }
+        ],
+        pulse: [
+            { offset: 0, transform: 'scale3d(1, 1, 1)' },
+            { offset: 0.5, transform: 'scale3d(1.05, 1.05, 1.05)' },
+            { offset: 1, transform: 'scale3d(1, 1, 1)' }
+        ],
+        rubberBand: [
+            { offset: 0, transform: 'scale3d(1, 1, 1)' },
+            { offset: 0.3, transform: 'scale3d(1.25, 0.75, 1)' },
+            { offset: 0.4, transform: 'scale3d(0.75, 1.25, 1)' },
+            { offset: 0.5, transform: 'scale3d(1.15, 0.85, 1)' },
+            { offset: 0.65, transform: 'scale3d(0.95, 1.05, 1)' },
+            { offset: 0.75, transform: 'scale3d(1.05, 0.95, 1)' },
+            { offset: 1, transform: 'scale3d(1, 1, 1)' }
+        ],
+        shake: [
+            { offset: 0, transform: 'translate3d(0, 0, 0)' },
+            { offset: 0.1, transform: 'translate3d(-10px, 0, 0)' },
+            { offset: 0.2, transform: 'translate3d(10px, 0, 0)' },
+            { offset: 0.3, transform: 'translate3d(-10px, 0, 0)' },
+            { offset: 0.4, transform: 'translate3d(10px, 0, 0)' },
+            { offset: 0.5, transform: 'translate3d(-10px, 0, 0)' },
+            { offset: 0.6, transform: 'translate3d(10px, 0, 0)' },
+            { offset: 0.7, transform: 'translate3d(-10px, 0, 0)' },
+            { offset: 0.8, transform: 'translate3d(10px, 0, 0)' },
+            { offset: 0.9, transform: 'translate3d(-10px, 0, 0)' },
+            { offset: 1, transform: 'translate3d(0, 0, 0)' }
+        ],
+        shakeX: [
+            { offset: 0, transform: 'translate3d(0, 0, 0)' },
+            { offset: 0.1, transform: 'translate3d(-10px, 0, 0)' },
+            { offset: 0.2, transform: 'translate3d(10px, 0, 0)' },
+            { offset: 0.3, transform: 'translate3d(-10px, 0, 0)' },
+            { offset: 0.4, transform: 'translate3d(10px, 0, 0)' },
+            { offset: 0.5, transform: 'translate3d(-10px, 0, 0)' },
+            { offset: 0.6, transform: 'translate3d(10px, 0, 0)' },
+            { offset: 0.7, transform: 'translate3d(-10px, 0, 0)' },
+            { offset: 0.8, transform: 'translate3d(10px, 0, 0)' },
+            { offset: 0.9, transform: 'translate3d(-10px, 0, 0)' },
+            { offset: 1, transform: 'translate3d(0, 0, 0)' }
+        ],
+        shakeY: [
+            { offset: 0, transform: 'translate3d(0, 0, 0)' },
+            { offset: 0.1, transform: 'translate3d(0, -10px, 0)' },
+            { offset: 0.2, transform: 'translate3d(0, 10px, 0)' },
+            { offset: 0.3, transform: 'translate3d(0, -10px, 0)' },
+            { offset: 0.4, transform: 'translate3d(0, 10px, 0)' },
+            { offset: 0.5, transform: 'translate3d(0, -10px, 0)' },
+            { offset: 0.6, transform: 'translate3d(0, 10px, 0)' },
+            { offset: 0.7, transform: 'translate3d(0, -10px, 0)' },
+            { offset: 0.8, transform: 'translate3d(0, 10px, 0)' },
+            { offset: 0.9, transform: 'translate3d(0, -10px, 0)' },
+            { offset: 1, transform: 'translate3d(0, 0, 0)' }
+        ],
+        swing: [
+            { offset: 0.2, transform: 'rotate3d(0, 0, 1, 15deg)' },
+            { offset: 0.4, transform: 'rotate3d(0, 0, 1, -10deg)' },
+            { offset: 0.6, transform: 'rotate3d(0, 0, 1, 5deg)' },
+            { offset: 0.8, transform: 'rotate3d(0, 0, 1, -5deg)' },
+            { offset: 1, transform: 'rotate3d(0, 0, 1, 0deg)' }
+        ],
+        tada: [
+            { offset: 0, transform: 'scale3d(1, 1, 1)' },
+            { offset: 0.1, transform: 'scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg)' },
+            { offset: 0.2, transform: 'scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg)' },
+            { offset: 0.3, transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg)' },
+            { offset: 0.4, transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg)' },
+            { offset: 0.5, transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg)' },
+            { offset: 0.6, transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg)' },
+            { offset: 0.7, transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg)' },
+            { offset: 0.8, transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg)' },
+            { offset: 0.9, transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg)' },
+            { offset: 1, transform: 'scale3d(1, 1, 1)' }
+        ],
+        wobble: [
+            { offset: 0, transform: 'translate3d(0, 0, 0)' },
+            { offset: 0.15, transform: 'translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg)' },
+            { offset: 0.3, transform: 'translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg)' },
+            { offset: 0.45, transform: 'translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg)' },
+            { offset: 0.6, transform: 'translate3d(10%, 0, 0) rotate3d(0, 0, 1, 2deg)' },
+            { offset: 0.75, transform: 'translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -1deg)' },
+            { offset: 1, transform: 'translate3d(0, 0, 0)' }
+        ],
+        backInDown: [
+            { offset: 0, transform: 'translateY(-1200px) scale(0.7)', opacity: '0.7' },
+            { offset: 0.8, transform: 'translateY(0px) scale(0.7)', opacity: '0.7' },
+            { offset: 1, transform: 'scale(1)', opacity: '1' }
+        ],
+        backInLeft: [
+            { offset: 0, transform: 'translateX(-2000px) scale(0.7)', opacity: '0.7' },
+            { offset: 0.8, transform: 'translateX(0px) scale(0.7)', opacity: '0.7' },
+            { offset: 1, transform: 'scale(1)', opacity: '1' }
+        ],
+        backInRight: [
+            { offset: 0, transform: 'translateX(2000px) scale(0.7)', opacity: '0.7' },
+            { offset: 0.8, transform: 'translateX(0px) scale(0.7)', opacity: '0.7' },
+            { offset: 1, transform: 'scale(1)', opacity: '1' }
+        ],
+        backInUp: [
+            { offset: 0, transform: 'translateY(1200px) scale(0.7)', opacity: '0.7' },
+            { offset: 0.8, transform: 'translateY(0px) scale(0.7)', opacity: '0.7' },
+            { offset: 1, transform: 'scale(1)', opacity: '1' }
+        ],
+        backOutDown: [
+            { offset: 0, transform: 'scale(1)', opacity: '1' },
+            { offset: 0.2, transform: 'translateY(0px) scale(0.7)', opacity: '0.7' },
+            { offset: 1, transform: 'translateY(700px) scale(0.7)', opacity: '0.7' }
+        ],
+        backOutLeft: [
+            { offset: 0, transform: 'scale(1)', opacity: '1' },
+            { offset: 0.2, transform: 'translateX(0px) scale(0.7)', opacity: '0.7' },
+            { offset: 1, transform: 'translateX(-2000px) scale(0.7)', opacity: '0.7' }
+        ],
+        backOutRight: [
+            { offset: 0, transform: 'scale(1)', opacity: '1' },
+            { offset: 0.2, transform: 'translateX(0px) scale(0.7)', opacity: '0.7' },
+            { offset: 1, transform: 'translateX(2000px) scale(0.7)', opacity: '0.7' }
+        ],
+        backOutUp: [
+            { offset: 0, transform: 'scale(1)', opacity: '1' },
+            { offset: 0.2, transform: 'translateY(0px) scale(0.7)', opacity: '0.7' },
+            { offset: 1, transform: 'translateY(-700px) scale(0.7)', opacity: '0.7' }
+        ],
     }
 
     private handleAnimationFinish = () => {
