@@ -1,0 +1,154 @@
+switch-100541.style1 {
+    //don't change this line 
+
+    display: inline-block;
+
+    &[size='small'] {
+        --height: 0.875rem;
+        --thumb-size: calc(0.875rem + 4px);
+        --width: calc(var(--height) * 2);
+        font-size: @font-size-12;
+    }
+
+    &[size='medium'] {
+        --height: 1.125rem;
+        --thumb-size: calc(1.125rem + 4px);
+        --width: calc(var(--height) * 2);
+        font-size: @font-size-16;
+    }
+
+    &[size='large'] {
+        --height: 1.375rem;
+        --thumb-size: calc(1.375rem + 4px);
+        --width: calc(var(--height) * 2);
+        font-size: @font-size-20;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        font-family: @font-family-primary;
+        font-size: inherit;
+        font-weight: @font-weight-normal;
+        color: @text-primary-color;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+
+    .switch__control {
+        flex: 0 0 auto;
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: var(--width);
+        height: var(--height);
+        background-color: @grey-color-light;
+        border: solid 1px @grey-color-light;
+        border-radius: var(--height);
+        transition: @transition-fast border-color, @transition-fast background-color;
+    }
+
+    .switch__control .switch__thumb {
+        width: var(--thumb-size);
+        height: var(--thumb-size);
+        background-color: @grey-color-dark;
+        border-radius: 50%;
+        border: solid 1px @grey-color-light;
+        translate: calc((var(--width) - var(--height)) / -2);
+        transition: @transition-fast translate ease, @transition-fast background-color,
+            @transition-fast border-color, @transition-fast box-shadow;
+    }
+
+    .switch__input {
+        position: absolute;
+        opacity: 0;
+        padding: 0;
+        margin: 0;
+        pointer-events: none;
+    }
+
+    /* Hover */
+    .switch:not(.switch--checked):not(.switch--disabled) .switch__control:hover {
+        background-color: @grey-color-light;
+        border-color: @grey-color-light;
+    }
+
+    .switch:not(.switch--checked):not(.switch--disabled) .switch__control:hover .switch__thumb {
+        background-color: @grey-color-dark;
+        border-color: @grey-color-light;
+    }
+
+    /* Focus */
+    .switch:not(.switch--checked):not(.switch--disabled) .switch__input:focus-visible~.switch__control {
+        background-color: @grey-color-light;
+        border-color: @grey-color-light;
+    }
+
+    .switch:not(.switch--checked):not(.switch--disabled) .switch__input:focus-visible~.switch__control .switch__thumb {
+        background-color: @grey-color-dark;
+        border-color: @text-primary-color;
+    }
+
+    /* Checked */
+    .switch--checked .switch__control {
+        background-color: @active-color;
+        border-color: @active-color;
+    }
+
+    .switch--checked .switch__control .switch__thumb {
+        background-color: @grey-color-light;
+        border-color: @active-color;
+        translate: calc((var(--width) - var(--height)) / 2);
+    }
+
+    /* Checked + hover */
+    .switch.switch--checked:not(.switch--disabled) .switch__control:hover {
+        background-color: @active-color;
+        border-color: @text-primary-color;
+    }
+
+    .switch.switch--checked:not(.switch--disabled) .switch__control:hover .switch__thumb {
+        background-color: @active-color;
+        border-color: @text-primary-color;
+    }
+
+    /* Checked + focus */
+    .switch.switch--checked:not(.switch--disabled) .switch__input:focus-visible~.switch__control {
+        background-color: @text-primary-color;
+        border-color: @text-primary-color;
+    }
+
+    .switch.switch--checked:not(.switch--disabled) .switch__input:focus-visible~.switch__control .switch__thumb {
+        background-color: @grey-color-dark;
+        border-color: @text-primary-color;
+    }
+
+    /* Disabled */
+    .switch--disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .switch__label {
+        display: inline-block;
+        line-height: var(--height);
+        margin-inline-start: 0.5em;
+        user-select: none;
+    }
+
+    :host([required]) .switch__label::after {
+        content: "*";
+        margin-inline-start: -2px;
+    }
+
+    @media (forced-colors: active) {
+
+        .switch.switch--checked:not(.switch--disabled) .switch__control:hover .switch__thumb,
+        .switch--checked .switch__control .switch__thumb {
+            background-color: ButtonText;
+        }
+    }
+}
+
