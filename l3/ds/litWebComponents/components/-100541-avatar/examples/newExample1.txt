@@ -1,0 +1,1 @@
+{ "_100541_avatar": {"class":"style1","loading":"eager","shape":"rounded"} }
