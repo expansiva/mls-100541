@@ -1,0 +1,1 @@
+{ "_100541_switch": {"class":"style1","label":"Large","size":"large","checked":"checked"} }
