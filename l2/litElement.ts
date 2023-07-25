@@ -60,6 +60,7 @@ export * from '_100541_litClassMap';
 export * from '_100541_litIfDefined';
 export * from '_100541_litLive';
 export * from '_100541_litStyleMap';
+export * from '_100541_litDirectivesHelper';
 
 export const repeat = (array:any[], func:Function = ()=>{} , func2:Function = ()=>{}) =>  {
     console.info(array, func, func2);
