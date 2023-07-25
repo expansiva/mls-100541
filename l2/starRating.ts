@@ -1,7 +1,7 @@
 /// <mls shortName="starRating" project="100541" enhancement="_100541_enhancementLit" groupName="rating" />
 
 import { html, css, LitElement } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js'; 
 
 @customElement('star-rating-100541')
 export class StarRating100541 extends LitElement {
