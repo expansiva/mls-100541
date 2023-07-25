@@ -12,7 +12,6 @@ import { customElement, property } from 'lit/decorators.js';
  * @documentation https://shoelace.style/components/divider
  * @status stable
  * @since 2.0
- * @componentDetails {"dependencies": ["checkbox-100541"]}
  */
 @customElement('divider-100541')
 export default class Divider extends LitElement {
