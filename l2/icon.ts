@@ -1,5 +1,10 @@
 /// <mls shortName="icon" project="100541" enhancement="_100541_enhancementLit" groupName="icon" />
 
+/**
+ * This code has been forked and modified from a project found on https://github.com/shoelace-style/shoelace.
+ * The original project is licensed under the MIT license.
+ */
+
 import { html, isTemplateResult, LitElement, HTMLTemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 
