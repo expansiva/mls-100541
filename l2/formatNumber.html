@@ -1,0 +1,45 @@
+<div>
+    <h3 id="openEditorServicePreview" style="cursor:pointer">Edit this file</h3>
+    <h1> Formatting Number </h1>
+    <a href="https://shoelace.style/components/format-number" target="_blank">
+        <h5>ref: shoelace Formatting Number </h5>
+    </a>
+</div>
+
+<mls-showexamplecode-100532 show="all">
+    <mls-head>
+        <h3>Percentages</h3>
+        <p>To get the value as a percent, set the type attribute to percent.</p>
+    </mls-head>
+    <format-number-100541 type="percent" value="0"></format-number-100541><br />
+    <format-number-100541 type="percent" value="0.25"></format-number-100541><br />
+    <format-number-100541 type="percent" value="0.50"></format-number-100541><br />
+    <format-number-100541 type="percent" value="0.75"></format-number-100541><br />
+    <format-number-100541 type="percent" value="1"></format-number-100541>
+</mls-showexamplecode-100532>
+
+
+<mls-showexamplecode-100532 show="all">
+    <mls-head>
+        <h3>Localization</h3>
+        <p>Use the lang attribute to set the number formatting locale.</p>
+    </mls-head>
+    English: <format-number-100541 value="2000" lang="en" minimum-fraction-digits="2"></format-number-100541><br />
+    German: <format-number-100541 value="2000" lang="de" minimum-fraction-digits="2"></format-number-100541><br />
+    Russian: <format-number-100541 value="2000" lang="ru" minimum-fraction-digits="2"></format-number-100541>
+</mls-showexamplecode-100532>
+
+<mls-showexamplecode-100532 show="all">
+    <mls-head>
+        <h3>Currency</h3>
+        <p>To format a number as a monetary value, set the type attribute to currency and set the currency attribute to
+            the desired ISO 4217 currency code. You should also specify lang to ensure the the number is formatted
+            correctly for the target locale.</p>
+    </mls-head>
+    <format-number-100541 type="currency" currency="USD" value="2000" lang="en-US"></format-number-100541><br />
+    <format-number-100541 type="currency" currency="GBP" value="2000" lang="en-GB"></format-number-100541><br />
+    <format-number-100541 type="currency" currency="EUR" value="2000" lang="de"></format-number-100541><br />
+    <format-number-100541 type="currency" currency="RUB" value="2000" lang="ru"></format-number-100541><br />
+    <format-number-100541 type="currency" currency="CNY" value="2000" lang="zh-cn"></format-number-100541>
+
+</mls-showexamplecode-100532>
