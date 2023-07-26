@@ -62,6 +62,8 @@ export * from '_100541_litLive';
 export * from '_100541_litStyleMap';
 export * from '_100541_litDirectivesHelper';
 
+
+
 export const repeat = (array:any[], func:Function = ()=>{} , func2:Function = ()=>{}) =>  {
     console.info(array, func, func2);
 } 
@@ -102,7 +104,7 @@ if (DEV_MODE) {
   // Ensure warnings are issued only 1x, even if multiple versions of Lit
   // are loaded.
   const issuedWarnings: Set<string | undefined> =
-    (globalThis.litIssuedWarnings ??= new Set());
+    ((globalThis as any).litIssuedWarnings ??= new Set());
 
   // Issue a warning, if we haven't already.
   issueWarning = (code: string, warning: string) => {
@@ -238,12 +240,12 @@ export class LitElement extends ReactiveElement {
 }
 
 // Install hydration if available
-globalThis.litElementHydrateSupport?.({LitElement});
+(globalThis as any).litElementHydrateSupport?.({LitElement});
 
 // Apply polyfills if available
 const polyfillSupport = DEV_MODE
-  ? globalThis.litElementPolyfillSupportDevMode
-  : globalThis.litElementPolyfillSupport;
+  ? (globalThis as any).litElementPolyfillSupportDevMode
+  : (globalThis as any).litElementPolyfillSupport;
 polyfillSupport?.({LitElement});
 
 // DEV mode warnings
@@ -309,8 +311,8 @@ export const _$LE = {
 
 // IMPORTANT: do not change the property name or the assignment expression.
 // This line will be used in regexes to search for LitElement usage.
-(globalThis.litElementVersions ??= []).push('3.3.2');
-if (DEV_MODE && globalThis.litElementVersions.length > 1) {
+((globalThis as any).litElementVersions ??= []).push('3.3.2');
+if (DEV_MODE && (globalThis as any).litElementVersions.length > 1) {
   issueWarning!(
     'multiple-versions',
     `Multiple versions of Lit loaded. Loading multiple versions ` +
