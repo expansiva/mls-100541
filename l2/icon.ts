@@ -7,6 +7,7 @@
 
 import { html, isTemplateResult, LitElement, HTMLTemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
+import { watch } from './_100541_internalWatch';
 
 const CACHEABLE_ERROR = Symbol();
 const RETRYABLE_ERROR = Symbol();
@@ -75,7 +76,7 @@ export class Icon extends LitElement {
         return this.src;
     }
 
-    @Icon.watch('label')
+    @watch('label')
     handleLabelChange() {
         const hasLabel = typeof this.label === 'string' && this.label.length > 0;
 
@@ -90,7 +91,7 @@ export class Icon extends LitElement {
         }
     }
 
-    @Icon.watch(['name', 'src', 'library'])
+    @watch(['name', 'src', 'library'])
     async setIcon() {
         const library = this.getIconLibrary(this.library);
         const url = this.getUrl();
@@ -144,38 +145,6 @@ export class Icon extends LitElement {
 
     render() {
         return this.svg;
-    }
-
-
-    static watch = (propertyName: string | string[], options?: any) => {
-        const resolvedOptions: Required<any> = {
-            waitUntilFirstUpdate: false,
-            ...options
-        };
-        return <ElemClass extends LitElement>(proto: ElemClass, decoratedFnName: any) => {
-            // @ts-expect-error - update is a protected property
-            const { update } = proto;
-            const watchedProperties = Array.isArray(propertyName) ? propertyName : [propertyName];
-
-            // @ts-expect-error - update is a protected property
-            proto.update = function (this: ElemClass, changedProps: Map<keyof ElemClass, ElemClass[keyof ElemClass]>) {
-                watchedProperties.forEach(property => {
-                    const key = property as keyof ElemClass;
-                    if (changedProps.has(key)) {
-                        const oldValue = changedProps.get(key);
-                        const newValue = this[key];
-
-                        if (oldValue !== newValue) {
-                            if (!resolvedOptions.waitUntilFirstUpdate || this.hasUpdated) {
-                                (this[decoratedFnName] as unknown as any)(oldValue, newValue);
-                            }
-                        }
-                    }
-                });
-
-                update.call(this, changedProps);
-            };
-        };
     }
 
     private icons: any = {
