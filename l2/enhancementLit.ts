@@ -3,7 +3,6 @@
 export const description = "Use this enhancement for model using lit - a simple and fast web component.\nRef: https://lit.dev/"
 
 export const example = `
-
     import { html, css, LitElement } from 'lit'; 
     import { customElement, property } from 'lit/decorators.js';
 
@@ -18,7 +17,6 @@ export const example = `
             return html\`<p> Hello, \${ this.name } !</p>\`;
         }
     }`;
-
 
 export const onBeforeCompile = (model: mls.l2.editor.IMFile) => {
     console.info('onBeforeCompile');
@@ -263,6 +261,7 @@ function getPropiertiesByDecorators(model: mls.l2.editor.IMFile): mls.l2.js.IPro
                 if (decorator.text.startsWith('property(')) {
                     const prop: mls.l2.js.IProperties = {} as mls.l2.js.IProperties;
                     const propertyType = getPropType(decorator.text)?.toLowerCase();
+                    prop['alias'] = getPropAttribute(decorator.text)
                     prop.propertyName = propertyName;
                     if (propertyType) prop.propertyType = propertyType;
                     rc.push(prop);
@@ -282,6 +281,8 @@ function getMoreInfoInJsDoc(model: mls.l2.editor.IMFile, propierties: mls.l2.js.
     for (let i = 0; i < propierties.length; i++) {
         let prop = propierties[i];
         const propInPropsJsDoc = jsDocProps.find((_prop) => _prop.propertyName === prop.propertyName);
+        prop.propertyName = prop['alias'] || prop.propertyName;
+        delete prop['alias'];
         if (propInPropsJsDoc) {
             prop = {
                 ...propInPropsJsDoc, ...prop
@@ -336,6 +337,16 @@ function getPropType(propertyString: string): string {
     if (match && match.length > 1) {
         const typeProp = match[1];
         return typeProp;
+    }
+    return undefined;
+}
+
+function getPropAttribute(propertyString: string): string {
+    const typeRegex = /attribute:\s*['"]([^'"]+)['"]/;
+    const match = propertyString.match(typeRegex);
+    if (match && match.length > 1) {
+        const attr = match[1];
+        return attr;
     }
     return undefined;
 }
