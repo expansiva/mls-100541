@@ -199,12 +199,12 @@ export function getComponentDependencies(model: mls.l2.editor.IMFile): string[] 
     const { devDoc } = model.compilerResults;
     if (!devDoc) return [];
     const objDocs: IJSDoc[] = JSON.parse(devDoc);
-    const classInfoString = getJsDocClassInfoTag(objDocs);
+    const tagsInfoString = getJsDocInfoTags(objDocs);
 
     // Regular expression to match the dependencies array
     const regex = /"webComponentDependencies"\s*:\s*(\[.*?\])/;
     // Executing the regular expression and extracting the matched group
-    const match = classInfoString.match(regex);
+    const match = tagsInfoString.match(regex);
 
     // Check if the regex found a match and extract the dependencies array
     let dependenciesArray = [];
@@ -228,7 +228,7 @@ export function getPropierties(model: mls.l2.editor.IMFile): mls.l2.js.IProperti
     return rc;
 }
 
-function getJsDocClassInfoTag(objDocs: IJSDoc[]): string {
+function getJsDocInfoTags(objDocs: IJSDoc[]): string {
     for (const doc of objDocs) {
         if (doc.type !== 'constructor') continue;
         const tagComponentDetails = doc.tags.find((tag) => tag.tagName === 'mlsComponentDetails');
