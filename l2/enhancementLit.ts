@@ -4,13 +4,6 @@ export const description = "Use this enhancement for model using lit - a simple 
 
 export const example = `
 
-    /**
-     * MLS Implementation
-     * This code has been forked and modified from a project found on https://github.com/shoelace-style/shoelace.
-     * The original project is licensed under the MIT license.
-     * @mlsComponentDetails {"webComponentDependencies": []}
-     */
-
     import { html, css, LitElement } from 'lit'; 
     import { customElement, property } from 'lit/decorators.js';
 
@@ -55,7 +48,6 @@ export const getDesignDetails = (model: mls.l2.editor.IMFile): Promise<mls.l2.js
             ret.defaultHtmlExamplePreview = preparePreviewHtml(model);
             ret.properties = getPropierties(model);
             ret.webComponentDependencies = getComponentDependencies(model);
-            ret['dependencies'] = ret.webComponentDependencies
             resolve(ret);
         } catch (e) {
             reject(e);
