@@ -1,0 +1,47 @@
+icon-button-100541.style1 { //don't change this line 
+    display: inline-block;
+    color: @text-primary-color;
+
+    .icon-button {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        background: none;
+        border: none;
+        border-radius: 0.25rem;
+        font-size: inherit;
+        color: inherit;
+        padding: @space-8;
+        cursor: pointer;
+        transition: @transition-fast color;
+        -webkit-appearance: none;
+    }
+
+    .icon-button:hover:not(.icon-button--disabled),
+    .icon-button:focus-visible:not(.icon-button--disabled) {
+        color: @active-color;
+    }
+
+    .icon-button:active:not(.icon-button--disabled) {
+        color: @text-primary-color-darker;
+    }
+
+    .icon-button:focus {
+        outline: none;
+    }
+
+    .icon-button--disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .icon-button:focus-visible {
+        outline: solid 3px @active-color;
+        outline-offset: 1px;
+    }
+
+    .icon-button__icon {
+        pointer-events: none;
+    }
+}
+
