@@ -1,4 +1,4 @@
-/// <mls shortName="input" project="100541" enhancement="_blank" groupName="form" />
+/// <mls shortName="input" project="100541" enhancement="_100541_enhancementLit" groupName="form" />
 
 /**
  * This code has been forked and modified from a project found on https://github.com/shoelace-style/shoelace.
@@ -29,7 +29,7 @@ import { FormControlController } from './_100541_internalForm';
  * @cssproperty --handle-size - The size of the compare handle.
  */
 @customElement('input-100541')
-export class ImageComparer extends LitElement {
+export class Input extends LitElement {
 
     private readonly formControlController = new FormControlController(this, {
         assumeInteractionOn: ['sl-blur', 'sl-input']
@@ -47,6 +47,7 @@ export class ImageComparer extends LitElement {
     /**
      * The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults
      * to `text`.
+     *  @fieldType { "propertyType":"list", "items": ["date","datetime-local", "email","number","password","search","tel","text","time", "url"]}
      */
     @property({ reflect: true }) type:
         | 'date'
@@ -69,14 +70,19 @@ export class ImageComparer extends LitElement {
     /** The default value of the form control. Primarily used for resetting the form control. */
     @defaultValue() defaultValue = '';
 
-    /** The input's size. */
+    /** The input's size. 
+     *  @fieldType { "propertyType":"list", "defaultValue":"medium", "items": ["small","medium", "large"]}
+     * 
+    */
     @property({ reflect: true }) size: 'small' | 'medium' | 'large' = 'medium';
 
     /** Draws a filled input. */
     @property({ type: Boolean, reflect: true }) filled = false;
 
-    /** Draws a pill-style input with rounded edges. */
-    @property({ type: Boolean, reflect: true }) pill = false;
+    /** Draws a pill-style input with rounded edges. 
+     *  @fieldType { "propertyType":"list", "items": ["","pill"]}
+    */
+    @property({ reflect: true }) pill = false;
 
     /** The input's label. If you need to display HTML, use the `label` slot instead. */
     @property() label = '';
@@ -84,26 +90,40 @@ export class ImageComparer extends LitElement {
     /** The input's help text. If you need to display HTML, use the `help-text` slot instead. */
     @property({ attribute: 'help-text' }) helpText = '';
 
-    /** Adds a clear button when the input is not empty. */
-    @property({ type: Boolean }) clearable = false;
+    /** Adds a clear button when the input is not empty. 
+    * @fieldType { "propertyType":"list", "items": ["" , "clearable"]}
+    */
+    @property() clearable = false;
 
-    /** Disables the input. */
-    @property({ type: Boolean, reflect: true }) disabled = false;
+    /** Disables the input. 
+     * @fieldType { "propertyType":"list","items": ["" , "disabled"]}
+     * 
+    */
+    @property({ reflect: true }) disabled = false;
 
     /** Placeholder text to show as a hint when the input is empty. */
     @property() placeholder = '';
 
-    /** Makes the input readonly. */
-    @property({ type: Boolean, reflect: true }) readonly = false;
+    /** Makes the input readonly. 
+     * @fieldType { "propertyType":"list", "items": ["" , "readonly"]}
+     * 
+    */
+    @property({  reflect: true }) readonly = false;
 
-    /** Adds a button to toggle the password's visibility. Only applies to password types. */
-    @property({ attribute: 'password-toggle', type: Boolean }) passwordToggle = false;
+    /** Adds a button to toggle the password's visibility. Only applies to password types. 
+     *  @fieldType { "propertyType":"list",  "items": ["","passwordToggle"]}
+    */
+    @property({ attribute: 'password-toggle' }) passwordToggle = false;
 
-    /** Determines whether or not the password is currently visible. Only applies to password input types. */
-    @property({ attribute: 'password-visible', type: Boolean }) passwordVisible = false;
+    /** Determines whether or not the password is currently visible. Only applies to password input types. 
+     *  @fieldType { "propertyType":"list",  "items": ["","passwordVisible"]}
+    */
+    @property({ attribute: 'password-visible' }) passwordVisible = false;
 
-    /** Hides the browser's built-in increment/decrement spin buttons for number inputs. */
-    @property({ attribute: 'no-spin-buttons', type: Boolean }) noSpinButtons = false;
+    /** Hides the browser's built-in increment/decrement spin buttons for number inputs. 
+     *  @fieldType { "propertyType":"list",  "items": ["","noSpinButtons"]}
+    */
+    @property({ attribute: 'no-spin-buttons',}) noSpinButtons = false;
 
     /**
      * By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you
@@ -112,8 +132,11 @@ export class ImageComparer extends LitElement {
      */
     @property({ reflect: true }) form = '';
 
-    /** Makes the input a required field. */
-    @property({ type: Boolean, reflect: true }) required = false;
+    /** Makes the input a required field. 
+     * @fieldType { "propertyType":"list", "items": ["" , "required"]}
+     * 
+    */
+    @property({ reflect: true }) required = false;
 
     /** A regular expression pattern to validate input against. */
     @property() pattern: string;
@@ -136,10 +159,14 @@ export class ImageComparer extends LitElement {
      */
     @property() step: number | 'any';
 
-    /** Controls whether and how text input is automatically capitalized as it is entered by the user. */
+    /** Controls whether and how text input is automatically capitalized as it is entered by the user. 
+     *  @fieldType { "propertyType":"list",  "items": ["off","none", "on","sentences","words", "characters"]}
+     */
     @property() autocapitalize: 'off' | 'none' | 'on' | 'sentences' | 'words' | 'characters';
 
-    /** Indicates whether the browser's autocorrect feature is on or off. */
+    /** Indicates whether the browser's autocorrect feature is on or off.
+     *  @fieldType { "propertyType":"list",  "items": ["off", "on"]}
+     */
     @property() autocorrect: 'off' | 'on';
 
     /**
@@ -151,7 +178,9 @@ export class ImageComparer extends LitElement {
     /** Indicates that the input should receive focus on page load. */
     @property({ type: Boolean }) autofocus: boolean;
 
-    /** Used to customize the label or icon of the Enter key on virtual keyboards. */
+    /** Used to customize the label or icon of the Enter key on virtual keyboards. 
+     *  @fieldType { "propertyType":"list",  "items": ["enter","done", "go","next","previous", "search", "send"]}
+    */
     @property() enterkeyhint: 'enter' | 'done' | 'go' | 'next' | 'previous' | 'search' | 'send';
 
     /** Enables spell checking on the input. */
@@ -159,8 +188,8 @@ export class ImageComparer extends LitElement {
         type: Boolean,
         converter: {
             // Allow "true|false" attribute values but keep the property boolean
-            fromAttribute: (value:any) => (!value || value === 'false' ? false : true),
-            toAttribute: (value:any) => (value ? 'true' : 'false')
+            fromAttribute: (value: any) => (!value || value === 'false' ? false : true),
+            toAttribute: (value: any) => (value ? 'true' : 'false')
         }
     })
     spellcheck = true;
@@ -369,6 +398,10 @@ export class ImageComparer extends LitElement {
     setCustomValidity(message: string) {
         this.input.setCustomValidity(message);
         this.formControlController.updateValidity();
+    }
+
+    createRenderRoot() {
+        return this;
     }
 
     render() {
