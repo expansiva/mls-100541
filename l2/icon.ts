@@ -42,18 +42,18 @@ export class Icon extends LitElement {
     */
     @property({ reflect: true }) library = 'default';
 
-    
+
     connectedCallback() {
         super.connectedCallback();
         this.registerIconLibrary('fa', {
-            resolver: name => {
+            resolver: (name: string) => {
                 const filename = name.replace(/^fa[rbs]-/, '');
                 let folder = 'regular';
                 if (name.substring(0, 4) === 'fas-') folder = 'solid';
                 if (name.substring(0, 4) === 'fab-') folder = 'brands';
                 return `https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/svgs/${folder}/${filename}.svg`;
             },
-            mutator: svg => svg.setAttribute('fill', 'currentColor')
+            mutator: (svg: HTMLElement) => svg.setAttribute('fill', 'currentColor')
         });
         this.watchIcon(this);
     }
@@ -284,7 +284,7 @@ export class Icon extends LitElement {
     }
 
     /** Adds an icon library to the registry, or overrides an existing one. */
-    private registerIconLibrary(name: string, options) {
+    private registerIconLibrary(name: string, options: any) {
         this.unregisterIconLibrary(name);
         this.registry.push({
             name,
