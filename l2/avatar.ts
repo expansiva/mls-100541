@@ -7,6 +7,7 @@
 
 import { html, classMap, LitElement } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
+import { watch } from './_100541_internalWatch';
 
 /**
  * @summary Avatars are used to represent a person or object.
@@ -53,41 +54,10 @@ export class Avatar extends LitElement {
   */
   @property({ reflect: true }) shape: 'circle' | 'square' | 'rounded' = 'circle';
 
-  @Avatar.watch('image')
+  @watch('image')
   handleImageChange() {
     // Reset the error when a new image is provided
     this.hasError = false;
-  }
-
-  static watch = (propertyName: string | string[], options?: any) => {
-    const resolvedOptions: Required<any> = {
-      waitUntilFirstUpdate: false,
-      ...options
-    };
-    return <ElemClass extends LitElement>(proto: ElemClass, decoratedFnName: any) => {
-      // @ts-expect-error - update is a protected property
-      const { update } = proto;
-      const watchedProperties = Array.isArray(propertyName) ? propertyName : [propertyName];
-
-      // @ts-expect-error - update is a protected property
-      proto.update = function (this: ElemClass, changedProps: Map<keyof ElemClass, ElemClass[keyof ElemClass]>) {
-        watchedProperties.forEach(property => {
-          const key = property as keyof ElemClass;
-          if (changedProps.has(key)) {
-            const oldValue = changedProps.get(key);
-            const newValue = this[key];
-
-            if (oldValue !== newValue) {
-              if (!resolvedOptions.waitUntilFirstUpdate || this.hasUpdated) {
-                (this[decoratedFnName] as unknown as any)(oldValue, newValue);
-              }
-            }
-          }
-        });
-
-        update.call(this, changedProps);
-      };
-    };
   }
 
   createRenderRoot() {
