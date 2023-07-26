@@ -1,0 +1,113 @@
+tag-100541.style1 {
+    //don't change this line 
+    display: inline-block;
+
+    .tag {
+        display: flex;
+        align-items: center;
+        border: solid 1px;
+        line-height: 1;
+        white-space: nowrap;
+        user-select: none;
+    }
+
+    .tag__remove::part(base) {
+        color: inherit;
+        padding: 0;
+    }
+
+    /*
+   * Variant modifiers
+   */
+
+    .tag--primary {
+        background-color: @bg-primary-color;
+        border-color: @bg-primary-color-darker;
+        color: @text-primary-color;
+    }
+
+    .tag--primary:active>sl-icon-button {
+        color: @text-primary-color;
+    }
+
+    .tag--success {
+        background-color: @success-color;
+        border-color: @success-color;
+        color: @text-primary-color;
+    }
+
+    .tag--success:active>sl-icon-button {
+        color: @text-primary-color;
+    }
+
+    .tag--neutral {
+        background-color: @grey-color-dark;
+        border-color: @grey-color-dark;
+        color: @text-primary-color;
+    }
+
+    .tag--neutral:active>sl-icon-button {
+        color: @text-primary-color;
+    }
+
+    .tag--warning {
+        background-color: @warning-color;
+        border-color: @warning-color;
+        color: @text-primary-color;
+    }
+
+    .tag--warning:active>sl-icon-button {
+        color: @text-primary-color;
+    }
+
+    .tag--danger {
+        background-color: @error-color;
+        border-color: @error-color;
+        color: @text-primary-color;
+    }
+
+    .tag--danger:active>sl-icon-button {
+        color: @text-primary-color;
+    }
+
+    /*
+   * Size modifiers
+   */
+
+    .tag--small {
+        font-size: @font-size-12;
+        height: calc(1.875rem * 0.8);
+        line-height: calc(1.875rem - 1px * 2);
+        border-radius: 0.1875rem;
+        padding: 0 @space-8;
+    }
+
+    .tag--medium {
+        font-size: @font-size-16;
+        height: calc(2.5rem * 0.8);
+        line-height: calc(2.5rem - 1px * 2);
+        border-radius: 0.25rem;
+        padding: 0 @space-16;
+    }
+
+    .tag--large {
+        font-size: @font-size-20;
+        height: calc(3.125rem * 0.8);
+        line-height: calc(3.125rem - 1px * 2);
+        border-radius: 0.5rem;
+        padding: 0 @space-24;
+    }
+
+    .tag__remove {
+        margin-inline-start: @space-8;
+    }
+
+    /*
+   * Pill modifier
+   */
+
+    .tag--pill {
+        border-radius: 9999px;
+    }
+}
+
