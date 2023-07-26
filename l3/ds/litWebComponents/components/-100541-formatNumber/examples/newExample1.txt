@@ -1,0 +1,1 @@
+{ "_100541_formatNumber": {"value":"200","type":"currency","no-grouping":"true","currency-display":"symbol","minimum-fraction-digits":"0"} }
