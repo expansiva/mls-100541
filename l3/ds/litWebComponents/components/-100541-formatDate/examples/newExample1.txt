@@ -1,1 +1,1 @@
-{ "_100541_formatDate": {"weekday":"long","era":"long","year":"numeric","hour-format":"auto"} }
+{ "_100541_formatDate": {"weekday":"long","year":"2-digit","month":"long","hour-format":"auto"} }
