@@ -88,19 +88,19 @@ input-100541.style1 { //don't change this line
 
     /* Standard inputs */
     .input--standard {
-        background-color: @bg-primary-color-darker;
-        border: solid 1px @bg-primary-color-darker;
+        background-color: @bg-primary-color;
+        border: solid 1px @bg-primary-color-lighter;
     }
 
     .input--standard:hover:not(.input--disabled) {
-        background-color: @bg-primary-color;
-        border-color: @bg-primary-color;
+        background-color: @bg-primary-color-darker;
+        border-color: @bg-primary-color-lighter;
     }
 
     .input--standard.input--focused:not(.input--disabled) {
-        background-color: @bg-primary-color-darker;
-        border-color: @bg-primary-color-darker;
-        box-shadow: 0 0 0 3px @bg-primary-color-darker;
+        background-color: @bg-primary-color;
+        border-color: @bg-primary-color-lighter;
+        box-shadow: 0 0 0 3px @grey-color-lighter;
     }
 
     .input--standard.input--focused:not(.input--disabled) .input__control {
@@ -115,26 +115,26 @@ input-100541.style1 { //don't change this line
     }
 
     .input--standard.input--disabled .input__control {
-        color: @text-primary-color-lighter;
+        color: @text-primary-color-darker;
     }
 
     .input--standard.input--disabled .input__control::placeholder {
-        color: @grey-color-darker;
+        color: @text-primary-color-darker;
     }
 
     /* Filled inputs */
     .input--filled {
         border: none;
-        background-color: @bg-primary-color-lighter;
-        color: @text-primary-color;
+        background-color: @bg-primary-color-darker;
+        color: @text-primary-color-lighter;
     }
 
     .input--filled:hover:not(.input--disabled) {
-        background-color: @bg-primary-color-lighter;
+        background-color: @bg-primary-color-darker;
     }
 
     .input--filled.input--focused:not(.input--disabled) {
-        background-color: @bg-primary-color-lighter;
+        background-color: @bg-primary-color-darker;
     }
 
     .input--filled.input--disabled {
