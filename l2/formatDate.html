@@ -1,0 +1,63 @@
+<div>
+    <h3 id="openEditorServicePreview" style="cursor:pointer">Edit this file</h3>
+    <h1> Formatting Date </h1>
+    <a href="https://shoelace.style/components/format-date" target="_blank">
+        <h5>ref: shoelace Formatting Date </h5>
+    </a>
+</div>
+
+<mls-showexamplecode-100532 show="all">
+    <mls-head>
+        <h3>Formatting Date</h3>
+        <p>Formats a date/time using the specified locale and options.</p>
+    </mls-head>
+    <format-date-100541 date="2020-07-15T09:17:00-04:00"></format-date-100541>
+</mls-showexamplecode-100532>
+
+<mls-showexamplecode-100532 show="all">
+    <mls-head>
+        <h3>Date & Time Formatting</h3>
+        <p>Formatting options are based on those found in the Intl.DateTimeFormat API. When formatting options are
+            provided, the date/time will be formatted according to those values. When no formatting options are
+            provided, a localized, numeric date will be displayed instead.</p>
+    </mls-head>
+    <!-- Human-readable date -->
+    <format-date-100541 month="long" day="numeric" year="numeric"></format-date-100541><br />
+
+    <!-- Time -->
+    <format-date-100541 hour="numeric" minute="numeric"></format-date-100541><br />
+
+    <!-- Weekday -->
+    <format-date-100541 weekday="long"></format-date-100541><br />
+
+    <!-- Month -->
+    <format-date-100541 month="long"></format-date-100541><br />
+
+    <!-- Year -->
+    <format-date-100541 year="numeric"></format-date-100541><br />
+
+    <!-- No formatting options -->
+    <format-date-100541></format-date-100541>
+</mls-showexamplecode-100532>
+
+
+<mls-showexamplecode-100532 show="all">
+    <mls-head>
+        <h3>Hour Formatting</h3>
+        <p>By default, the browser will determine whether to use 12-hour or 24-hour time. To force one or the other, set the hour-format attribute to 12 or 24.</p>
+    </mls-head>
+    <format-date-100541 hour="numeric" minute="numeric" hour-format="12"></format-date-100541>
+    <br>
+    <format-date-100541 hour="numeric" minute="numeric" hour-format="24"></format-date-100541>
+</mls-showexamplecode-100532>
+
+<mls-showexamplecode-100532 show="all">
+    <mls-head>
+        <h3>Use the lang attribute to set the date/time formatting locale.</h3>
+        <p>Localization</p>
+    </mls-head>
+    <format-date-100541 lang="en"></format-date-100541>
+    <br>
+    <format-date-100541 lang="ru"></format-date-100541>
+
+</mls-showexamplecode-100532>
