@@ -1,5 +1,4 @@
 /// <mls shortName="button" project="100541" enhancement="_100541_enhancementLit" groupName="form" />
-
 /**
  * This code has been forked and modified from a project found on https://github.com/shoelace-style/shoelace.
  * The original project is licensed under the MIT license.
@@ -22,7 +21,7 @@ export class Button extends LitElement {
             if (input.hasAttribute('form')) {
                 const doc = input.getRootNode() as Document | ShadowRoot;
                 const formId = input.getAttribute('form')!;
-                return doc.getElementById(formId) as HTMLFormElement;
+                return doc.getElementById(formId) as HTMLFormElement; 
             }
 
             // Fall back to the closest containing form
@@ -30,6 +29,7 @@ export class Button extends LitElement {
         },
         assumeInteractionOn: ['click']
     });
+
 
     private readonly localize = new LocalizeController(this);
 
