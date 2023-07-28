@@ -20,17 +20,13 @@ export const example = `
 
 export const onBeforeCompile = (model: mls.l2.editor.IMFile) => {
     console.info('onBeforeCompile');
-    model;
     const op = monaco.languages.typescript.typescriptDefaults.getCompilerOptions();
-
     op['paths'] = {
         "lit": ["file://server/_100541_litElement.ts"],
         "lit/decorators.js": ["file://server/_100541_litDecorators.ts"],
     };
-
     monaco.languages.typescript.typescriptDefaults.setCompilerOptions(op);
     model.compilerResults.modelNeedCompile = true;
-
 }
 
 const preparePreviewHtml = (model: mls.l2.editor.IMFile): string => {
@@ -39,7 +35,6 @@ const preparePreviewHtml = (model: mls.l2.editor.IMFile): string => {
 }
 
 export const getDesignDetails = (model: mls.l2.editor.IMFile): Promise<mls.l2.js.IDesignDetailsReturn> => {
-
     return new Promise<mls.l2.js.IDesignDetailsReturn>((resolve, reject) => {
         try {
             const ret = {} as mls.l2.js.IDesignDetailsReturn;
@@ -51,7 +46,6 @@ export const getDesignDetails = (model: mls.l2.editor.IMFile): Promise<mls.l2.js
             reject(e);
         }
     })
-
 }
 
 export const convertTagToFileName = (tag: string) => {
@@ -83,7 +77,7 @@ export const prepareAdd = (prompt: string): { sourceTS: string, aiHeader: string
         import { html, css, LitElement } from 'lit'; 
         import { customElement, property } from 'lit/decorators.js';
 
-        @customElement('litteste-100530')
+        @customElement('litteste-100541')
         export class SimpleGreeting extends LitElement {
 
         ::: e com as funcionalidades:::`;
@@ -94,9 +88,10 @@ export const prepareAdd = (prompt: string): { sourceTS: string, aiHeader: string
     return ret;
 }
 
-export const onAfterChange = (model: mls.l2.editor.IMFile): string => {
+export const onAfterChange = (mfile: mls.l2.editor.IMFile): string => {
     try {
-        validateTagName(model)
+        validateTagName(mfile);
+        setCodeLens(mfile);
         return '';
     } catch (e) {
         return e.message;
@@ -128,12 +123,14 @@ export const getPublishDetails = (_mfile: mls.l2.editor.IMFile): mls.l2.editor.I
     return ret;
 }
 
+
+// File: ValidateTagName
 function validateTagName(mfile: mls.l2.editor.IMFile) {
     mfile.storFile.hasError = false;
     clearErrorsOnModel(mfile.model)
 
     if (!mfile || !mfile.compilerResults) return;
-    if (mfile.shortName === 'enhancementLit' && mfile.project === 100530) return;
+    if (mfile.shortName === 'enhancementLit' && mfile.project === 100541) return;
     const decorators: IDecoratorDictionary = JSON.parse(mfile.compilerResults.decorators);
     if (!decorators) return;
     const decoratorToCheck = 'customElement'
@@ -169,6 +166,8 @@ function clearErrorsOnModel(model: monaco.editor.ITextModel) {
     monaco.editor.setModelMarkers(model, 'markerSource', []);
 }
 
+
+// File: GetProperties
 function getDecoratorClassInfo(decoratorString: string): IDecoratorClassInfo {
     const regex = /(\w+)\(['"](.+?)['"]\)/;
     const match = decoratorString.match(regex);
@@ -252,7 +251,6 @@ function getPropiertiesByDecorators(model: mls.l2.editor.IMFile): mls.l2.js.IPro
     if (!decorators) return [];
     const rc: mls.l2.js.IProperties[] = [];
     const objDecorators: IDecoratorDictionary = JSON.parse(decorators);
-
     Object.entries(objDecorators).forEach((entrie) => {
         const item: IDecoratorDetails = entrie[1];
         if (item.type === 'PropertyDeclaration') {
@@ -390,6 +388,65 @@ function getPropTypeTag(fieldType: mls.l2.js.IProperties): string {
     if (['string', 'number', 'boolean', 'list'].includes(valueFormated)) return valueFormated;
     return defaultType;
 }
+
+
+// File: CodeLens
+function setCodeLens(mfile: mls.l2.editor.IMFile) {
+    const { model, compilerResults } = mfile;
+    const { devDoc, decorators } = compilerResults;
+    if (mfile.shortName === 'enhancementLit' && mfile.project === 100541) return;
+    setCodeLensDecoratorClass(model, decorators);
+    setCodeLensMlsComponents(model, devDoc);
+}
+
+function setCodeLensDecoratorClass(model: monaco.editor.ITextModel, decorators: string) {
+    const objDecorators: IDecoratorDictionary = JSON.parse(decorators);
+    Object.entries(objDecorators).forEach((entrie) => {
+        const decoratorInfo: IDecoratorDetails = entrie[1];
+        if (!decoratorInfo || decoratorInfo.type !== 'ClassDeclaration') return;
+        decoratorInfo.decorators.forEach((_decorator) => {
+            if (_decorator.text.startsWith('customElement(')) {
+                mls.l2.codeLens.addCodeLen(model, _decorator.line + 1, { id: 'helpAssistant', title: `customElement`, jsComm: '', refs: '_100532_doc_customElement' });
+            }
+        })
+    })
+}
+
+function setCodeLensMlsComponents(model: monaco.editor.ITextModel, devDoc: string) {
+
+    const lines = findLinesByText(model, '@mlsComponentDetails');
+    lines.forEach((line) => {
+        mls.l2.codeLens.addCodeLen(model, line, { id: 'helpAssistant', title: `mlsComponentDetails`, jsComm: '', refs: '_100532_doc_mlsComponentDetails' });
+    })
+    // const objDocs: IJSDoc[] = JSON.parse(devDoc);
+    // for (const doc of objDocs) {
+    //     if (doc.type !== 'constructor') continue;
+    //     const tagComponentDetails = doc.tags.find((tag) => tag.tagName === 'mlsComponentDetails');
+    //     console.info(tagComponentDetails)
+    //     if (tagComponentDetails) {
+    //         const offset = doc.pos - 1;
+    //         const { lineNumber } = model.getPositionAt(offset);
+    //         console.info({ lineNumber })
+    //         mls.l2.codeLens.addCodeLen(model, lineNumber, { id: 'helpAssistant', title: `Decorator:customElement`, jsComm: '', refs: 'test' });
+    //     }
+    // }
+
+}
+
+
+function findLinesByText(model: monaco.editor.ITextModel, textToFind: string): number[] {
+    const lines: number[] = [];
+    if (!model) return lines;
+    const lineCount = model.getLineCount();
+    for (let lineNumber = 1; lineNumber <= lineCount; lineNumber++) {
+        const lineText = model.getLineContent(lineNumber);
+        if (lineText.includes(textToFind)) {
+            lines.push(lineNumber);
+        }
+    }
+    return lines;
+}
+
 
 export interface IMember {
     name: string;
