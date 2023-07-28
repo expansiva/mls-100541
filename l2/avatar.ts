@@ -3,7 +3,7 @@
 /**
  * This code has been forked and modified from a project found on https://github.com/shoelace-style/shoelace.
  * The original project is licensed under the MIT license.
- * @mlsComponentDetails {"webComponentDependencies": ["icon-100541"] }
+ * @mlsComponentDetails {"webComponentDependencies": ["icon-100541"]}
  */
 
 import { html, classMap, LitElement } from 'lit';
