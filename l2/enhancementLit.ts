@@ -323,11 +323,26 @@ function getJSDocPropierties(objDocs: IJSDoc[]): mls.l2.enhancement.IProperties[
             if (fieldType?.min) propItem.min = fieldType?.min;
             if (fieldType?.step) propItem.step = fieldType?.step;
             if (fieldType?.maxLength) propItem.maxLength = fieldType?.maxLength;
-            if (fieldType?.items) propItem.items = fieldType?.items;
+
+            if (propType === 'list') {
+                const itens = getItensByType(prop.initializerType);
+                propItem.items = fieldType?.items || itens || [];
+            }
             rc.push(propItem)
         })
     }
     return rc;
+}
+
+function getItensByType(initializerType: string) {
+    if (!initializerType) return [];
+    const regex = /"(.*?)"/g;
+    const matches = initializerType.match(regex);
+    if (matches) {
+        const resultList = matches.map(match => match.replace(/"/g, ''));
+        return resultList;
+    }
+    return [];
 }
 
 function getPropType(propertyString: string): string {
