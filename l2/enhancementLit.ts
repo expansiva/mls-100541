@@ -1,5 +1,7 @@
 /// <mls shortName="enhancementLit" project="100541" enhancement="_100541_enhancementLit" />
 
+// import { teste } from './_100541_codeLensLit';
+
 export const description = "Use this enhancement for model using lit - a simple and fast web component.\nRef: https://lit.dev/"
 
 export const example = `
