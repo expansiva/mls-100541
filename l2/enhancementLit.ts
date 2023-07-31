@@ -34,10 +34,10 @@ const preparePreviewHtml = (model: mls.l2.editor.IMFile): string => {
     return `<${tag}></${tag}>`;
 }
 
-export const getDesignDetails = (model: mls.l2.editor.IMFile): Promise<mls.l2.js.IDesignDetailsReturn> => {
-    return new Promise<mls.l2.js.IDesignDetailsReturn>((resolve, reject) => {
+export const getDesignDetails = (model: mls.l2.editor.IMFile): Promise<mls.l2.enhancement.IDesignDetailsReturn> => {
+    return new Promise<mls.l2.enhancement.IDesignDetailsReturn>((resolve, reject) => {
         try {
-            const ret = {} as mls.l2.js.IDesignDetailsReturn;
+            const ret = {} as mls.l2.enhancement.IDesignDetailsReturn;
             ret.defaultHtmlExamplePreview = preparePreviewHtml(model);
             ret.properties = getPropierties(model);
             ret.webComponentDependencies = getComponentDependencies(model);
@@ -210,8 +210,8 @@ export function getComponentDependencies(model: mls.l2.editor.IMFile): string[] 
     return dependenciesArray;
 }
 
-export function getPropierties(model: mls.l2.editor.IMFile): mls.l2.js.IProperties[] {
-    let rc: mls.l2.js.IProperties[] = [];
+export function getPropierties(model: mls.l2.editor.IMFile): mls.l2.enhancement.IProperties[] {
+    let rc: mls.l2.enhancement.IProperties[] = [];
     rc = getPropiertiesByDecorators(model);
     rc = getMoreInfoInJsDoc(model, rc)
     return rc;
@@ -226,7 +226,7 @@ function getJsDocInfoTags(objDocs: IJSDoc[]): string {
     }
 }
 
-function getDefaultPropierties(): mls.l2.js.IProperties[] {
+function getDefaultPropierties(): mls.l2.enhancement.IProperties[] {
     return [
         {
             propertyName: 'class',
@@ -246,10 +246,10 @@ function getDefaultPropierties(): mls.l2.js.IProperties[] {
     ]
 }
 
-function getPropiertiesByDecorators(model: mls.l2.editor.IMFile): mls.l2.js.IProperties[] {
+function getPropiertiesByDecorators(model: mls.l2.editor.IMFile): mls.l2.enhancement.IProperties[] {
     const { decorators } = model.compilerResults;
     if (!decorators) return [];
-    const rc: mls.l2.js.IProperties[] = [];
+    const rc: mls.l2.enhancement.IProperties[] = [];
     const objDecorators: IDecoratorDictionary = JSON.parse(decorators);
     Object.entries(objDecorators).forEach((entrie) => {
         const item: IDecoratorDetails = entrie[1];
@@ -257,7 +257,7 @@ function getPropiertiesByDecorators(model: mls.l2.editor.IMFile): mls.l2.js.IPro
             const propertyName = item.parentName;
             item.decorators.forEach((decorator) => {
                 if (decorator.text.startsWith('property(')) {
-                    const prop: mls.l2.js.IProperties = {} as mls.l2.js.IProperties;
+                    const prop: mls.l2.enhancement.IProperties = {} as mls.l2.enhancement.IProperties;
                     const propertyType = getPropType(decorator.text)?.toLowerCase();
                     prop['alias'] = getPropAttribute(decorator.text)
                     prop.propertyName = propertyName;
@@ -271,8 +271,9 @@ function getPropiertiesByDecorators(model: mls.l2.editor.IMFile): mls.l2.js.IPro
     return [...defaultProps, ...rc];
 }
 
-function getMoreInfoInJsDoc(model: mls.l2.editor.IMFile, propierties: mls.l2.js.IProperties[]): mls.l2.js.IProperties[] {
+function getMoreInfoInJsDoc(model: mls.l2.editor.IMFile, propierties: mls.l2.enhancement.IProperties[]): mls.l2.enhancement.IProperties[] {
     const { devDoc } = model.compilerResults;
+
     if (!devDoc) return propierties;
     const objDocs: IJSDoc[] = JSON.parse(devDoc);
     const jsDocProps = getJSDocPropierties(objDocs);
@@ -291,8 +292,8 @@ function getMoreInfoInJsDoc(model: mls.l2.editor.IMFile, propierties: mls.l2.js.
     return propierties;
 }
 
-function getJSDocPropierties(objDocs: IJSDoc[]): mls.l2.js.IProperties[] {
-    const rc: mls.l2.js.IProperties[] = [];
+function getJSDocPropierties(objDocs: IJSDoc[]): mls.l2.enhancement.IProperties[] {
+    const rc: mls.l2.enhancement.IProperties[] = [];
     for (const doc of objDocs) {
         if (doc.type !== 'class') continue;
         const docMembersProp = doc.members.filter((m) => {
@@ -306,7 +307,7 @@ function getJSDocPropierties(objDocs: IJSDoc[]): mls.l2.js.IProperties[] {
         });
 
         docMembersProp.forEach((prop) => {
-            const propItem: mls.l2.js.IProperties = {} as mls.l2.js.IProperties;
+            const propItem: mls.l2.enhancement.IProperties = {} as mls.l2.enhancement.IProperties;
             const fieldType = getFieldTypeInfo(prop.tags);
             const sectionName = getSectionsTag(fieldType);
             const propType = getPropTypeTag(fieldType);
@@ -358,7 +359,7 @@ function isDecoratorProp(modifiers: string[]): boolean {
     return false;
 }
 
-function getFieldTypeInfo(tags: ITag[]): mls.l2.js.IProperties {
+function getFieldTypeInfo(tags: ITag[]): mls.l2.enhancement.IProperties {
     const tag = tags.find((item) => item.tagName === 'fieldType');
     if (!tag) return undefined;
     try {
@@ -369,17 +370,17 @@ function getFieldTypeInfo(tags: ITag[]): mls.l2.js.IProperties {
     }
 }
 
-function getSectionsTag(fieldType: mls.l2.js.IProperties): mls.l2.js.ISectionName {
+function getSectionsTag(fieldType: mls.l2.enhancement.IProperties): mls.l2.enhancement.ISectionName {
     const defaultSection = 'principal'
     if (!fieldType) return defaultSection;
     const { sectionName } = fieldType;
     if (!sectionName) return defaultSection;
     const valueFormated = sectionName.toLowerCase().trim();
-    if (['principal', 'optional', 'advanced'].includes(valueFormated)) return valueFormated as mls.l2.js.ISectionName
+    if (['principal', 'optional', 'advanced'].includes(valueFormated)) return valueFormated as mls.l2.enhancement.ISectionName
     return defaultSection;
 }
 
-function getPropTypeTag(fieldType: mls.l2.js.IProperties): string {
+function getPropTypeTag(fieldType: mls.l2.enhancement.IProperties): string {
     const defaultType = 'string'
     if (!fieldType) return defaultType;
     const { propertyType } = fieldType;
