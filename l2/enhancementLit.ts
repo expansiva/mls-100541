@@ -313,7 +313,7 @@ function getJSDocPropierties(objDocs: IJSDoc[]): mls.l2.enhancement.IProperties[
             const propType = getPropTypeTag(fieldType);
             propItem.hint = prop.comment;
             propItem.propertyName = prop.name;
-            if (fieldType?.defaultValue) propItem.defaultValue = fieldType?.defaultValue;
+            propItem.defaultValue = prop.initializerText || fieldType?.defaultValue || '';
             if (propType) propItem.propertyType = propType;
             if (sectionName) propItem.sectionName = sectionName;
             if (fieldType?.cols) propItem.cols = fieldType?.cols;
@@ -397,7 +397,7 @@ function setCodeLens(mfile: mls.l2.editor.IMFile) {
     const { devDoc, decorators } = compilerResults;
     if (mfile.shortName === 'enhancementLit' && mfile.project === 100541) return;
     setCodeLensDecoratorClass(model, decorators);
-    setCodeLensMlsComponents(model, devDoc);
+    setCodeLensMlsComponents(model);
 }
 
 function setCodeLensDecoratorClass(model: monaco.editor.ITextModel, decorators: string) {
@@ -413,25 +413,11 @@ function setCodeLensDecoratorClass(model: monaco.editor.ITextModel, decorators: 
     })
 }
 
-function setCodeLensMlsComponents(model: monaco.editor.ITextModel, devDoc: string) {
-
+function setCodeLensMlsComponents(model: monaco.editor.ITextModel) {
     const lines = findLinesByText(model, '@mlsComponentDetails');
     lines.forEach((line) => {
         mls.l2.codeLens.addCodeLen(model, line, { id: 'helpAssistant', title: `mlsComponentDetails`, jsComm: '', refs: '_100532_doc_mlsComponentDetails' });
     })
-    // const objDocs: IJSDoc[] = JSON.parse(devDoc);
-    // for (const doc of objDocs) {
-    //     if (doc.type !== 'constructor') continue;
-    //     const tagComponentDetails = doc.tags.find((tag) => tag.tagName === 'mlsComponentDetails');
-    //     console.info(tagComponentDetails)
-    //     if (tagComponentDetails) {
-    //         const offset = doc.pos - 1;
-    //         const { lineNumber } = model.getPositionAt(offset);
-    //         console.info({ lineNumber })
-    //         mls.l2.codeLens.addCodeLen(model, lineNumber, { id: 'helpAssistant', title: `Decorator:customElement`, jsComm: '', refs: 'test' });
-    //     }
-    // }
-
 }
 
 
@@ -457,10 +443,13 @@ export interface IMember {
     modifiers: string[];
     tags: ITag[];
     parameters?: IParameter[];
+    initializerText: string,
+    initializerType: string
 }
 
 export interface ITag {
     name: string;
+    pos: number;
     tagName: string;
     comment: string;
 }
