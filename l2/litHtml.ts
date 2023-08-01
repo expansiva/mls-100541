@@ -342,7 +342,7 @@ const trustedTypes = (global as unknown as Partial<Window> as any).trustedTypes;
  */
 const policy = trustedTypes
   ? trustedTypes.createPolicy('lit-html', {
-      createHTML: (s) => s,
+      createHTML: (s:any) => s,
     })
   : undefined;
 
