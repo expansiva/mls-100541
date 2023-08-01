@@ -1,4 +1,4 @@
-/// <mls shortName="enhancementLit" project="100541" enhancement="_100541_enhancementLit" />
+/// <mls shortName="enhancementLit" project="100541" enhancement="_100541_enhancementBase" />
 
 // import { teste } from './_100541_codeLensLit';
 
@@ -23,6 +23,7 @@ export const example = `
 export const onBeforeCompile = (model: mls.l2.editor.IMFile) => {
     console.info('onBeforeCompile');
     const op = monaco.languages.typescript.typescriptDefaults.getCompilerOptions();
+    if (op['paths'] && op['paths']["lit"]) return;
     op['paths'] = {
         "lit": ["file://server/_100541_litElement.ts"],
         "lit/decorators.js": ["file://server/_100541_litDecorators.ts"],
