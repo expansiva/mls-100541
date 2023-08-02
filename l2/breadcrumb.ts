@@ -3,6 +3,7 @@
 /**
  * This code has been forked and modified from a project found on https://github.com/shoelace-style/shoelace.
  * The original project is licensed under the MIT license.
+ * @mlsComponentDetails {"webComponentDependencies": ["icon-100541"]}
  */
 
 import { html, LitElement } from 'lit';
@@ -39,7 +40,7 @@ export class Breadcrumb extends LitElement {
 
     private handleSlotChange() {
         const items = [...this.defaultSlot.assignedElements({ flatten: true })].filter(
-            item => item.tagName.toLowerCase() === 'sl-breadcrumb-item'
+            item => item.tagName.toLowerCase() === 'breadcrumb-item-100541'
         ) as any[];
 
         items.forEach((item, index) => {
@@ -81,12 +82,6 @@ export class Breadcrumb extends LitElement {
       <nav part="base" class="breadcrumb" aria-label=${this.label}>
         <slot @slotchange=${this.handleSlotChange}></slot>
       </nav>
-
-      <span hidden aria-hidden="true">
-        <slot name="separator">
-          <icon-100541 name=${this.localize.dir() === 'rtl' ? 'chevron-left' : 'chevron-right'} library="default"></icon-100541>
-        </slot>
-      </span>
     `;
     }
 
