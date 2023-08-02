@@ -1,0 +1,77 @@
+breadcrumb-item-100541.style1 { //don't change this line 
+ 
+    display: inline-flex;
+  
+  .breadcrumb-item {
+    display: inline-flex;
+    align-items: center;
+    font-family: @font-family-primary;
+    font-size: @font-size-12;
+    font-weight: @font-weight-bold;
+    color: @text-primary-color;
+    line-height: normal;
+    white-space: nowrap;
+  }
+
+  .breadcrumb-item__label {
+    display: inline-block;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    text-decoration: none;
+    color: inherit;
+    background: none;
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    transition: @transition-fast --color;
+  }
+
+  &:not(:last-of-type) .breadcrumb-item__label {
+    color: @active-color;
+  }
+
+  &:not(:last-of-type) .breadcrumb-item__label:hover {
+    color:  @active-color;
+  }
+
+  &:not(:last-of-type) .breadcrumb-item__label:active {
+    color: @active-color;
+  }
+
+  .breadcrumb-item__label:focus {
+    outline: none;
+  }
+
+  .breadcrumb-item__prefix,
+  .breadcrumb-item__suffix {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+  }
+
+  .breadcrumb-item--has-prefix .breadcrumb-item__prefix {
+    display: inline-flex;
+    margin-inline-end: @space-8;
+  }
+
+  .breadcrumb-item--has-suffix .breadcrumb-item__suffix {
+    display: inline-flex;
+    margin-inline-start: @space-8;
+  }
+
+  &:last-of-type .breadcrumb-item__separator {
+    display: none;
+  }
+
+  .breadcrumb-item__separator {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 @space-8;
+    user-select: none;
+  }
+}
+
