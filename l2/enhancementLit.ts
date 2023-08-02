@@ -411,20 +411,45 @@ function getPropTypeTag(fieldType: mls.l2.enhancement.IProperties): string {
 
 // File: CodeLens
 function setCodeLens(mfile: mls.l2.editor.IMFile) {
+
+    clearCodeLens(mfile);
     const { model, compilerResults } = mfile;
-    const { devDoc, decorators } = compilerResults;
+    const { decorators } = compilerResults;
     if (mfile.shortName === 'enhancementLit' && mfile.project === 100541) return;
     setCodeLensDecoratorClass(model, decorators);
     setCodeLensMlsComponents(model);
+
+    const eds = mls.editor.findEditorsByModel(model);
+    for (const ed of eds) {
+        ed.updateOptions({ codeLens: false });
+        ed.updateOptions({ codeLens: true });
+    }
+
+}
+
+function clearCodeLens(mfile: mls.l2.editor.IMFile) {
+    const keys = Object.keys(mfile.codeLens);
+    keys.forEach((line) => {
+        const codeLen = mfile.codeLens[line];
+
+        if (codeLen[0].id === 'helpAssistant') {
+            console.info({ removeCodeLensLine: line })
+            mls.l2.codeLens.removeCodeLen(mfile.model, Number.parseInt(line))
+        }
+    })
+
 }
 
 function setCodeLensDecoratorClass(model: monaco.editor.ITextModel, decorators: string) {
+
     const objDecorators: IDecoratorDictionary = JSON.parse(decorators);
     Object.entries(objDecorators).forEach((entrie) => {
         const decoratorInfo: IDecoratorDetails = entrie[1];
         if (!decoratorInfo || decoratorInfo.type !== 'ClassDeclaration') return;
         decoratorInfo.decorators.forEach((_decorator) => {
             if (_decorator.text.startsWith('customElement(')) {
+
+                console.info({ addCodeLenLine: _decorator.line + 1 })
                 mls.l2.codeLens.addCodeLen(model, _decorator.line + 1, { id: 'helpAssistant', title: `customElement`, jsComm: '', refs: '_100532_doc_customElement' });
             }
         })
@@ -434,6 +459,8 @@ function setCodeLensDecoratorClass(model: monaco.editor.ITextModel, decorators: 
 function setCodeLensMlsComponents(model: monaco.editor.ITextModel) {
     const lines = findLinesByText(model, '@mlsComponentDetails');
     lines.forEach((line) => {
+        console.info({ addCodeLenLine: line })
+
         mls.l2.codeLens.addCodeLen(model, line, { id: 'helpAssistant', title: `mlsComponentDetails`, jsComm: '', refs: '_100532_doc_mlsComponentDetails' });
     })
 }
