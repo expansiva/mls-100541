@@ -1,4 +1,4 @@
-/// <mls shortName="internalAnimations" project="100541" enhancement="_blank" />
+/// <mls shortName="internalAnimations" project="100541" enhancement="_100541_enhancementLit" />
 
 export const animations = {
     easings: {
