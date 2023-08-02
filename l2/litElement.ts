@@ -61,8 +61,7 @@ export * from '_100541_litIfDefined';
 export * from '_100541_litLive';
 export * from '_100541_litStyleMap';
 export * from '_100541_litDirectivesHelper';
-
-
+export * from '_100541_litWhen';
 
 export const repeat = (array:any[], func:Function = ()=>{} , func2:Function = ()=>{}) =>  {
     console.info(array, func, func2);
