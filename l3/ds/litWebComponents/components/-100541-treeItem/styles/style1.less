@@ -1,4 +1,148 @@
 tree-item-100541.style1 { //don't change this line 
- 	 //style1
+ 	  
+    display: block;
+    outline: 0;
+    z-index: 0;
+  
+
+  &:focus {
+    outline: none;
+  }
+
+  slot:not([name])::slotted(icon-100541) {
+    margin-inline-end: @space-8;
+  }
+
+  .tree-item {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    color: @text-primary-color;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .tree-item__checkbox {
+    pointer-events: none;
+  }
+
+  .tree-item__expand-button,
+  .tree-item__checkbox,
+  .tree-item__label {
+    font-family: @font-family-primary;
+    font-size: @font-size-16;
+    font-weight: @font-weight-normal;
+    line-height: @line-height-medium;
+    letter-spacing: normal;
+  }
+
+  .tree-item__checkbox::part(base) {
+    display: flex;
+    align-items: center;
+  }
+
+  .tree-item__indentation {
+    display: block;
+    width: 1em;
+    flex-shrink: 0;
+  }
+
+  .tree-item__expand-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: content-box;
+    color: @grey-color;
+    padding: @space-8;
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+
+  .tree-item__expand-button {
+    transition: @transition-normal rotate ease;
+  }
+
+  .tree-item--expanded .tree-item__expand-button {
+    rotate: 90deg;
+  }
+
+  .tree-item--expanded.tree-item--rtl .tree-item__expand-button {
+    rotate: -90deg;
+  }
+
+  .tree-item--expanded slot[name='expand-icon'],
+  .tree-item:not(.tree-item--expanded) slot[name='collapse-icon'] {
+    display: none;
+  }
+
+  .tree-item:not(.tree-item--has-expand-button) .tree-item__expand-icon-slot {
+    display: none;
+  }
+
+  .tree-item__expand-button--visible {
+    cursor: pointer;
+  }
+
+  .tree-item__item {
+    display: flex;
+    align-items: center;
+    border-inline-start: solid 3px transparent;
+  }
+
+  .tree-item--disabled .tree-item__item {
+    opacity: 0.5;
+    outline: none;
+    cursor: not-allowed;
+  }
+
+
+  &:not([aria-disabled='true']) .tree-item--selected .tree-item__item {
+    background-color: @grey-color-light;
+    border-inline-start-color: @grey-color;
+  }
+
+  :host(:not([aria-disabled='true'])) .tree-item__expand-button {
+    color: @text-primary-color;
+  }
+
+  .tree-item__label {
+    display: flex;
+    align-items: center;
+    transition: @transition-fast color;
+  }
+
+  .tree-item__children {
+    display: block;
+    font-size: @font-size-12;
+  }
+
+  /* Indentation lines */
+  .tree-item__children {
+    position: relative;
+  }
+
+  .tree-item__children::before {
+    content: '';
+    position: absolute;
+    top: var(--indent-guide-offset);
+    bottom: var(--indent-guide-offset);
+    left: calc(1em - (var(--indent-guide-width) / 2) - 1px);
+    border-inline-end: var(--indent-guide-width) var(--indent-guide-style) var(--indent-guide-color);
+    z-index: 1;
+  }
+
+  .tree-item--rtl .tree-item__children::before {
+    left: auto;
+    right: 1em;
+  }
+
+  @media (forced-colors: active) {
+    &:not([aria-disabled='true']) .tree-item--selected .tree-item__item {
+      outline: dashed 1px SelectedItem;
+    }
+  }
 }
 
