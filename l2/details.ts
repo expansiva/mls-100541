@@ -30,14 +30,21 @@ export class Details extends ShoaleceElement {
     /**
      * Indicates whether or not the details is open. You can toggle this attribute to show and hide the details, or you
      * can use the `show()` and `hide()` methods and this attribute will reflect the details' open state.
+      * @fieldType { "propertyType":"list", "defaultValue":"", "items": ["","open"]} 
+     * 
      */
-    @property({ type: Boolean, reflect: true }) open = false;
+    @property({ reflect: true }) open = false;
 
     /** The summary to show in the header. If you need to display HTML, use the `summary` slot instead. */
     @property() summary: string;
 
-    /** Disables the details so it can't be toggled. */
-    @property({ type: Boolean, reflect: true }) disabled = false;
+    /** The text of details. */
+    @property({ reflect: true }) text: string;
+
+    /** Disables the details so it can't be toggled. 
+      * @fieldType { "propertyType":"list", "defaultValue":"", "items": ["","disabled"]} 
+    */
+    @property({  reflect: true }) disabled = false;
 
     firstUpdated() {
         this.body.style.height = this.open ? 'auto' : '0';
@@ -157,6 +164,10 @@ export class Details extends ShoaleceElement {
         return waitForEvent(this, 'sl-after-hide');
     }
 
+    createRenderRoot() {
+        return this;
+    }
+
     render() {
         const isRtl = this.localize.dir() === 'rtl';
 
@@ -195,7 +206,7 @@ export class Details extends ShoaleceElement {
         </summary>
 
         <div class="details__body" role="region" aria-labelledby="header">
-          <slot part="content" id="content" class="details__content"></slot>
+          <slot part="content" id="content" class="details__content">${this.text}</slot>
         </div>
       </details>
     `;
