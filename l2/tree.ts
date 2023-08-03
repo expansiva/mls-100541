@@ -10,8 +10,9 @@ import { customElement, property, query } from 'lit/decorators.js';
 import { watch } from './_100541_internalWatch';
 import { clamp } from './_100541_internalMath';
 import { LocalizeController } from './_100541_internalLocalize';
-// import ShoelaceElement from './_100541_internalShoelaceElement';
 import { TreeItem } from './_100541_treeItem';
+import ShoaleceElement from './_100541_internalShoelaceElement';
+
 
 function syncCheckboxes(changedTreeItem: TreeItem, initialSync = false) {
     function syncParentItem(treeItem: TreeItem) {
@@ -55,7 +56,7 @@ function syncCheckboxes(changedTreeItem: TreeItem, initialSync = false) {
 
 
 @customElement('tree-100541')
-export class Tree extends LitElement {
+export class Tree extends ShoaleceElement {
 
     @query('slot:not([name])') defaultSlot: HTMLSlotElement;
     @query('slot[name=expand-icon]') expandedIconSlot: HTMLSlotElement;
