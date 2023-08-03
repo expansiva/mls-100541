@@ -12,27 +12,33 @@ import ShoaleceElement from './_100541_internalShoelaceElement';
 @customElement('skeleton-100541')
 export class Skeleton extends ShoaleceElement {
 
-    /** Determines which effect the skeleton will use. */
-    @property() effect: 'pulse' | 'sheen' | 'none' = 'none';
+  /** Determines which effect the skeleton will use. 
+  * @fieldType { "propertyType":"list"}
+  */
+  @property() effect: 'pulse' | 'sheen' | 'none' = 'none';
 
-    render() {
-        return html`
+  createRenderRoot() {
+    return this;
+  }
+
+  render() {
+    return html`
       <div
         part="base"
         class=${classMap({
-            skeleton: true,
-            'skeleton--pulse': this.effect === 'pulse',
-            'skeleton--sheen': this.effect === 'sheen'
-        })}
+      skeleton: true,
+      'skeleton--pulse': this.effect === 'pulse',
+      'skeleton--sheen': this.effect === 'sheen'
+    })}
       >
         <div part="indicator" class="skeleton__indicator"></div>
       </div>
     `;
-    }
+  }
 }
 
 declare global {
-    interface HTMLElementTagNameMap {
-        'skeleton-100541': Skeleton;
-    }
+  interface HTMLElementTagNameMap {
+    'skeleton-100541': Skeleton;
+  }
 }
