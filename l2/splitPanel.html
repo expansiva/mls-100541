@@ -1,0 +1,136 @@
+<div>
+    <h3 id="openEditorServicePreview" style="cursor:pointer">Edit this file</h3>
+    <h1> Split Panels </h1>
+    <a href="https://shoelace.style/components/split-panel" target="_blank">
+        <h5>ref: shoelace Split Panels </h5>
+    </a>
+</div>
+
+
+<mls-showexamplecode-100532 show="all">
+    <mls-head>
+        <h3>Split Panels</h3>
+        <p>Split panels display two adjacent panels, allowing the user to reposition them.</p>
+    </mls-head>
+    <split-panel-100541 class="style1">
+        <div slot="start"
+            style="height: 200px; background: grey; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+        </div>
+        <div slot="end"
+            style="height: 200px; background: grey; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+        </div>
+    </split-panel-100541>
+</mls-showexamplecode-100532>
+
+
+<mls-showexamplecode-100532 show="all">
+    <mls-head>
+        <h3>Initial Position</h3>
+        <p>To set the initial position, use the position attribute. If no position is provided, it will default to 50%
+            of the available space.</p>
+    </mls-head>
+    <split-panel-100541 class="style1" position="75">
+        <div slot="start"
+            style="height: 200px; background: grey; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+        </div>
+        <div slot="end"
+            style="height: 200px; background: grey; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+        </div>
+    </split-panel-100541>
+</mls-showexamplecode-100532>
+
+<mls-showexamplecode-100532 show="all">
+    <mls-head>
+        <h3>Initial Position in Pixels</h3>
+        <p>To set the initial position in pixels instead of a percentage, use the position-in-pixels attribute.</p>
+    </mls-head>
+    <split-panel-100541 class="style1" position-in-pixels="150">
+        <div slot="start"
+            style="height: 200px; background: grey; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+        </div>
+        <div slot="end"
+            style="height: 200px; background: grey; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+        </div>
+    </split-panel-100541>
+</mls-showexamplecode-100532>
+
+<mls-showexamplecode-100532 show="all">
+    <mls-head>
+        <h3>Vertical</h3>
+        <p>Add the vertical attribute to render the split panel in a vertical orientation where the start and end panels
+            are stacked. You also need to set a height when using the vertical orientation.</p>
+    </mls-head>
+    <split-panel-100541 class="style1" vertical style="height: 400px;">
+        <div slot="start"
+            style="height: 100%; background: grey; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+        </div>
+        <div slot="end"
+            style="height: 100%; background: grey; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+        </div>
+    </split-panel-100541>
+</mls-showexamplecode-100532>
+
+<mls-showexamplecode-100532 show="all">
+    <mls-head>
+        <h3>Disabled</h3>
+        <p>
+            Add the disabled attribute to prevent the divider from being repositioned.
+        </p>
+    </mls-head>
+    <split-panel-100541 class="style1" disabled>
+        <div slot="start"
+            style="height: 200px; background: grey; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+        </div>
+        <div slot="end"
+            style="height: 200px; background: grey; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+        </div>
+    </split-panel-100541>
+</mls-showexamplecode-100532>
+
+<mls-showexamplecode-100532 show="all">
+    <mls-head>
+        <h3>Min & Max</h3>
+        <p>
+            To set a minimum or maximum size of the primary panel, use the --min and --max custom properties. Since the
+            secondary panel is flexible, size constraints can only be applied to the primary panel. If no primary panel
+            is designated, these constraints will be applied to the start panel.
+            This examples demonstrates how you can ensure both panels are at least 150px using --min, --max, and the
+            calc function.
+        </p>
+    </mls-head>
+    <split-panel-100541 class="style1" style="--min: 150px; --max: calc(100% - 150px);">
+        <div slot="start"
+            style="height: 200px; background: grey; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+        </div>
+        <div slot="end"
+            style="height: 200px; background: grey; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+        </div>
+    </split-panel-100541>
+</mls-showexamplecode-100532>
+
+<mls-showexamplecode-100532 show="all">
+    <mls-head>
+        <h3>Nested Split Panels</h3>
+        <p>
+            Create complex layouts that can be repositioned independently by nesting split panels.
+        </p>
+    </mls-head>
+    <split-panel-100541 class="style1">
+        <div slot="start"
+            style="height: 400px; background: grey; display: flex; align-items: center; justify-content: center; overflow: hidden">
+            Start
+        </div>
+        <div slot="end">
+            <split-panel-100541 class="style1" vertical style="height: 400px;">
+                <div slot="start"
+                    style="height: 100%; background: grey; display: flex; align-items: center; justify-content: center; overflow: hidden">
+                    Top
+                </div>
+                <div slot="end"
+                    style="height: 100%; background: grey; display: flex; align-items: center; justify-content: center; overflow: hidden">
+                    Bottom
+                </div>
+            </split-panel-100541>
+        </div>
+        </sl-split-panel>
+</mls-showexamplecode-100532>
