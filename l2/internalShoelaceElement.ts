@@ -96,11 +96,6 @@ export default class ShoelaceElement extends LitElement {
     return event as GetCustomEventType<T>;
   }
 
-  /* eslint-disable */
-  // @ts-expect-error This is auto-injected at build time.
-  static version = __SHOELACE_VERSION__;
-  /* eslint-enable */
-
   static define(name: string, elementConstructor = this, options: ElementDefinitionOptions = {}) {
     const currentlyRegisteredConstructor = customElements.get(name) as
       | any
