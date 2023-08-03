@@ -1,14 +1,17 @@
 /// <mls shortName="button" project="100541" enhancement="_100541_enhancementLit" groupName="form" />
 /**
+ * 
  * This code has been forked and modified from a project found on https://github.com/shoelace-style/shoelace.
  * The original project is licensed under the MIT license.
  * @mlsComponentDetails {"webComponentDependencies": ["icon-button-100541", "spinner-100541"]}
+ * 
  */
 
 import { html, classMap, ifDefined, LitElement } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { watch } from './_100541_internalWatch';
 import { LocalizeController } from './_100541_internalLocalize';
+
 import { FormControlController, validValidityState } from './_100541_internalForm';
 
 @customElement('button-100541')
@@ -24,12 +27,12 @@ export class Button extends LitElement {
                 return doc.getElementById(formId) as HTMLFormElement; 
             }
 
+
             // Fall back to the closest containing form
             return input.closest('form');
         },
         assumeInteractionOn: ['click']
     });
-
 
     private readonly localize = new LocalizeController(this);
 
@@ -43,14 +46,14 @@ export class Button extends LitElement {
     @property() text = '';
 
     /** The button's theme variant. 
-     *  @fieldType { "propertyType":"list", "defaultValue":"default", "items": ["default","primary","success", "neutral", "warning", "danger", "text" ]}
+     *  @fieldType { "propertyType":"list"}
      * 
     */
     @property({ reflect: true }) variant: 'default' | 'primary' | 'success' | 'neutral' | 'warning' | 'danger' | 'text' =
         'default';
 
     /** The button's size. 
-     *  @fieldType { "propertyType":"list", "defaultValue":"medium", "items": ["small","medium","large"]}
+     *  @fieldType { "propertyType":"list"}
     */
     @property({ reflect: true }) size: 'small' | 'medium' | 'large' = 'medium';
 
@@ -119,8 +122,8 @@ export class Button extends LitElement {
     @property() target: '_blank' | '_parent' | '_self' | '_top';
 
     /**
-     * When using `href`, this attribute will map to the underlying link's `rel` attribute. Unlike regular links, the
-     * default is `noreferrer noopener` to prevent security exploits. However, if you're using `target` to point to a
+     * When using href, this attribute will map to the underlying link's rel attribute. Unlike regular links, the
+     * default is noreferrer noopener to prevent security exploits. However, if you're using target to point to a
      * specific tab/window, this will prevent that from working correctly. You can remove or change the default value by
      * setting the attribute to an empty string or a value of your choice, respectively.
      */
