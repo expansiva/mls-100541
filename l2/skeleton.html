@@ -1,0 +1,66 @@
+<div>
+    <h3 id="openEditorServicePreview" style="cursor:pointer">Edit this file</h3>
+    <h1> Avatar </h1>
+    <a href="https://shoelace.style/components/avatar" target="_blank">
+        <h5>ref: shoelace avatar </h5>
+    </a>
+</div>
+
+
+<mls-showexamplecode-100532 show="all">
+    <mls-head>
+        <h3>Effects</h3>
+        <p>There are two built-in effects, sheen and pulse. Effects are intentionally subtle, as they can be distracting
+            when used extensively. The default is none, which displays a static, non-animated skeleton.</p>
+    </mls-head>
+    <div class="skeleton-effects">
+        <skeleton-100541 class="style1" effect="none"></skeleton-100541>
+        None
+        <skeleton-100541 class="style1" effect="sheen"></skeleton-100541>
+        Sheen
+        <skeleton-100541 class="style1" effect="pulse"></skeleton-100541>
+        Pulse
+    </div>
+
+    <style>
+        .skeleton-effects {
+            font-size: var(--sl-font-size-small);
+        }
+
+        .skeleton-effects sl-skeleton:not(:first-child) {
+            margin-top: 1rem;
+        }
+    </style>
+</mls-showexamplecode-100532>
+
+<mls-showexamplecode-100532 show="all">
+    <mls-head>
+        <h3>Paragraphs</h3>
+        <p>Use multiple skeletons and some clever styles to simulate paragraphs.</p>
+    </mls-head>
+    <div class="skeleton-paragraphs">
+        <skeleton-100541 class="style1"></skeleton-100541>
+        <skeleton-100541 class="style1"></skeleton-100541>
+        <skeleton-100541 class="style1"></skeleton-100541>
+        <skeleton-100541 class="style1"></skeleton-100541>
+        <skeleton-100541 class="style1"></skeleton-100541>
+    </div>
+
+    <style>
+        .skeleton-paragraphs skeleton-100541 {
+            margin-bottom: 1rem;
+        }
+
+        .skeleton-paragraphs skeleton-100541:nth-child(2) {
+            width: 95%;
+        }
+
+        .skeleton-paragraphs skeleton-100541:nth-child(4) {
+            width: 90%;
+        }
+
+        .skeleton-paragraphs skeleton-100541:last-child {
+            width: 50%;
+        }
+    </style>
+</mls-showexamplecode-100532>
