@@ -27,6 +27,9 @@ export class TreeItem extends LitElement {
     @state() loading = false;
     @state() selectable = false;
 
+    /** text */
+    @property({ type: String, reflect: true }) text = '';
+
     /** Expands the tree item. */
     @property({ type: Boolean, reflect: true }) expanded = false;
 
@@ -201,10 +204,10 @@ export class TreeItem extends LitElement {
           >
             ${when(this.loading, () => html` <sl-spinner></sl-spinner> `)}
             <slot class="tree-item__expand-icon-slot" name="expand-icon">
-              <icon-100541 library="system" name=${isRtl ? 'chevron-left' : 'chevron-right'}></icon-100541>
+              <icon-100541 library="default" name=${isRtl ? 'chevron-left' : 'chevron-right'}></icon-100541>
             </slot>
             <slot class="tree-item__expand-icon-slot" name="collapse-icon">
-              <icon-100541 library="system" name=${isRtl ? 'chevron-left' : 'chevron-right'}></icon-100541>
+              <icon-100541 library="default" name=${isRtl ? 'chevron-left' : 'chevron-right'}></icon-100541>
             </slot>
           </div>
 
@@ -232,7 +235,9 @@ export class TreeItem extends LitElement {
               `
         )}
 
-          <slot class="tree-item__label" part="label"></slot>
+          <slot class="tree-item__label" part="label">
+            <label>${this.text}</label>
+          </slot>
         </div>
 
         <div class="tree-item__children" part="children" role="group">
