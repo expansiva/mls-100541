@@ -1,0 +1,1 @@
+{ "_100541_details": {"class":"style1","open":"open","text":"um texto qualquer"} }
