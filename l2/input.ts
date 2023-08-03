@@ -30,11 +30,9 @@ import { FormControlController } from './_100541_internalForm';
  */
 @customElement('input-100541')
 export class Input extends LitElement {
-
     private readonly formControlController = new FormControlController(this, {
         assumeInteractionOn: ['sl-blur', 'sl-input']
     });
-
 
     @query('.input__control') input: HTMLInputElement;
 
