@@ -44,15 +44,21 @@ export class RelativeTime extends ShoaleceElement {
      * The date from which to calculate time from. If not set, the current date and time will be used. When passing a
      * string, it's strongly recommended to use the ISO 8601 format to ensure timezones are handled correctly. To convert
      * a date to this format in JavaScript, use [`date.toISOString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString).
+     * @fieldType { "propertyType":"string", "defaultValue":"2020-07-15T09:17:00-04:00"}
+     * 
      */
     @property() date: Date | string = new Date();
 
-    /** The formatting style to use. */
+    /** The formatting style to use. 
+     * @fieldType { "propertyType":"list"}
+    */
     @property() format: 'long' | 'short' | 'narrow' = 'long';
 
     /**
      * When `auto`, values such as "yesterday" and "tomorrow" will be shown when possible. When `always`, values such as
      * "1 day ago" and "in 1 day" will be shown.
+     * @fieldType { "propertyType":"list"}
+    
      */
     @property() numeric: 'always' | 'auto' = 'auto';
 
