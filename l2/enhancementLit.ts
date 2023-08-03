@@ -21,7 +21,8 @@ export const example = `
     }`;
 
 export const onBeforeCompile = (model: mls.l2.editor.IMFile) => {
-    console.info('onBeforeCompile');
+
+    console.info('onBeforeCompile')
     const op = monaco.languages.typescript.typescriptDefaults.getCompilerOptions();
     if (op['paths'] && op['paths']["lit"]) return;
     op['paths'] = {
@@ -411,19 +412,17 @@ function getPropTypeTag(fieldType: mls.l2.enhancement.IProperties): string {
 
 // File: CodeLens
 function setCodeLens(mfile: mls.l2.editor.IMFile) {
-
     clearCodeLens(mfile);
     const { model, compilerResults } = mfile;
     const { decorators } = compilerResults;
     if (mfile.shortName === 'enhancementLit' && mfile.project === 100541) return;
     setCodeLensDecoratorClass(model, decorators);
     setCodeLensMlsComponents(model);
-
-    const eds = mls.editor.findEditorsByModel(model);
-    for (const ed of eds) {
-        ed.updateOptions({ codeLens: false });
-        ed.updateOptions({ codeLens: true });
-    }
+    // const eds = mls.editor.findEditorsByModel(model);
+    // for (const ed of eds) {
+    //     ed.updateOptions({ codeLens: false });
+    //     ed.updateOptions({ codeLens: true });
+    // }
 
 }
 
@@ -431,7 +430,6 @@ function clearCodeLens(mfile: mls.l2.editor.IMFile) {
     const keys = Object.keys(mfile.codeLens);
     keys.forEach((line) => {
         const codeLen = mfile.codeLens[line];
-
         if (codeLen[0].id === 'helpAssistant') {
             console.info({ removeCodeLensLine: line })
             mls.l2.codeLens.removeCodeLen(mfile.model, Number.parseInt(line))
