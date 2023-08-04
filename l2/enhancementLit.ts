@@ -24,6 +24,8 @@ export const example = `
         }
     }`;
 
+
+
 export const onBeforeCompile = (model: mls.l2.editor.IMFile) => {
 
     console.info('onBeforeCompile3')
