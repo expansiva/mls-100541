@@ -24,7 +24,7 @@ export function getComponentDependencies(model: mls.l2.editor.IMFile): string[] 
             dependenciesArray = dependenciesArray.map((tag: string) => convertTagToFileName(tag));
         } catch (error) {
             // Handle the error if the JSON parsing fails
-            console.error('Error parsing webComponentDependencies array  :', error);
+            console.error('Error parsing webComponentDependencies array :', error);
             dependenciesArray = [];
         }
     }
