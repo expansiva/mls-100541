@@ -9,6 +9,7 @@ export function getComponentDependencies(model: mls.l2.editor.IMFile): string[] 
     if (!devDoc) return [];
     const objDocs: IJSDoc[] = JSON.parse(devDoc);
     const tagsInfoString = getJsDocInfoTags(objDocs);
+    if (!tagsInfoString) return [];
 
     // Regular expression to match the dependencies array
     const regex = /"webComponentDependencies"\s*:\s*(\[.*?\])/;
