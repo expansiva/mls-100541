@@ -232,6 +232,7 @@ export class SplitPanel extends ShoaleceElement {
         this.style[gridTemplateAlt] = '';
 
         return html`
+
             <div
                 part="divider"
                 class="divider"
@@ -244,6 +245,7 @@ export class SplitPanel extends ShoaleceElement {
                 @mousedown=${this.handleDrag}
                 @touchstart=${this.handleDrag}
             ></div>
+            
     `;
     }
 
