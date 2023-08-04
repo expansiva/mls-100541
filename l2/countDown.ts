@@ -18,7 +18,7 @@ export class CountDown100541 extends LitElement {
   @property({ type: Number, reflect: true })
   timer = 10;
 
-  private elFill;
+  private elFill:any;
 
   private isFinished = true;
 
