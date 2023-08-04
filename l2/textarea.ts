@@ -16,7 +16,7 @@ import { customElement, property, state, query } from 'lit/decorators.js';
 @customElement('textarea-100541')
 export class SimpleGreeting extends LitElement {
 
-    private resizeObserver;
+    private resizeObserver:any;
 
     @query('.textarea__control') input: HTMLTextAreaElement;
 
