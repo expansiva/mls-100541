@@ -7,7 +7,6 @@
  * 
  */
 
-
 import { html, ifDefined, classMap } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';;
 import { LocalizeController } from './_100541_internalLocalize';
@@ -49,7 +48,9 @@ export class Drawer extends ShoaleceElement {
      */
     @property({ reflect: true }) label = '';
 
-    /** The direction from which the drawer will open. */
+    /** The direction from which the drawer will open. 
+     * @fieldType { "propertyType":"list", }
+    */
     @property({ reflect: true }) placement: 'top' | 'end' | 'bottom' | 'start' = 'end';
 
     /**
