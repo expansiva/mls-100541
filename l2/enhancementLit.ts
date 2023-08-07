@@ -24,22 +24,30 @@ export const example = `
         }
     }`;
 
+export const requires: mls.l2.editor.IRequire[] = [
+    {
+        type: 'tspath',
+        name: 'lit',
+        ref: "file://server/_100541_litElement.ts"
+    },
+    {
+        type: 'tspath',
+        name: 'lit/decorators.js',
+        ref: "file://server/_100541_litDecorators.ts"
+    },
+    {
+        type: "cdn",
+        name: "lit",
+        ref: "https://cdn.jsdelivr.net/gh/lit/dist@2.7.5/all/lit-all.min.js",
 
+    },
+    {
+        type: "cdn",
+        name: "lit/decorators.js",
+        ref: "https://cdn.jsdelivr.net/npm/lit-element@3.3.2/+esm",
 
-export const onBeforeCompile = (model: mls.l2.editor.IMFile) => {
-
-    console.info('onBeforeCompile3')
-
-    const op = monaco.languages.typescript.typescriptDefaults.getCompilerOptions();
-    if (op['paths'] && op['paths']["lit"]) return;
-    op['paths'] = {
-        "lit": ["file://server/_100541_litElement.ts"],
-        "lit/decorators.js": ["file://server/_100541_litDecorators.ts"],
-
-    };
-    monaco.languages.typescript.typescriptDefaults.setCompilerOptions(op);
-    model.compilerResults.modelNeedCompile = true;
-}
+    }
+];
 
 const preparePreviewHtml = (model: mls.l2.editor.IMFile): string => {
     const tag = convertFileNameToTag(`_${model.storFile.project}_${model.storFile.shortName}`);
@@ -93,23 +101,3 @@ export const getPromptDefault = (): string => {
 
     Funcionalidade: O componente web exibirá um cabeçalho h1 estilizado em azul. O conteúdo do cabeçalho será uma mensagem de saudação que lê 'Olá,' seguido pelo valor da propriedade 'name'. Por exemplo, se a propriedade 'name' estiver definida como 'João', a mensagem exibida será 'Olá, João!'.`;
 }
-
-export const getPublishDetails = (_mfile: mls.l2.editor.IMFile): mls.l2.editor.IRequire[] => {
-
-    const ret: mls.l2.editor.IRequire[] = [];
-    ret.push({
-        type: "cdn",
-        name: "lit",
-        ref: "https://cdn.jsdelivr.net/gh/lit/dist@2.7.5/all/lit-all.min.js",
-
-    });
-    ret.push({
-        type: "cdn",
-        name: "lit/decorators.js",
-        ref: "https://cdn.jsdelivr.net/npm/lit-element@3.3.2/+esm",
-
-    });
-
-    return ret;
-}
-
