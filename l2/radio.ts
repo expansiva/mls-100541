@@ -8,100 +8,107 @@
 import { html, classMap, ifDefined, LitElement } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { watch } from './_100541_internalWatch';
+import ShoaleceElement from './_100541_internalShoelaceElement';
+
 
 @customElement('radio-100541')
-export class Radio extends LitElement {
-    @query('.button') input: HTMLInputElement;
-    @query('.hidden-input') hiddenInput: HTMLInputElement;
+export class Radio extends ShoaleceElement {
+  @query('.button') input: HTMLInputElement;
+  @query('.hidden-input') hiddenInput: HTMLInputElement;
 
-    @state() protected hasFocus = false;
+  @state() protected hasFocus = false;
 
-    /**
-     * @internal The radio button's checked state. This is exposed as an "internal" attribute so we can reflect it, making
-     * it easier to style in button groups.
-     */
-    @property({ type: Boolean, reflect: true }) checked = false;
+  /**
+   * @internal The radio button's checked state. This is exposed as an "internal" attribute so we can reflect it, making
+   * it easier to style in button groups.
+   */
+  @property({ type: Boolean, reflect: true }) checked = false;
 
-    /** The radio's value. When selected, the radio group will receive this value. */
-    @property() value: string;
+  /** The radio label.*/
+  @property({ reflect: true }) label: string;
 
-    /** Disables the radio button. */
-    @property({ type: Boolean, reflect: true }) disabled = false;
+  /** The radio's value. When selected, the radio group will receive this value. */
+  @property() value: string;
 
-    /**
-     * The radio button's size. When used inside a radio group, the size will be determined by the radio group's size so
-     * this attribute can typically be omitted.
-     */
-    @property({ reflect: true }) size: 'small' | 'medium' | 'large' = 'medium';
+  /** Disables the radio button. */
+  @property({ type: Boolean, reflect: true }) disabled = false;
 
-    /** Draws a pill-style radio button with rounded edges. */
-    @property({ type: Boolean, reflect: true }) pill = false;
+  /**
+   * The radio button's size. When used inside a radio group, the size will be determined by the radio group's size so
+   * this attribute can typically be omitted.
+   */
+  @property({ reflect: true }) size: 'small' | 'medium' | 'large' = 'medium';
 
+  /** Draws a pill-style radio button with rounded edges. */
+  @property({ type: Boolean, reflect: true }) pill = false;
 
-    /** text for a radio*/
-    @property({ reflect: true }) label = '';
+  constructor() {
+    super();
+    this.addEventListener('blur', this.handleBlur);
+    this.addEventListener('click', this.handleClick);
+    this.addEventListener('focus', this.handleFocus);
+  }
 
-    connectedCallback() {
-        super.connectedCallback();
-        this.setAttribute('role', 'presentation');
+  connectedCallback() {
+    super.connectedCallback();
+    this.setInitialAttributes();
+  }
+
+  private handleBlur = () => {
+    this.hasFocus = false;
+    this.emit('sl-blur' as any);
+  };
+
+  private handleClick = () => {
+    if (!this.disabled) {
+      this.checked = true;
     }
+  };
 
-    private handleBlur() {
-        this.hasFocus = false;
-    }
+  private handleFocus = () => {
+    this.hasFocus = true;
+    this.emit('sl-focus' as any);
+  };
 
-    private handleClick(e: MouseEvent) {
-        if (this.disabled) {
-            e.preventDefault();
-            e.stopPropagation();
-            return;
-        }
+  private setInitialAttributes() {
+    this.setAttribute('role', 'radio');
+    this.setAttribute('tabindex', '-1');
+    this.setAttribute('aria-disabled', this.disabled ? 'true' : 'false');
+  }
 
-        this.checked = true;
-    }
+  @watch('checked')
+  handleCheckedChange() {
+    this.setAttribute('aria-checked', this.checked ? 'true' : 'false');
+    this.setAttribute('tabindex', this.checked ? '0' : '-1');
+  }
 
-    private handleFocus() {
-        this.hasFocus = true;
-    }
+  @watch('disabled', { waitUntilFirstUpdate: true })
+  handleDisabledChange() {
+    this.setAttribute('aria-disabled', this.disabled ? 'true' : 'false');
+  }
+  createRenderRoot() {
+    return this;
+  }
 
-    @watch('disabled', { waitUntilFirstUpdate: true })
-    handleDisabledChange() {
-        this.setAttribute('aria-disabled', this.disabled ? 'true' : 'false');
-    }
-
-    /** Sets focus on the radio button. */
-    focus(options?: FocusOptions) {
-        this.input.focus(options);
-    }
-
-    /** Removes focus from the radio button. */
-    blur() {
-        this.input.blur();
-    }
-
-    createRenderRoot() {
-        return this;
-    }
-
-    render() {
-        return html`
+  render() {
+    return html`
       <div part="base" role="presentation">
         <button
           part="${`button${this.checked ? ' button--checked' : ''}`}"
           role="radio"
           aria-checked="${this.checked}"
           class=${classMap({
-            button: true,
-            'button--default': true,
-            'button--small': this.size === 'small',
-            'button--medium': this.size === 'medium',
-            'button--large': this.size === 'large',
-            'button--checked': this.checked,
-            'button--disabled': this.disabled,
-            'button--focused': this.hasFocus,
-            'button--outline': true,
-            'button--pill': this.pill,
-        })}
+      button: true,
+      'button--default': true,
+      'button--small': this.size === 'small',
+      'button--medium': this.size === 'medium',
+      'button--large': this.size === 'large',
+      'button--checked': this.checked,
+      'button--disabled': this.disabled,
+      'button--focused': this.hasFocus,
+      'button--outline': true,
+      'button--pill': this.pill,
+    })}
           aria-disabled=${this.disabled}
           type="button"
           value=${ifDefined(this.value)}
@@ -118,5 +125,5 @@ export class Radio extends LitElement {
         </button>
       </div>
     `;
-    }
+  }
 }
