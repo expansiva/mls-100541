@@ -7,7 +7,7 @@
  * 
  */
 
-import { html, ifDefined, classMap } from 'lit';
+import { html, ifDefined, css, classMap, CSSResultGroup } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';;
 import { LocalizeController } from './_100541_internalLocalize';
 import { animateTo, stopAnimations } from './_100541_internalAnimate';
