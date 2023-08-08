@@ -1,49 +1,57 @@
-spinner-100541 { //don't change this line 
- 	  .a-spinner {
-        .a-spinner_container {
-            display: flex;
-            align-items: center;
-        }
-        .a-spinner_dot {
-            animation: opacityFade 1.5s linear infinite;
-            display: inline-block;
-            top: 0;
-            bottom: 0;
-            margin: 8px;
-            height: 16px;
-            width: 16px;
-            border-radius: 50%;
-            background-color: @active-color;
+spinner-100541 {
+    //don't change this line 
 
-            &.a-spinner_dot--1 {
-                animation-delay: 0s;
-            }
-            &.a-spinner_dot--2 {
-                animation-delay: 0.5s;
-            }
-            &.a-spinner_dot--3 {
-                animation-delay: 1s;
-            }
-        }
-        @keyframes opacityFade {
-            0%,
-            33%,
-            100% {
-                opacity: 1;
-            }
-            16.5% {
-                opacity: 0;
-            }
+    --track-width: 2px;
+    --track-color: rgb(128 128 128 / 25%);
+    --indicator-color: @text-primary-color;
+    --speed: 2s;
+
+    display: inline-flex;
+    width: 1em;
+    height: 1em;
+
+    .spinner {
+        flex: 1 1 auto;
+        height: 100%;
+        width: 100%;
+    }
+
+    .spinner__track,
+    .spinner__indicator {
+        fill: none;
+        stroke-width: var(--track-width);
+        r: calc(0.5em - var(--track-width) / 2);
+        cx: 0.5em;
+        cy: 0.5em;
+        transform-origin: 50% 50%;
+    }
+
+    .spinner__track {
+        stroke: var(--track-color);
+        transform-origin: 0% 0%;
+    }
+
+    .spinner__indicator {
+        stroke: var(--indicator-color);
+        stroke-linecap: round;
+        stroke-dasharray: 150% 75%;
+        animation: spin var(--speed) linear infinite;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+            stroke-dasharray: 0.01em, 2.75em;
         }
 
-        &.a-spinner--small {
-            .a-spinner_dot{
-                margin: 4px;
-                height: 8px;
-                width: 8px;
-                border-radius: 50%;
-            }
-           
+        50% {
+            transform: rotate(450deg);
+            stroke-dasharray: 1.375em, 1.375em;
+        }
+
+        100% {
+            transform: rotate(1080deg);
+            stroke-dasharray: 0.01em, 2.75em;
         }
     }
 }
