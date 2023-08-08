@@ -49,6 +49,7 @@ export const requires: mls.l2.editor.IRequire[] = [
     }
 ];
 
+
 const preparePreviewHtml = (model: mls.l2.editor.IMFile): string => {
     const tag = convertFileNameToTag(`_${model.storFile.project}_${model.storFile.shortName}`);
     return `<${tag}></${tag}>`;
