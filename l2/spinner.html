@@ -1,16 +1,44 @@
-<h3 id="openEditorServicePreview" style="cursor:pointer">Edit this file</h3>
-<h1>Loading page</h1>
-<hr>
-<div style="height: calc(100vh - 200px); background: #000; display:flex; flex-direction:column; gap:.4rem; justify-content:center; align-items:center;">
-    <spinner-100541 class="spinner" small = "true"></spinner-100541>
-    <span style="color: white">Loading...</span>
+<div>
+    <h3 id="openEditorServicePreview" style="cursor:pointer">Edit this file</h3>
+    <h1> Spinner </h1>
+    <a href="https://shoelace.style/components/spinner" target="_blank">
+        <h5>ref: shoelace spinner </h5>
+    </a>
 </div>
 
-<hr>
-<h1>Button Loading</h1>
-<hr>
+<mls-showexamplecode-100532 show="all">
+    <mls-head>
+        <h3>Spinner</h3>
+        <p>Spinners are used to show the progress of an indeterminate operation.</p>
+    </mls-head>
+    <spinner-100541></spinner-100541>
+</mls-showexamplecode-100532>
 
-<button style= "width: 180px;  display:flex;  gap:1rem;">
-    <span>Carregando...</span>
-    <spinner-100541 class="spinner" small = "true"></spinner-100541>
-</button>
+<mls-showexamplecode-100532 show="all">
+    <mls-head>
+        <h3>Size</h3>
+        <p>Spinners are sized based on the current font size. To change their size, set the font-size property on the
+            spinner itself or on a parent element as shown below.</p>
+    </mls-head>
+    <spinner-100541></spinner-100541>
+    <spinner-100541 style="font-size: 2rem;"></spinner-100541>
+    <spinner-100541 style="font-size: 3rem;"></spinner-100541>
+</mls-showexamplecode-100532>
+
+<mls-showexamplecode-100532 show="all">
+    <mls-head>
+        <h3>Track Width</h3>
+        <p>The width of the spinner track can be changed by setting the --track-width custom property.</p>
+    </mls-head>
+    <spinner-100541 style="font-size: 50px; --track-width: 10px;"></spinner-100541>
+</mls-showexamplecode-100532>
+
+
+<mls-showexamplecode-100532 show="all">
+    <mls-head>
+        <h3>Color</h3>
+        <p>The spinners colors can be changed by setting the --indicator-color and --track-color custom properties.</p>
+    </mls-head>
+    <spinner-100541 style="font-size: 3rem; --indicator-color: deeppink; --track-color: pink;"></spinner-100541>
+
+</mls-showexamplecode-100532>
