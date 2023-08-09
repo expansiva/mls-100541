@@ -3,7 +3,7 @@
 import { convertFileNameToTag } from './_100541_utilsLit'
 import { getPropierties } from './_100541_propiertiesLit'
 import { getComponentDependencies } from './_100541_dependenciesLit'
-import { validateTagName } from './_100541_validateLit'
+import { validateTagName, validateRender } from './_100541_validateLit'
 import { setCodeLens } from './_100541_codeLensLit'
 
 export const description = "Use this enhancement for model using lit - a simple and fast web component.\nRef: https://lit.dev/"
@@ -89,6 +89,7 @@ export const prepareAdd = (prompt: string): { sourceTS: string, aiHeader: string
 export const onAfterChange = (mfile: mls.l2.editor.IMFile): string => {
     try {
         validateTagName(mfile);
+        validateRender(mfile)
         setCodeLens(mfile);
         return '';
     } catch (e) {
