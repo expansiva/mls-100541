@@ -89,8 +89,9 @@ function verify(model: monaco.editor.ITextModel, shortName: string, mfile: mls.l
         if (htmlCount != 0) {
             if (line.indexOf('<' + tag + '>') >= 0) {
                 mfile.storFile.hasError = true;
-                console.info(line)
-                setErrorOnModel(model, i + 1, 0, line.length, msgError);
+                const column = model.getLineFirstNonWhitespaceColumn(i + 1);
+                const length = model.getLineLength(i + 1)
+                setErrorOnModel(model, i + 1, column, length, msgError);
                 break;
             }
         }
