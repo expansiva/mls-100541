@@ -8,6 +8,7 @@ import { setCodeLens } from './_100541_codeLensLit'
 
 export const description = "Use this enhancement for model using lit - a simple and fast web component.\nRef: https://lit.dev/"
 
+
 export const example = `
     import { html, css, LitElement } from 'lit'; 
     import { customElement, property } from 'lit/decorators.js';
