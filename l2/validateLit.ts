@@ -87,8 +87,9 @@ function verify(model: monaco.editor.ITextModel, shortName: string, mfile: mls.l
         if (line.indexOf('`') >= 0 && line.indexOf('html`') === -1 && !lineInCommentBlock) htmlCount -= 1;
 
         if (htmlCount != 0) {
-            if (line.indexOf(tag) >= 0) {
+            if (line.indexOf('<' + tag + '>') >= 0) {
                 mfile.storFile.hasError = true;
+                console.info(line)
                 setErrorOnModel(model, i + 1, 0, line.length, msgError);
                 break;
             }
