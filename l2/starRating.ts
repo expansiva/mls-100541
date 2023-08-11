@@ -1,4 +1,4 @@
-/// <mls shortName="starRating" project="100541" enhancement="_100541_enhancementLit" groupName="rating" />
+/// <mls shortName="starRating" project="100541" enhancement="_100541_enhancementLit" groupName="rating" /> 
 
 import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js'; 
@@ -10,9 +10,9 @@ export class StarRating100541 extends LitElement {
   private ratingValue = 1
 
   @property({ type: String, reflect: true })
-  private max = 5
+  private max = 5 
 
-  @property({ type: String, reflect: true })
+  @property({ type: String, reflect: true })  
   get legend(){
     try{
       const atr = this.getAttribute('legend');
@@ -51,7 +51,7 @@ export class StarRating100541 extends LitElement {
               @mouseout=${() => this.handleStarHoverEnd()}
               style="color:${this.getStarColor(index)}"
             >
-              &#9733;
+              &#9733; 
             </span>
           `
     )}
