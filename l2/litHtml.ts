@@ -754,6 +754,11 @@ export interface DirectiveParent {
  *     to avoid object fields since this code is shared with non-minified SSR
  *     code)
  */
+export const unsafeHTML = (
+  strings: string,
+): any => {
+}
+
 const getTemplateHtml = (
   strings: TemplateStringsArray,
   type: ResultType
