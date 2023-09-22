@@ -1,1 +1,1 @@
-{ "_100541_button": {"class":"style1","text":"Button","variant":"default","size":"medium","caret":"true","type":"button"} }
+{ "_100541_button": {"class":"style1","text":"Button","variant":"default","size":"small","caret":"false","pill":"false","type":"button","rel":"noreferrer noopener"} }
