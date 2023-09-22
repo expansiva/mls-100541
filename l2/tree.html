@@ -9,15 +9,22 @@
 
 <mls-showexamplecode-100532 show="all">
     <mls-head>
-        <h3>Tree</h3>
+        <h3>Nested tree items</h3>
+        <p>A tree item can contain other tree items. This allows the node to be expanded or collapsed by the user.</p>
     </mls-head>
     <tree-100541>
-        <tree-item-100541 text="Item1">
-            <tree-item-100541 text="Item 1.1"></tree-item-100541>
-            <tree-item-100541 text="Item 1.2"></tree-item-100541>
+        <tree-item-100541>
+            Item 1
+            <tree-item-100541>
+                Item A
+                <tree-item-100541>Item Z</tree-item-100541>
+                <tree-item-100541>Item Y</tree-item-100541>
+                <tree-item-100541>Item X</tree-item-100541>
+            </tree-item-100541>
+            <tree-item-100541>Item B</tree-item-100541>
+            <tree-item-100541>Item C</tree-item-100541>
         </tree-item-100541>
-        <tree-item-100541 text="Item2">
-            <tree-item-100541 text="Item 2.1"></tree-item-100541>
-        </tree-item-100541>
+        <tree-item-100541>Item 2</tree-item-100541>
+        <tree-item-100541>Item 3</tree-item-100541>
     </tree-100541>
 </mls-showexamplecode-100532>
