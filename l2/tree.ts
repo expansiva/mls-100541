@@ -5,14 +5,13 @@
  * The original project is licensed under the MIT license.
  */
 
-import { html, LitElement } from 'lit';
+import { html, css } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { watch } from './_100541_internalWatch';
 import { clamp } from './_100541_internalMath';
 import { LocalizeController } from './_100541_internalLocalize';
 import { TreeItem } from './_100541_treeItem';
 import ShoaleceElement from './_100541_internalShoelaceElement';
-
 
 function syncCheckboxes(changedTreeItem: TreeItem, initialSync = false) {
     function syncParentItem(treeItem: TreeItem) {
@@ -57,6 +56,8 @@ function syncCheckboxes(changedTreeItem: TreeItem, initialSync = false) {
 
 @customElement('tree-100541')
 export class Tree extends ShoaleceElement {
+
+    static styles = css`[[mls_getDefaultDesignSystem]]`;
 
     @query('slot:not([name])') defaultSlot: HTMLSlotElement;
     @query('slot[name=expand-icon]') expandedIconSlot: HTMLSlotElement;
@@ -110,7 +111,7 @@ export class Tree extends ShoaleceElement {
         // Clone it, remove ids, and slot it
         if (icon) {
             const clone = icon.cloneNode(true) as HTMLElement;
-            [clone, ...(clone as any).querySelectorAll('[id]')].forEach(el => el.removeAttribute('id'));
+            [clone, ...clone.querySelectorAll('[id]') as any].forEach(el => el.removeAttribute('id'));
             clone.setAttribute('data-default', '');
             clone.slot = `${status}-icon`;
 
@@ -143,8 +144,8 @@ export class Tree extends ShoaleceElement {
 
     private handleTreeChanged = (mutations: MutationRecord[]) => {
         for (const mutation of mutations) {
-            const addedNodes: TreeItem[] = [...(mutation as any).addedNodes].filter(TreeItem.isTreeItem) as TreeItem[];
-            const removedNodes = [...(mutation as any).removedNodes].filter(TreeItem.isTreeItem) as TreeItem[];
+            const addedNodes: TreeItem[] = [...mutation.addedNodes as any].filter(TreeItem.isTreeItem) as TreeItem[];
+            const removedNodes = [...mutation.removedNodes as any].filter(TreeItem.isTreeItem) as TreeItem[];
 
             addedNodes.forEach(this.initTreeItem);
 
@@ -154,20 +155,6 @@ export class Tree extends ShoaleceElement {
         }
     };
 
-    private syncTreeItems(selectedItem: TreeItem) {
-        const items = this.getAllTreeItems();
-
-        if (this.selection === 'multiple') {
-            syncCheckboxes(selectedItem);
-        } else {
-            for (const item of items) {
-                if (item !== selectedItem) {
-                    item.selected = false;
-                }
-            }
-        }
-    }
-
     private selectItem(selectedItem: TreeItem) {
         const previousSelection = [...this.selectedItems];
 
@@ -176,12 +163,12 @@ export class Tree extends ShoaleceElement {
             if (selectedItem.lazy) {
                 selectedItem.expanded = true;
             }
-            this.syncTreeItems(selectedItem);
+            syncCheckboxes(selectedItem);
         } else if (this.selection === 'single' || selectedItem.isLeaf) {
-            selectedItem.expanded = !selectedItem.expanded;
-            selectedItem.selected = true;
-
-            this.syncTreeItems(selectedItem);
+            const items = this.getAllTreeItems();
+            for (const item of items) {
+                item.selected = item === selectedItem;
+            }
         } else if (this.selection === 'leaf') {
             selectedItem.expanded = !selectedItem.expanded;
         }
@@ -194,13 +181,13 @@ export class Tree extends ShoaleceElement {
         ) {
             // Wait for the tree items' DOM to update before emitting
             Promise.all(nextSelection.map(el => el.updateComplete)).then(() => {
-                // this.emit('sl-selection-change' as any, { detail: { selection: nextSelection } });
+                this.emit('sl-selection-change' as any, { detail: { selection: nextSelection } });
             });
         }
     }
 
     private getAllTreeItems() {
-        return [...this.querySelectorAll('tree-item-100541') as any];
+        return [...this.querySelectorAll<TreeItem>('tree-item-100541') as any];
     }
 
     private focusItem(item?: TreeItem | null) {
@@ -208,7 +195,14 @@ export class Tree extends ShoaleceElement {
     }
 
     private handleKeyDown(event: KeyboardEvent) {
+        // Ignore key presses we aren't interested in
         if (!['ArrowDown', 'ArrowUp', 'ArrowRight', 'ArrowLeft', 'Home', 'End', 'Enter', ' '].includes(event.key)) {
+            return;
+        }
+
+        // Ignore key presses when focus is inside a text field. This prevents the component from hijacking nested form
+        // controls that exist inside tree items.
+        if (event.composedPath().some((el: any) => ['input', 'textarea'].includes(el?.tagName?.toLowerCase()))) {
             return;
         }
 
@@ -290,7 +284,7 @@ export class Tree extends ShoaleceElement {
             return;
         }
 
-        if (this.selection === 'multiple' && isExpandButton) {
+        if (isExpandButton) {
             treeItem.expanded = !treeItem.expanded;
         } else {
             this.selectItem(treeItem);
@@ -350,7 +344,7 @@ export class Tree extends ShoaleceElement {
         if (isSelectionMultiple) {
             await this.updateComplete;
 
-            [...this.querySelectorAll(':scope > tree-item-100541') as any].forEach((treeItem: TreeItem) =>
+            [...(this.querySelectorAll(':scope > tree-item-100541') as any)].forEach((treeItem: TreeItem) =>
                 syncCheckboxes(treeItem, true)
             );
         }
@@ -381,10 +375,6 @@ export class Tree extends ShoaleceElement {
 
             return !collapsedItems.has(item);
         });
-    }
-
-    createRenderRoot() {
-        return this;
     }
 
     render() {
