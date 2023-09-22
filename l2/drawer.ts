@@ -21,6 +21,7 @@ import ShoaleceElement from './_100541_internalShoelaceElement';
 
 @customElement('drawer-100541')
 export class Drawer extends ShoaleceElement {
+    
 
     private readonly localize = new LocalizeController(this);
     private modal = new Modal(this);
@@ -252,10 +253,10 @@ export class Drawer extends ShoaleceElement {
         return waitForEvent(this, 'sl-after-hide');
     }
 
-    createRenderRoot() {
-        return this;
-    }
-
+     createRenderRoot() {
+         return this;
+     }
+    
     render() {
         return html`
       <div
