@@ -17,6 +17,7 @@ import { FormControlController, validValidityState } from './_100541_internalFor
 @customElement('button-100541')
 export class Button extends LitElement {
 
+
     private readonly formControlController = new FormControlController(this, {
         form: input => {
             // Buttons support a form attribute that points to an arbitrary form, so if this attribute is set we need to query
