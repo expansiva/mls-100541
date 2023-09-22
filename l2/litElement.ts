@@ -155,6 +155,8 @@ export class LitElement extends ReactiveElement {
     // important so that adoptedStyleSheets have precedence over styles in
     // the shadowRoot.
     this.renderOptions.renderBefore ??= renderRoot!.firstChild as ChildNode;
+  
+    
     return renderRoot;
   }
 
