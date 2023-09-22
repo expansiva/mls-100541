@@ -1,10 +1,15 @@
 tree-100541 { //don't change this line 
- 	  
-    --indent-guide-color: var(--sl-color-neutral-200);
+:host {
+    /*
+     * These are actually used by tree item, but we define them here so they can more easily be set and all tree items
+     * stay consistent.
+     */
+    --indent-guide-color: @grey-color-light;
     --indent-guide-offset: 0;
     --indent-guide-style: solid;
     --indent-guide-width: 0;
-    --indent-size: var(--sl-spacing-large);
+    --indent-size: @space-40;
+
     display: block;
     isolation: isolate;
 
@@ -13,6 +18,6 @@ tree-100541 { //don't change this line
      * here removes the indentation for all the nodes on the first level.
      */
     font-size: 0;
-  
+  }
 }
 
