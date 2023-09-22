@@ -183,7 +183,7 @@ function getPropTypeTag(fieldType: mls.l2.enhancement.IProperties): string {
     const { propertyType } = fieldType;
     if (!propertyType) return defaultType;
     const valueFormated = propertyType.toLowerCase().trim();
-    if (['string', 'number', 'boolean', 'list'].includes(valueFormated)) return valueFormated;
+    if (['string', 'number', 'boolean', 'list', 'json'].includes(valueFormated)) return valueFormated;
     return defaultType;
 }
 
