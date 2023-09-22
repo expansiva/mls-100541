@@ -5,7 +5,8 @@ import { getPropierties } from './_100541_propiertiesLit'
 import { getComponentDependencies } from './_100541_dependenciesLit'
 import { validateTagName, validateRender } from './_100541_validateLit'
 import { setCodeLens } from './_100541_codeLensLit'
-
+import { injectStyle } from './_100541_processCssLit'
+        
 export const description = "Use this enhancement for model using lit - a simple and fast web component.\nRef: https://lit.dev/"
 
 
@@ -87,12 +88,12 @@ export const prepareAdd = (prompt: string): { sourceTS: string, aiHeader: string
     return ret;
 }
 
-export const onAfterChange = (mfile: mls.l2.editor.IMFile): string => {
+export const onAfterChange = async (mfile: mls.l2.editor.IMFile): Promise<void> => {
     try {
         validateTagName(mfile);
         validateRender(mfile)
         setCodeLens(mfile);
-        return '';
+        await injectStyle(mfile, 0);
     } catch (e) {
         return e.message;
     }
