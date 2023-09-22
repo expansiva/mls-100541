@@ -6,15 +6,16 @@
  * @mlsComponentDetails {"webComponentDependencies": ["checkbox-100541", "icon-100541"]}
  */
 
-import { html, classMap, live, when, LitElement, PropertyValues } from 'lit';
+import { html, classMap, live, when, PropertyValueMap, css } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { watch } from './_100541_internalWatch';
 import { animateTo, shimKeyframesHeightAuto, stopAnimations } from './_100541_internalAnimate';
 import { getAnimation, setDefaultAnimation } from './_100541_internalAnimationRegistry';
 import { LocalizeController } from './_100541_internalLocalize';
+import ShoaleceElement from './_100541_internalShoelaceElement';
 
 @customElement('tree-item-100541')
-export class TreeItem extends LitElement {
+export class TreeItem extends ShoaleceElement {
 
     static isTreeItem(node: Node) {
         return node instanceof Element && node.getAttribute('role') === 'treeitem';
@@ -22,13 +23,12 @@ export class TreeItem extends LitElement {
 
     private readonly localize = new LocalizeController(this);
 
+    static styles = css`[[mls_getDefaultDesignSystem]]`;
+
     @state() indeterminate = false;
     @state() isLeaf = false;
     @state() loading = false;
     @state() selectable = false;
-
-    /** text */
-    @property({ type: String, reflect: true }) text = '';
 
     /** Expands the tree item. */
     @property({ type: Boolean, reflect: true }) expanded = false;
@@ -68,6 +68,7 @@ export class TreeItem extends LitElement {
     }
 
     private async animateCollapse() {
+        this.emit('sl-collapse' as any);
 
         await stopAnimations(this.childrenContainer);
 
@@ -79,6 +80,7 @@ export class TreeItem extends LitElement {
         );
         this.childrenContainer.hidden = true;
 
+        this.emit('sl-after-collapse' as any);
     }
 
     // Checks whether the item is nested into an item
@@ -92,13 +94,15 @@ export class TreeItem extends LitElement {
         this.isLeaf = !this.lazy && this.getChildrenItems().length === 0;
     }
 
-    protected willUpdate(changedProperties: PropertyValues<TreeItem> | Map<PropertyKey, unknown>) {
+    protected willUpdate(changedProperties: PropertyValueMap<TreeItem> | Map<PropertyKey, unknown>) {
         if (changedProperties.has('selected') && !changedProperties.has('indeterminate')) {
             this.indeterminate = false;
         }
     }
 
     private async animateExpand() {
+        this.emit('sl-expand' as any);
+
         await stopAnimations(this.childrenContainer);
         this.childrenContainer.hidden = false;
 
@@ -109,6 +113,8 @@ export class TreeItem extends LitElement {
             options
         );
         this.childrenContainer.style.height = 'auto';
+
+        this.emit('sl-after-expand' as any);
     }
 
     @watch('loading', { waitUntilFirstUpdate: true })
@@ -144,12 +150,19 @@ export class TreeItem extends LitElement {
         if (this.expanded) {
             if (this.lazy) {
                 this.loading = true;
+
+                this.emit('sl-lazy-load' as any);
             } else {
                 this.animateExpand();
             }
         } else {
             this.animateCollapse();
         }
+    }
+
+    @watch('lazy', { waitUntilFirstUpdate: true })
+    handleLazyChange() {
+        this.emit('sl-lazy-change' as any);
     }
 
     /** Gets all the nested tree items in this node. */
@@ -159,10 +172,6 @@ export class TreeItem extends LitElement {
                 (item: any) => TreeItem.isTreeItem(item) && (includeDisabled || !item.disabled)
             ) as TreeItem[])
             : [];
-    }
-
-    createRenderRoot() {
-        return this;
     }
 
     render() {
@@ -235,9 +244,7 @@ export class TreeItem extends LitElement {
               `
         )}
 
-          <slot class="tree-item__label" part="label">
-            <label>${this.text}</label>
-          </slot>
+          <slot class="tree-item__label" part="label"></slot>
         </div>
 
         <div class="tree-item__children" part="children" role="group">
