@@ -5,7 +5,7 @@ import { getPropierties } from './_100541_propiertiesLit'
 import { getComponentDependencies } from './_100541_dependenciesLit'
 import { validateTagName, validateRender } from './_100541_validateLit'
 import { setCodeLens } from './_100541_codeLensLit'
-import { injectStyle } from './_100541_processCssLit'
+import { injectStyle } from './_100541_processCssLit' 
         
 export const description = "Use this enhancement for model using lit - a simple and fast web component.\nRef: https://lit.dev/"
 
@@ -102,7 +102,7 @@ export const onAfterChange = async (mfile: mls.l2.editor.IMFile): Promise<void> 
 
 export const getPromptDefault = (): string => {
     return `
-    Propriedade: O componente aceitar· uma propriedade 'name'.
+    Propriedade: O componente aceitar√° uma propriedade 'name'.
 
-    Funcionalidade: O componente web exibir· um cabeÁalho h1 estilizado em azul. O conte˙do do cabeÁalho ser· uma mensagem de saudaÁ„o que lÍ 'Ol·,' seguido pelo valor da propriedade 'name'. Por exemplo, se a propriedade 'name' estiver definida como 'Jo„o', a mensagem exibida ser· 'Ol·, Jo„o!'.`;
+    Funcionalidade: O componente web exibir√° um cabe√ßalho h1 estilizado em azul. O conte√∫do do cabe√ßalho ser√° uma mensagem de sauda√ß√£o que l√™ 'Ol√°,' seguido pelo valor da propriedade 'name'. Por exemplo, se a propriedade 'name' estiver definida como 'Jo√£o', a mensagem exibida ser√° 'Ol√°, Jo√£o!'.`;
 }
