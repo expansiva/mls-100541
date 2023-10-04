@@ -1,7 +1,7 @@
 /// <mls shortName="processCssLit" project="100541" enhancement="_blank" />			
 import { convertFileNameToTag } from './_100541_utilsLit'
 
-const MLS_GETDEFAULTDESIGNSYSTEM = '[[mls_getDefaultDesignSystem]]';
+export const MLS_GETDEFAULTDESIGNSYSTEM = '[[mls_getDefaultDesignSystem]]';
 export async function injectStyle(model: mls.l2.editor.IMFile, dsIndex: number): Promise<void> {
     const js = model.compilerResults?.prodJS;
     if (js && js.indexOf(MLS_GETDEFAULTDESIGNSYSTEM) === -1) return;
