@@ -53,7 +53,7 @@ export const requires: mls.l2.editor.IRequire[] = [
 ];
 
 
-const preparePreviewHtml = (model: mls.l2.editor.IMFile): string => {
+const getDefaultHtmlExamplePreview = (model: mls.l2.editor.IMFile): string => {
     const tag = convertFileNameToTag(`_${model.storFile.project}_${model.storFile.shortName}`);
     return `<${tag}></${tag}>`;
 }
@@ -62,7 +62,7 @@ export const getDesignDetails = (model: mls.l2.editor.IMFile): Promise<mls.l2.en
     return new Promise<mls.l2.enhancement.IDesignDetailsReturn>((resolve, reject) => {
         try {
             const ret = {} as mls.l2.enhancement.IDesignDetailsReturn;
-            ret.defaultHtmlExamplePreview = preparePreviewHtml(model);
+            ret.defaultHtmlExamplePreview = getDefaultHtmlExamplePreview(model);
             ret.properties = getPropierties(model);
             ret.webComponentDependencies = getComponentDependencies(model);
             ret['servicePreviewDefault'] = '_100532_service_preview';
@@ -112,9 +112,7 @@ export const publishJs = async (mfile: mls.l2.editor.IMFile): Promise<void> => {
 
     /*if (MLS_GETDEFAULTDESIGNSYSTEM && mfile.compilerResults.prodJS.indexOf(MLS_GETDEFAULTDESIGNSYSTEM) <= -1) return;*/
 
-    console.info('entrou2:' + mfile.shortName);
-
-    await onAfterChange(mfile);
+    await injectStyle(mfile, 0);
     mfile.compilerResults['cacheVersion'] += 'css';
     await mls.stor.cache['AddMfileIfNeed'](mfile);
 
