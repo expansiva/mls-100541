@@ -108,13 +108,13 @@ export const getPromptDefault = (): string => {
     Funcionalidade: O componente web exibirá um cabeçalho h1 estilizado em azul. O conteúdo do cabeçalho será uma mensagem de saudação que lê 'Olá,' seguido pelo valor da propriedade 'name'. Por exemplo, se a propriedade 'name' estiver definida como 'João', a mensagem exibida será 'Olá, João!'.`;
 }
 
-export const publishJs = async (mfile: mls.l2.editor.IMFile): Promise<void> => {
+export const onAfterCompile = async (mfile: mls.l2.editor.IMFile): Promise<void> => {
 
     /*if (MLS_GETDEFAULTDESIGNSYSTEM && mfile.compilerResults.prodJS.indexOf(MLS_GETDEFAULTDESIGNSYSTEM) <= -1) return;*/
 
     await injectStyle(mfile, 0);
-    mfile.compilerResults['cacheVersion'] += 'css';
-    await mls.stor.cache['AddMfileIfNeed'](mfile);
+    //mfile.compilerResults['cacheVersion'] += 'css';
+    //await mls.stor.cache['AddMfileIfNeed'](mfile);
 
     return;
 
