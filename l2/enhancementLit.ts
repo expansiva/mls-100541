@@ -95,7 +95,7 @@ export const onAfterChange = async (mfile: mls.l2.editor.IMFile): Promise<void> 
         validateTagName(mfile);
         validateRender(mfile)
         setCodeLens(mfile);
-        await injectStyle(mfile, 0);
+        // await injectStyle(mfile, 0);
     } catch (e) {
         return e.message;
     }
