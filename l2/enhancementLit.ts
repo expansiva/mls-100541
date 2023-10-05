@@ -110,12 +110,7 @@ export const getPromptDefault = (): string => {
 
 export const onAfterCompile = async (mfile: mls.l2.editor.IMFile): Promise<void> => {
 
-    /*if (MLS_GETDEFAULTDESIGNSYSTEM && mfile.compilerResults.prodJS.indexOf(MLS_GETDEFAULTDESIGNSYSTEM) <= -1) return;*/
-
     await injectStyle(mfile, 0);
-    //mfile.compilerResults['cacheVersion'] += 'css';
-    //await mls.stor.cache['AddMfileIfNeed'](mfile);
-
     return;
 
 }
