@@ -1,6 +1,6 @@
 /// <mls shortName="serviceTeste" project="100541" enhancement="_blank" />
 
-export class ServiceTeste {
+class ServiceTeste {
 
     private _div1: HTMLDivElement;
 
@@ -30,15 +30,17 @@ export class ServiceTeste {
     // eslint-disable-next-line
     public static details = {
         icon: '&#xf15b',
-		name: 'Teste'
+        name: 'Teste',
+        mode: 'A',
+        position: 'all',
+        readOnly: false,
+        tooltip: 'Teste',
+        visible: 'A',
+        className: '', 
+        tags: [] as any   
     }
 
-    public onReenter(): boolean {
-
-        return false; // close this service on change file
-
-    }
-
+    
     public onSelectedChange(): void {
         // l4 selectedNode changed
         // only on active service
