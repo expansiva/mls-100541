@@ -39,6 +39,11 @@ export const requires: mls.l2.editor.IRequire[] = [
         ref: "file://server/_100541_litDecorators.ts"
     },
     {
+        type: 'tspath',
+        name: 'mobx',
+        ref: "file:///server/mobx.d.ts"
+    },
+    {
         type: "cdn",
         name: "lit",
         ref: "https://cdn.jsdelivr.net/gh/lit/dist@2.7.5/all/lit-all.min.js",
@@ -103,9 +108,9 @@ export const onAfterChange = async (mfile: mls.l2.editor.IMFile): Promise<void> 
 
 export const getPromptDefault = (): string => {
     return `
-    Propriedade: O componente aceitar√° uma propriedade 'name'.
+    Propriedade: O componente aceitar· uma propriedade 'name'.
 
-    Funcionalidade: O componente web exibir√° um cabe√ßalho h1 estilizado em azul. O conte√∫do do cabe√ßalho ser√° uma mensagem de sauda√ß√£o que l√™ 'Ol√°,' seguido pelo valor da propriedade 'name'. Por exemplo, se a propriedade 'name' estiver definida como 'Jo√£o', a mensagem exibida ser√° 'Ol√°, Jo√£o!'.`;
+    Funcionalidade: O componente web exibir· um cabeÁalho h1 estilizado em azul. O conte˙do do cabeÁalho ser· uma mensagem de saudaÁ„o que lÍ 'Ol·,' seguido pelo valor da propriedade 'name'. Por exemplo, se a propriedade 'name' estiver definida como 'Jo„o', a mensagem exibida ser· 'Ol·, Jo„o!'.`;
 }
 
 export const onAfterCompile = async (mfile: mls.l2.editor.IMFile): Promise<void> => {
