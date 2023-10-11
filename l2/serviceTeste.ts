@@ -18,7 +18,7 @@ export class ServiceTeste extends LitElement {
 
     // eslint-disable-next-line
     public static details = {
-        icon: '&#xf15b',//'&#xf142',
+        icon: '&#xf142',//'&#xf142', '&#xf15b'
         name: 'Teste',
         mode: 'A',
         position: 'all',
