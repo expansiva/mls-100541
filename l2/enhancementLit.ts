@@ -41,7 +41,7 @@ export const requires: mls.l2.editor.IRequire[] = [
     {
         type: 'tspath',
         name: 'mobx',
-        ref: "file://server/mobx.d.ts"
+        ref: "file://server/mobx.ts"
     },
     {
         type: "cdn",
