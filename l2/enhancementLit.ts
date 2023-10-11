@@ -40,7 +40,7 @@ export const requires: mls.l2.editor.IRequire[] = [
     },
     {
         type: 'tspath',
-        name: 'mobx',
+        name: 'mobx2',
         ref: "file://server/mobx.ts"
     },
     {
