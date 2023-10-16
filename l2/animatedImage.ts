@@ -21,25 +21,26 @@ import { customElement, property, query, state } from 'lit/decorators.js';
 
 @customElement('animated-image-100541')
 export class AnimatedImage extends LitElement {
-    @query('.animated-image__animated') animatedImage: HTMLImageElement;
+    @query('.animated-image__animated') animatedImage: HTMLImageElement | undefined;
 
-    @state() frozenFrame: string;
+    @state() frozenFrame: string | undefined;
     @state() isLoaded = false;
 
     /** The path to the image to load. */
-    @property() src: string;
+    @property() src: string | undefined;
 
     /** A description of the image used by assistive devices. */
-    @property() alt: string;
+    @property() alt: string | undefined;
 
     /** Plays the animation. When this attribute is remove, the animation will pause. */
-    @property({ type: Boolean, reflect: true }) play: boolean;
+    @property({ type: Boolean, reflect: true }) play: boolean | undefined;
 
     private handleClick() {
         this.play = !this.play;
     }
 
-    private handleLoad() {
+  private handleLoad() {
+    if (!this.animatedImage) return;
         const canvas = document.createElement('canvas');
         const { width, height } = this.animatedImage;
         canvas.width = width;
