@@ -39,11 +39,6 @@ export const requires: mls.l2.editor.IRequire[] = [
         ref: "file://server/_100541_litDecorators.ts"
     },
     {
-        type: 'tspath',
-        name: 'mobx2',
-        ref: "file://server/mobx.ts"
-    },
-    {
         type: "cdn",
         name: "lit",
         ref: "https://cdn.jsdelivr.net/gh/lit/dist@2.7.5/all/lit-all.min.js",
@@ -101,8 +96,8 @@ export const onAfterChange = async (mfile: mls.l2.editor.IMFile): Promise<void> 
         validateRender(mfile)
         setCodeLens(mfile);
         // await injectStyle(mfile, 0);
-    } catch (e) {
-        return e.message;
+    } catch (e: any) {
+        return e.message || e;
     }
 };
 
