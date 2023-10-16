@@ -25,11 +25,11 @@ export class Drawer extends ShoaleceElement {
 
     private readonly localize = new LocalizeController(this);
     private modal = new Modal(this);
-    private originalTrigger: HTMLElement | null;
+    private originalTrigger: HTMLElement | null | undefined;
 
-    @query('.drawer') drawer: HTMLElement;
-    @query('.drawer__panel') panel: HTMLElement;
-    @query('.drawer__overlay') overlay: HTMLElement;
+    @query('.drawer') drawer: HTMLElement | undefined;
+    @query('.drawer__panel') panel: HTMLElement | undefined;
+    @query('.drawer__overlay') overlay: HTMLElement | undefined;
 
     /** A text content */
     @property({ reflect: true }) content = '';
@@ -67,6 +67,7 @@ export class Drawer extends ShoaleceElement {
     @property({ attribute: 'no-header', type: Boolean, reflect: true }) noHeader = false;
 
     firstUpdated() {
+        if(!this.drawer) return
         this.drawer.hidden = !this.open;
 
         if (this.open) {
@@ -85,6 +86,8 @@ export class Drawer extends ShoaleceElement {
     }
 
     private requestClose(source: 'close-button' | 'keyboard' | 'overlay') {
+
+        if(!this.panel) return
         const slRequestClose = this.emit('sl-request-close' as any, {
             cancelable: true,
             detail: { source }
@@ -121,6 +124,8 @@ export class Drawer extends ShoaleceElement {
 
     @watch('open', { waitUntilFirstUpdate: true })
     async handleOpenChange() {
+
+        if(!this.drawer || !this.overlay) return
         if (this.open) {
             // Show
             this.emit('sl-show' as any);
@@ -151,6 +156,8 @@ export class Drawer extends ShoaleceElement {
             requestAnimationFrame(() => {
                 const slInitialFocus = this.emit('sl-initial-focus' as any, { cancelable: true });
 
+                if(!this.panel) return
+
                 if (!slInitialFocus.defaultPrevented) {
                     // Set focus to the autofocus target and restore the attribute
                     if (autoFocusTarget) {
@@ -169,6 +176,8 @@ export class Drawer extends ShoaleceElement {
             const panelAnimation = getAnimation(this, `drawer.show${uppercaseFirstLetter(this.placement)}`, {
                 dir: this.localize.dir()
             });
+
+            if(!this.panel) return
             const overlayAnimation = getAnimation(this, 'drawer.overlay.show', { dir: this.localize.dir() });
             await Promise.all([
                 animateTo(this.panel, panelAnimation.keyframes, panelAnimation.options),
@@ -191,15 +200,18 @@ export class Drawer extends ShoaleceElement {
                 dir: this.localize.dir()
             });
             const overlayAnimation = getAnimation(this, 'drawer.overlay.hide', { dir: this.localize.dir() });
-
+            
             // Animate the overlay and the panel at the same time. Because animation durations might be different, we need to
             // hide each one individually when the animation finishes, otherwise the first one that finishes will reappear
             // unexpectedly. We'll unhide them after all animations have completed.
+            if(!this.panel) return
             await Promise.all([
                 animateTo(this.overlay, overlayAnimation.keyframes, overlayAnimation.options).then(() => {
+                    if(!this.overlay) return
                     this.overlay.hidden = true;
                 }),
                 animateTo(this.panel, panelAnimation.keyframes, panelAnimation.options).then(() => {
+                    if(!this.panel) return
                     this.panel.hidden = true;
                 })
             ]);
@@ -213,7 +225,7 @@ export class Drawer extends ShoaleceElement {
             // Restore focus to the original trigger
             const trigger = this.originalTrigger;
             if (typeof trigger?.focus === 'function') {
-                setTimeout(() => trigger.focus());
+                setTimeout((() => trigger.focus() ) as any );
             }
 
             this.emit('sl-after-hide' as any);
