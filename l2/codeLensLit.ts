@@ -6,7 +6,7 @@ import type { IDecoratorDictionary, IDecoratorDetails } from './_100541_propiert
 export function setCodeLens(mfile: mls.l2.editor.IMFile) {
     clearCodeLens(mfile);
     const { model, compilerResults } = mfile;
-    const decorators = compilerResults?.decorators;
+    const { decorators } = compilerResults as any;
     if (mfile.shortName === 'enhancementLit' && mfile.project === 100541) return;
     setCodeLensDecoratorClass(model, decorators);
     setCodeLensMlsComponents(model);
@@ -23,8 +23,7 @@ function clearCodeLens(mfile: mls.l2.editor.IMFile) {
 
 }
 
-function setCodeLensDecoratorClass(model: monaco.editor.ITextModel, decorators: string | undefined) {
-    if (!decorators) return;
+function setCodeLensDecoratorClass(model: monaco.editor.ITextModel, decorators: string) {
     const objDecorators: IDecoratorDictionary = JSON.parse(decorators);
     Object.entries(objDecorators).forEach((entrie) => {
         const decoratorInfo: IDecoratorDetails = entrie[1];
