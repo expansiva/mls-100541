@@ -17,8 +17,8 @@ export class Range extends LitElement {
     private readonly formControlController = new FormControlController(this);
     private resizeObserver: any;
 
-    @query('.range__control') input: HTMLInputElement;
-    @query('.range__tooltip') output: HTMLOutputElement | null;
+    @query('.range__control') input: HTMLInputElement   | undefined;
+    @query('.range__tooltip') output: HTMLOutputElement | null   | undefined;
 
     @state() private hasFocus = false;
     @state() private hasTooltip = false;
@@ -73,11 +73,13 @@ export class Range extends LitElement {
 
     /** Gets the validity state object */
     get validity() {
+        if (!this.input) return;
         return this.input.validity;
     }
 
     /** Gets the validation message */
     get validationMessage() {
+        if (!this.input) return;
         return this.input.validationMessage;
     }
 
@@ -105,6 +107,7 @@ export class Range extends LitElement {
 
 
     private handleInput() {
+        if (!this.input) return;
         this.value = parseFloat(this.input.value);
         this.syncRange();
     }
@@ -129,10 +132,12 @@ export class Range extends LitElement {
     }
 
     private syncProgress(percent: number) {
+        if (!this.input) return;
         this.input.style.setProperty('--percent', `${percent * 100}%`);
     }
 
     private syncTooltip(percent: number) {
+        if (!this.input || !this.output) return;
         if (this.output !== null) {
             const inputWidth = this.input.offsetWidth;
             const tooltipWidth = this.output.offsetWidth;
@@ -156,7 +161,7 @@ export class Range extends LitElement {
     @watch('value', { waitUntilFirstUpdate: true })
     handleValueChange() {
         this.formControlController.updateValidity();
-
+        if (!this.input) return;
         // The value may have constraints, so we set the native control's value and sync it back to ensure it adhere's to
         // min, max, and step properly
         this.input.value = this.value.toString();
@@ -189,16 +194,19 @@ export class Range extends LitElement {
 
     /** Sets focus on the range. */
     focus(options?: FocusOptions) {
+        if (!this.input) return;
         this.input.focus(options);
     }
 
     /** Removes focus from the range. */
     blur() {
+        if (!this.input) return;
         this.input.blur();
     }
 
     /** Increments the value of the range by the value of the step attribute. */
     stepUp() {
+        if (!this.input) return;
         this.input.stepUp();
         if (this.value !== Number(this.input.value)) {
             this.value = Number(this.input.value);
@@ -207,6 +215,7 @@ export class Range extends LitElement {
 
     /** Decrements the value of the range by the value of the step attribute. */
     stepDown() {
+        if (!this.input) return;
         this.input.stepDown();
         if (this.value !== Number(this.input.value)) {
             this.value = Number(this.input.value);
@@ -215,6 +224,7 @@ export class Range extends LitElement {
 
     /** Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid. */
     checkValidity() {
+        if (!this.input) return;
         return this.input.checkValidity();
     }
 
@@ -225,11 +235,13 @@ export class Range extends LitElement {
 
     /** Checks for validity and shows the browser's validation message if the control is invalid. */
     reportValidity() {
+        if (!this.input) return;
         return this.input.reportValidity();
     }
 
     /** Sets a custom validation message. Pass an empty string to restore validity. */
     setCustomValidity(message: string) {
+        if (!this.input) return;
         this.input.setCustomValidity(message);
         this.formControlController.updateValidity();
     }
