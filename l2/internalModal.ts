@@ -7,7 +7,7 @@ let activeModals: HTMLElement[] = [];
 export class Modal {
   element: HTMLElement;
   tabDirection: 'forward' | 'backward' = 'forward';
-  currentFocus: HTMLElement | null;
+  currentFocus: HTMLElement | null | undefined;
 
   constructor(element: HTMLElement) {
     this.element = element;
@@ -91,7 +91,7 @@ export class Modal {
     this.currentFocus = tabbableElements[focusIndex];
     this.currentFocus?.focus({ preventScroll: true });
 
-    setTimeout(() => this.checkFocus());
+    setTimeout((() => this.checkFocus( )) as any);
   };
 
   private handleKeyUp = () => {
