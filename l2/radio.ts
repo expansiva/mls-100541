@@ -13,8 +13,8 @@ import ShoaleceElement from './_100541_internalShoelaceElement';
 
 @customElement('radio-100541')
 export class Radio extends ShoaleceElement {
-  @query('.button') input: HTMLInputElement;
-  @query('.hidden-input') hiddenInput: HTMLInputElement;
+  @query('.button') input: HTMLInputElement  | undefined;
+  @query('.hidden-input') hiddenInput: HTMLInputElement   | undefined;
 
   @state() protected hasFocus = false;
 
@@ -25,10 +25,10 @@ export class Radio extends ShoaleceElement {
   @property({ type: Boolean, reflect: true }) checked = false;
 
   /** The radio label.*/
-  @property({ reflect: true }) label: string;
+  @property({ reflect: true }) label: string  | undefined;
 
   /** The radio's value. When selected, the radio group will receive this value. */
-  @property() value: string;
+  @property() value: string  | undefined;
 
   /** Disables the radio button. */
   @property({ type: Boolean, reflect: true }) disabled = false;
