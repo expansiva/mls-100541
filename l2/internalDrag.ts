@@ -16,6 +16,7 @@ interface DragOptions {
 /** Begins listening for dragging. */
 export function drag(container: HTMLElement, options?: Partial<DragOptions>) {
   function move(pointerEvent: PointerEvent) {
+    if (!container || !container.ownerDocument) return;
     const dims = container.getBoundingClientRect();
     const defaultView = container.ownerDocument.defaultView!;
     const offsetX = dims.left + defaultView.pageXOffset;
