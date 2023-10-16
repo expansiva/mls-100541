@@ -42,11 +42,11 @@ export class TreeItem extends ShoaleceElement {
     /** Enables lazy loading behavior. */
     @property({ type: Boolean, reflect: true }) lazy = false;
 
-    @query('slot:not([name])') defaultSlot: HTMLSlotElement;
-    @query('slot[name=children]') childrenSlot: HTMLSlotElement;
-    @query('.tree-item__item') itemElement: HTMLDivElement;
-    @query('.tree-item__children') childrenContainer: HTMLDivElement;
-    @query('.tree-item__expand-button slot') expandButtonSlot: HTMLSlotElement;
+    @query('slot:not([name])') defaultSlot: HTMLSlotElement | undefined;
+    @query('slot[name=children]') childrenSlot: HTMLSlotElement| undefined;
+    @query('.tree-item__item') itemElement: HTMLDivElement| undefined;
+    @query('.tree-item__children') childrenContainer: HTMLDivElement| undefined;
+    @query('.tree-item__expand-button slot') expandButtonSlot: HTMLSlotElement| undefined;
 
     connectedCallback() {
         super.connectedCallback();
@@ -60,6 +60,7 @@ export class TreeItem extends ShoaleceElement {
     }
 
     firstUpdated() {
+        if (!this.childrenContainer) return;
         this.childrenContainer.hidden = !this.expanded;
         this.childrenContainer.style.height = this.expanded ? 'auto' : '0';
 
@@ -69,7 +70,7 @@ export class TreeItem extends ShoaleceElement {
 
     private async animateCollapse() {
         this.emit('sl-collapse' as any);
-
+        if (!this.childrenContainer) return;
         await stopAnimations(this.childrenContainer);
 
         const { keyframes, options } = getAnimation(this, 'tree-item.collapse', { dir: this.localize.dir() });
@@ -102,7 +103,7 @@ export class TreeItem extends ShoaleceElement {
 
     private async animateExpand() {
         this.emit('sl-expand' as any);
-
+        if (!this.childrenContainer) return;
         await stopAnimations(this.childrenContainer);
         this.childrenContainer.hidden = false;
 
