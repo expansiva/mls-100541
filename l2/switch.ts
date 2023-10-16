@@ -27,7 +27,7 @@ import { watch } from './_100541_internalWatch';
 @customElement('switch-100541')
 export class Switch extends LitElement {
 
-    @query('input[type="checkbox"]') input: HTMLInputElement;
+    @query('input[type="checkbox"]') input: HTMLInputElement | undefined;
 
     @state() private hasFocus = false;
     @property() title = ''; // make reactive to pass through
@@ -38,7 +38,7 @@ export class Switch extends LitElement {
     @property() name = '';
 
     /** The current value of the switch, submitted as a name/value pair with form data. */
-    @property() value: string;
+    @property() value: string  | undefined;
 
     /**
     *  The switch's size.
@@ -76,11 +76,13 @@ export class Switch extends LitElement {
 
     /** Gets the validity state object */
     get validity() {
+        if (!this.input) return;
         return this.input.validity;
     }
 
     /** Gets the validation message */
     get validationMessage() {
+        if (!this.input) return;
         return this.input.validationMessage;
     }
 
@@ -110,36 +112,43 @@ export class Switch extends LitElement {
 
     @watch('checked', { waitUntilFirstUpdate: true })
     handleCheckedChange() {
+        if (!this.input) return;
         this.input.checked = this.checked; // force a sync update
     }
 
     /** Simulates a click on the switch. */
     click() {
+        if (!this.input) return;
         this.input.click();
     }
 
     /** Sets focus on the switch. */
     focus(options?: FocusOptions) {
+        if (!this.input) return;
         this.input.focus(options);
     }
 
     /** Removes focus from the switch. */
     blur() {
+        if (!this.input) return;
         this.input.blur();
     }
 
     /** Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid. */
     checkValidity() {
+        if (!this.input) return;
         return this.input.checkValidity();
     }
 
     /** Checks for validity and shows the browser's validation message if the control is invalid. */
     reportValidity() {
+        if (!this.input) return;
         return this.input.reportValidity();
     }
 
     /** Sets a custom validation message. Pass an empty string to restore validity. */
     setCustomValidity(message: string) {
+        if (!this.input) return;
         this.input.setCustomValidity(message);
     }
 
