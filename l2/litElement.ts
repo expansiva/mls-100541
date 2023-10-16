@@ -63,9 +63,18 @@ export * from '_100541_litStyleMap';
 export * from '_100541_litDirectivesHelper';
 export * from '_100541_litWhen';
 
-export const repeat = (array:any[], func:Function = ()=>{} , func2:Function = ()=>{}) =>  {
-    console.info(array, func, func2);
-} 
+type RepeatFunction = () => void;
+export const repeat = (
+  array: unknown[], 
+  func: RepeatFunction = () => {}, 
+  func2: RepeatFunction = () => {}
+): void => {
+  console.info(array, func, func2);
+}
+
+// export const repeat = (array:any[], func:Function = () =>{} , func2:Function = () =>{}) =>  {
+//     console.info(array, func, func2);
+// } 
 /**
  * Contains types that are part of the unstable debug API.
  *
