@@ -3,7 +3,7 @@
 import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js'; 
 
-@customElement('star-rating-100541')
+@customElement('star-rating-100541') 
 export class StarRating100541 extends LitElement {
 
   @property({ type: String, reflect: true })
@@ -17,6 +17,7 @@ export class StarRating100541 extends LitElement {
   get legend(){
     try{
       const atr = this.getAttribute('legend');
+      if (!atr) return [];
       return JSON.parse(atr);
 
     }catch{
