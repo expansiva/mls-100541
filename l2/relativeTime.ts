@@ -34,7 +34,7 @@ const availableUnits: UnitConfig[] = [
 @customElement('relative-time-100541')
 export class RelativeTime extends ShoaleceElement {
     private readonly localize = new LocalizeController(this);
-    private updateTimeout: number;
+    private updateTimeout: number | undefined;
 
     @state() private isoTime = '';
     @state() private relativeTime = '';
@@ -119,7 +119,7 @@ export class RelativeTime extends ShoaleceElement {
                 nextInterval = getTimeUntilNextUnit('day'); // next day
             }
 
-            this.updateTimeout = window.setTimeout(() => this.requestUpdate(), nextInterval);
+            this.updateTimeout = window.setTimeout((() => this.requestUpdate()) as any, nextInterval);
         }
 
         return html` <time datetime=${this.isoTime} title=${this.titleTime}>${this.relativeTime}</time> `;
