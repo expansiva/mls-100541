@@ -11,7 +11,7 @@ import { customElement, property, query, state } from 'lit/decorators.js';
 @customElement('checkbox-100541')
 export default class LitCheckbox extends LitElement {
 
-  @query('input[type="checkbox"]') input: HTMLInputElement;
+  @query('input[type="checkbox"]') input: HTMLInputElement | undefined;
 
   @state() private hasFocus = false;
 
@@ -28,7 +28,7 @@ export default class LitCheckbox extends LitElement {
   @property() name = '';
 
   /** The current value of the checkbox, submitted as a name/value pair with form data. */
-  @property() value: string;
+  @property() value: string  | undefined;
 
   /**
   * The checkbox's size.
@@ -74,11 +74,13 @@ export default class LitCheckbox extends LitElement {
 
   /** Gets the validity state object */
   get validity() {
+    if (!this.input) return;
     return this.input.validity;
   }
 
   /** Gets the validation message */
   get validationMessage() {
+    if (!this.input) return;
     return this.input.validationMessage;
   }
 
@@ -97,32 +99,38 @@ export default class LitCheckbox extends LitElement {
 
 
   handleStateChange() {
+    if (!this.input) return;
     this.input.checked = this.checked; // force a sync update
     this.input.indeterminate = this.indeterminate; // force a sync update
   }
 
   /** Simulates a click on the checkbox. */
   click() {
+    if (!this.input) return;
     this.input.click();
   }
 
   /** Sets focus on the checkbox. */
   focus(options?: FocusOptions) {
+    if (!this.input) return;
     this.input.focus(options);
   }
 
   /** Removes focus from the checkbox. */
   blur() {
+    if (!this.input) return;
     this.input.blur();
   }
 
   /** Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid. */
   checkValidity() {
+    if (!this.input) return;
     return this.input.checkValidity();
   }
 
   /** Checks for validity and shows the browser's validation message if the control is invalid. */
   reportValidity() {
+    if (!this.input) return;
     return this.input.reportValidity();
   }
 
@@ -131,6 +139,7 @@ export default class LitCheckbox extends LitElement {
    * the custom validation message, call this method with an empty string.
    */
   setCustomValidity(message: string) {
+    if (!this.input) return;
     this.input.setCustomValidity(message);
   }
 
