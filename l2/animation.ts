@@ -27,7 +27,7 @@ export class Animations extends LitElement {
     private animation?: Animation;
     private hasStarted = false;
 
-    @queryAsync('slot') defaultSlot: Promise<HTMLSlotElement>;
+    @queryAsync('slot') defaultSlot: Promise<HTMLSlotElement> | undefined;
 
     /**
     * The name of the built-in animation to use. For custom animations, use the `keyframes` prop.
@@ -109,7 +109,7 @@ export class Animations extends LitElement {
                     }
                 });
 
-                update.call(this, changedProps);
+                (update as any).call(this, changedProps);
             };
         };
     }
@@ -154,7 +154,7 @@ export class Animations extends LitElement {
         const easing = animations.easings[this.easing] ?? this.easing;
         const keyframes = this.keyframes ?? (animations as unknown as Partial<Record<string, Keyframe[]>>)[this.name];
         const slot = await this.defaultSlot;
-        const element = slot.assignedElements()[0] as HTMLElement | undefined;
+        const element = slot?.assignedElements()[0] as HTMLElement | undefined;
 
         if (!element || !keyframes) {
             return false;
