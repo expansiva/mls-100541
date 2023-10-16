@@ -30,30 +30,30 @@ export class FormatNumber extends LitElement {
     /** How to display the currency. 
      * @fieldType { "propertyType":"list", "defaultValue":"symbol", "items": ["symbol","narrowSymbol", "code", "name"] }
     */
-    @property({ attribute: 'currency-display' }) currencyDisplay: 'symbol' | 'narrowSymbol' | 'code' | 'name' = 'symbol';
+    @property({ attribute: 'currency-display' }) currencyDisplay: 'symbol' | 'narrowSymbol' | 'code' | 'name'  | undefined= 'symbol';
 
     /** The minimum number of integer digits to use. Possible values are 1-21. 
      * @fieldType { "min": "1", "max": "21" }
     */
-    @property({ attribute: 'minimum-integer-digits', type: Number }) minimumIntegerDigits: number;
+    @property({ attribute: 'minimum-integer-digits', type: Number }) minimumIntegerDigits: number | undefined;
 
     /** The minimum number of fraction digits to use. Possible values are 0-20. 
      * @fieldType { "min": "0", "max": "20" }
     */
-    @property({ attribute: 'minimum-fraction-digits', type: Number }) minimumFractionDigits: number;
+    @property({ attribute: 'minimum-fraction-digits', type: Number }) minimumFractionDigits: number | undefined;
 
     /** The maximum number of fraction digits to use. Possible values are 0-0. */
-    @property({ attribute: 'maximum-fraction-digits', type: Number }) maximumFractionDigits: number;
+    @property({ attribute: 'maximum-fraction-digits', type: Number }) maximumFractionDigits: number | undefined;
 
     /** The minimum number of significant digits to use. Possible values are 1-21. 
      * @fieldType { "min": "1", "max": "21" }
     */
-    @property({ attribute: 'minimum-significant-digits', type: Number }) minimumSignificantDigits: number;
+    @property({ attribute: 'minimum-significant-digits', type: Number }) minimumSignificantDigits: number | undefined;
 
     /** The maximum number of significant digits to use,. Possible values are 1-21. 
      * @fieldType { "min": "1", "max": "21" }
     */
-    @property({ attribute: 'maximum-significant-digits', type: Number }) maximumSignificantDigits: number;
+    @property({ attribute: 'maximum-significant-digits', type: Number }) maximumSignificantDigits: number | undefined;
 
     render() {
         if (isNaN(this.value)) {
