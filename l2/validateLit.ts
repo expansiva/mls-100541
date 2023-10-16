@@ -37,10 +37,10 @@ export function validateRender(mfile: mls.l2.editor.IMFile) {
     verify(mfile.model, shortName, mfile)
 }
 
-function getDecoratorClassInfo(decoratorString: string): IDecoratorClassInfo {
+function getDecoratorClassInfo(decoratorString: string): IDecoratorClassInfo | undefined {
     const regex = /(\w+)\(['"](.+?)['"]\)/;
     const match = decoratorString.match(regex);
-    let result: IDecoratorClassInfo;
+    let result: IDecoratorClassInfo | undefined = undefined;
     if (match && match.length > 2) {
         const decoratorName = match[1];
         const tagName = match[2];
