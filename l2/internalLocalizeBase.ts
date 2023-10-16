@@ -22,12 +22,12 @@ export interface ExistsOptions {
 const connectedElements = new Set<HTMLElement>();
 const documentElementObserver = new MutationObserver(update);
 const translations: Map<string, Translation> = new Map();
-let documentDirection = document.documentElement.dir || 'ltr';
-let documentLanguage = document.documentElement.lang || navigator.language;
+let documentDirection = document?.documentElement?.dir || 'ltr';
+let documentLanguage = document?.documentElement?.lang || navigator.language;
 let fallback: Translation;
 
 // Watch for changes on <html lang>
-documentElementObserver.observe(document.documentElement, {
+documentElementObserver.observe((document.documentElement as any), {
   attributes: true,
   attributeFilter: ['dir', 'lang']
 });
@@ -55,8 +55,8 @@ export function registerTranslation(...translation: Translation[]) {
 
 /** Updates all localized elements that are currently connected */
 export function update() {
-  documentDirection = document.documentElement.dir || 'ltr';
-  documentLanguage = document.documentElement.lang || navigator.language;
+  documentDirection = document?.documentElement?.dir || 'ltr';
+  documentLanguage = document?.documentElement?.lang || navigator.language;
 
   [...connectedElements.keys()].map((el: any) => {
     if (typeof el.requestUpdate === 'function') {
