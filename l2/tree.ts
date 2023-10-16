@@ -59,9 +59,9 @@ export class Tree extends ShoaleceElement {
 
     static styles = css`[[mls_getDefaultDesignSystem]]`;
 
-    @query('slot:not([name])') defaultSlot: HTMLSlotElement;
-    @query('slot[name=expand-icon]') expandedIconSlot: HTMLSlotElement;
-    @query('slot[name=collapse-icon]') collapsedIconSlot: HTMLSlotElement;
+    @query('slot:not([name])') defaultSlot: HTMLSlotElement  | undefined;
+    @query('slot[name=expand-icon]') expandedIconSlot: HTMLSlotElement | undefined;
+    @query('slot[name=collapse-icon]') collapsedIconSlot: HTMLSlotElement | undefined;
 
     /**
      * The selection behavior of the tree. Single selection allows only one node to be selected at a time. Multiple
@@ -73,9 +73,9 @@ export class Tree extends ShoaleceElement {
     // A collection of all the items in the tree, in the order they appear. The collection is live, meaning it is
     // automatically updated when the underlying document is changed.
     //
-    private lastFocusedItem: TreeItem | null;
+    private lastFocusedItem: TreeItem | null | undefined;
     private readonly localize = new LocalizeController(this);
-    private mutationObserver: MutationObserver;
+    private mutationObserver: MutationObserver | undefined;
     private clickTarget: TreeItem | null = null;
 
     constructor() {
@@ -99,14 +99,15 @@ export class Tree extends ShoaleceElement {
 
     disconnectedCallback() {
         super.disconnectedCallback();
-
+        if (!this.mutationObserver) return;
         this.mutationObserver.disconnect();
     }
 
     // Generates a clone of the expand icon element to use for each tree item
     private getExpandButtonIcon(status: 'expand' | 'collapse') {
         const slot = status === 'expand' ? this.expandedIconSlot : this.collapsedIconSlot;
-        const icon = slot.assignedElements({ flatten: true })[0] as HTMLElement;
+        if (!this.slot) return;
+        const icon = slot?.assignedElements({ flatten: true })[0] as HTMLElement;
 
         // Clone it, remove ids, and slot it
         if (icon) {
@@ -220,6 +221,7 @@ export class Tree extends ShoaleceElement {
                 this.focusItem(item);
             };
             const toggleExpand = (expanded: boolean) => {
+                if (!activeItem) return;
                 activeItem.expanded = expanded;
             };
 
@@ -259,6 +261,7 @@ export class Tree extends ShoaleceElement {
                 focusItemAt(items.length - 1);
             } else if (event.key === 'Enter' || event.key === ' ') {
                 // Selects the focused node.
+                if (!activeItem) return;
                 if (!activeItem.disabled) {
                     this.selectItem(activeItem);
                 }
