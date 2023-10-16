@@ -29,7 +29,7 @@ function getDefaultPropierties(): mls.l2.enhancement.IProperties[] {
 }
 
 function getPropiertiesByDecorators(model: mls.l2.editor.IMFile): mls.l2.enhancement.IProperties[] {
-    const { decorators } = model.compilerResults;
+    const decorators = model.compilerResults?.decorators;
     if (!decorators) return [];
     const rc: mls.l2.enhancement.IProperties[] = [];
     const objDecorators: IDecoratorDictionary = JSON.parse(decorators);
@@ -54,7 +54,7 @@ function getPropiertiesByDecorators(model: mls.l2.editor.IMFile): mls.l2.enhance
 }
 
 function getMoreInfoInJsDoc(model: mls.l2.editor.IMFile, propierties: mls.l2.enhancement.IProperties[]): mls.l2.enhancement.IProperties[] {
-    const { devDoc } = model.compilerResults;
+    const devDoc = model.compilerResults?.devDoc;
 
     if (!devDoc) return propierties;
     const objDocs: IJSDoc[] = JSON.parse(devDoc);
@@ -127,7 +127,7 @@ function getItensByType(initializerType: string) {
     return [];
 }
 
-function getPropType(propertyString: string): string {
+function getPropType(propertyString: string): string | undefined {
     const typeRegex = /type:\s*([A-Za-z]+)/;
     const match = propertyString.match(typeRegex);
     if (match && match.length > 1) {
@@ -137,7 +137,7 @@ function getPropType(propertyString: string): string {
     return undefined;
 }
 
-function getPropAttribute(propertyString: string): string {
+function getPropAttribute(propertyString: string): string | undefined {
     const typeRegex = /attribute:\s*['"]([^'"]+)['"]/;
     const match = propertyString.match(typeRegex);
     if (match && match.length > 1) {
@@ -156,7 +156,7 @@ function isDecoratorProp(modifiers: string[]): boolean {
     return false;
 }
 
-function getFieldTypeInfo(tags: ITag[]): mls.l2.enhancement.IProperties {
+function getFieldTypeInfo(tags: ITag[]): mls.l2.enhancement.IProperties | undefined{
     const tag = tags.find((item) => item.tagName === 'fieldType');
     if (!tag) return undefined;
     try {
@@ -167,7 +167,7 @@ function getFieldTypeInfo(tags: ITag[]): mls.l2.enhancement.IProperties {
     }
 }
 
-function getSectionsTag(fieldType: mls.l2.enhancement.IProperties): mls.l2.enhancement.ISectionName {
+function getSectionsTag(fieldType: mls.l2.enhancement.IProperties | undefined): mls.l2.enhancement.ISectionName {
     const defaultSection = 'principal'
     if (!fieldType) return defaultSection;
     const { sectionName } = fieldType;
@@ -177,7 +177,7 @@ function getSectionsTag(fieldType: mls.l2.enhancement.IProperties): mls.l2.enhan
     return defaultSection;
 }
 
-function getPropTypeTag(fieldType: mls.l2.enhancement.IProperties): string {
+function getPropTypeTag(fieldType: mls.l2.enhancement.IProperties | undefined): string {
     const defaultType = 'string'
     if (!fieldType) return defaultType;
     const { propertyType } = fieldType;
