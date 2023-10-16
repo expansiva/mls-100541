@@ -5,7 +5,7 @@ import type { IJSDoc} from './_100541_propiertiesLit';
 
 export function getComponentDependencies(model: mls.l2.editor.IMFile): string[] {
 
-    const devDoc = model.compilerResults?.devDoc;
+    const { devDoc } = model.compilerResults as any;
     if (!devDoc) return [];
     const objDocs: IJSDoc[] = JSON.parse(devDoc);
     const tagsInfoString = getJsDocInfoTags(objDocs);
