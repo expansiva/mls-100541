@@ -12,7 +12,7 @@ import { customElement, property, query, state } from 'lit/decorators.js';
 @customElement('icon-button-100541')
 export class IconButton extends LitElement {
 
-  @query('.icon-button') button: HTMLButtonElement | HTMLLinkElement;
+  @query('.icon-button') button: HTMLButtonElement | HTMLLinkElement | undefined;
 
   @state() private hasFocus = false;
 
@@ -64,16 +64,19 @@ export class IconButton extends LitElement {
 
   /** Simulates a click on the icon button. */
   click() {
+    if (!this.button) return;
     this.button.click();
   }
 
   /** Sets focus on the icon button. */
   focus(options?: FocusOptions) {
+    if (!this.button) return;
     this.button.focus(options);
   }
 
   /** Removes focus from the icon button. */
   blur() {
+    if (!this.button) return;
     this.button.blur();
   }
 
