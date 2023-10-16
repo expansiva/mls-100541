@@ -20,12 +20,12 @@ export class Details extends ShoaleceElement {
 
     private readonly localize = new LocalizeController(this);
 
-    @query('.details') details: HTMLDetailsElement;
-    @query('.details__header') header: HTMLElement;
-    @query('.details__body') body: HTMLElement;
-    @query('.details__expand-icon-slot') expandIconSlot: HTMLSlotElement;
+    @query('.details') details: HTMLDetailsElement | undefined;
+    @query('.details__header') header: HTMLElement | undefined;
+    @query('.details__body') body: HTMLElement | undefined;
+    @query('.details__expand-icon-slot') expandIconSlot: HTMLSlotElement | undefined;
 
-    detailsObserver: MutationObserver;
+    detailsObserver: MutationObserver | undefined;
 
     /**
      * Indicates whether or not the details is open. You can toggle this attribute to show and hide the details, or you
@@ -36,10 +36,10 @@ export class Details extends ShoaleceElement {
     @property({ reflect: true }) open = false;
 
     /** The summary to show in the header. If you need to display HTML, use the `summary` slot instead. */
-    @property() summary: string;
+    @property() summary: string | undefined;
 
     /** The text of details. */
-    @property({ reflect: true }) text: string;
+    @property({ reflect: true }) text: string | undefined;
 
     /** Disables the details so it can't be toggled. 
       * @fieldType { "propertyType":"list", "defaultValue":"", "items": ["","disabled"]} 
@@ -47,6 +47,8 @@ export class Details extends ShoaleceElement {
     @property({  reflect: true }) disabled = false;
 
     firstUpdated() {
+
+        if (!this.body || !this.details) return;
         this.body.style.height = this.open ? 'auto' : '0';
         if (this.open) {
             this.details.open = true;
@@ -54,6 +56,7 @@ export class Details extends ShoaleceElement {
 
         this.detailsObserver = new MutationObserver(changes => {
             for (const change of changes) {
+                if (!this.details) continue;
                 if (change.type === 'attributes' && change.attributeName === 'open') {
                     if (this.details.open) {
                         this.show();
@@ -67,10 +70,12 @@ export class Details extends ShoaleceElement {
     }
 
     disconnectedCallback() {
+        if (!this.detailsObserver) return;
         this.detailsObserver.disconnect();
     }
 
     private handleSummaryClick(ev: MouseEvent) {
+        if (!this.header) return;
         ev.preventDefault();
         if (!this.disabled) {
             if (this.open) {
@@ -107,6 +112,7 @@ export class Details extends ShoaleceElement {
 
     @watch('open', { waitUntilFirstUpdate: true })
     async handleOpenChange() {
+        if (!this.details || !this.body) return;
         if (this.open) {
             this.details.open = true;
             // Show
