@@ -27,8 +27,8 @@ import { watch } from './_100541_internalWatch';
  */
 @customElement('image-comparer-100541')
 export class ImageComparer extends LitElement {
-  @query('.image-comparer') base: HTMLElement;
-  @query('.image-comparer__handle') handle: HTMLElement;
+  @query('.image-comparer') base: HTMLElement | undefined;
+  @query('.image-comparer__handle') handle: HTMLElement  | undefined;
 
   /**
    *  The position of the divider as a percentage.
@@ -37,10 +37,10 @@ export class ImageComparer extends LitElement {
   @property({ type: Number, reflect: true }) position = 50;
 
   /** The path to the image before to load. */
-  @property() srcBefore: string;
+  @property() srcBefore: string | undefined;
 
   /** The path to the image after to load. */
-  @property() srcAfter: string;
+  @property() srcAfter: string | undefined;
 
   private clamp(value: number, min: number, max: number) {
     const noNegativeZero = (n: number) => (Object.is(n, -0) ? 0 : n);
@@ -51,6 +51,8 @@ export class ImageComparer extends LitElement {
 
   private drag(container: HTMLElement, options?: any) {
     function move(pointerEvent: PointerEvent) {
+
+      if (!container || !container.ownerDocument) return;
       const dims = container.getBoundingClientRect();
       const defaultView = container.ownerDocument.defaultView!;
       const offsetX = dims.left + defaultView.pageXOffset;
@@ -82,6 +84,7 @@ export class ImageComparer extends LitElement {
   }
 
   private handleDrag(event: PointerEvent) {
+    if (!this.base) return;
     const { width } = this.base.getBoundingClientRect();
     const isRtl = true; //this.localize.dir() === 'rtl';
 
