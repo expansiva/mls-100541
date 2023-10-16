@@ -37,7 +37,7 @@ export class Button extends LitElement {
 
     private readonly localize = new LocalizeController(this);
 
-    @query('.button') button: HTMLButtonElement | HTMLLinkElement;
+    @query('.button') button: HTMLButtonElement | HTMLLinkElement | undefined;
 
     @state() private hasFocus = false;
     @state() invalid = false;
@@ -120,7 +120,7 @@ export class Button extends LitElement {
      *  @fieldType { "propertyType":"list", "items": ["_blank","_parent", "_self", "_top" ]}
      * 
     */
-    @property() target: '_blank' | '_parent' | '_self' | '_top';
+    @property() target: '_blank' | '_parent' | '_self' | '_top' | undefined;
 
     /**
      * When using href, this attribute will map to the underlying link's rel attribute. Unlike regular links, the
@@ -137,32 +137,32 @@ export class Button extends LitElement {
      * The "form owner" to associate the button with. If omitted, the closest containing form will be used instead. The
      * value of this attribute must be an id of a form in the same document or shadow root as the button.
      */
-    @property() form: string;
+    @property() form: string | undefined;
 
     /** Used to override the form owner's `action` attribute. */
-    @property({ attribute: 'formaction' }) formAction: string;
+    @property({ attribute: 'formaction' }) formAction: string | undefined;
 
     /** Used to override the form owner's `enctype` attribute.  
      *  @fieldType { "propertyType":"list", "items": ["application/x-www-form-urlencoded","_parent", "multipart/form-data", "text/plain" ]}
      * 
     */
     @property({ attribute: 'formenctype' })
-    formEnctype: 'application/x-www-form-urlencoded' | 'multipart/form-data' | 'text/plain';
+    formEnctype: 'application/x-www-form-urlencoded' | 'multipart/form-data' | 'text/plain' | undefined;
 
     /** Used to override the form owner's `method` attribute.  
      *  @fieldType { "propertyType":"list", "items": ["post","get" ]}
      * 
     */
-    @property({ attribute: 'formmethod' }) formMethod: 'post' | 'get';
+    @property({ attribute: 'formmethod' }) formMethod: 'post' | 'get' | undefined;
 
     /** Used to override the form owner's `novalidate` attribute. */
-    @property({ attribute: 'formnovalidate', type: Boolean }) formNoValidate: boolean;
+    @property({ attribute: 'formnovalidate', type: Boolean }) formNoValidate: boolean | undefined;
 
     /** Used to override the form owner's `target` attribute.
      *  @fieldType { "propertyType":"list","items": ["_blank","_parent", "_self", "_top" ] }
      * 
      */
-    @property({ attribute: 'formtarget' }) formTarget: '_self' | '_blank' | '_parent' | '_top' | string;
+    @property({ attribute: 'formtarget' }) formTarget: '_self' | '_blank' | '_parent' | '_top' | string | undefined;
 
     /** Gets the validity state object */
     get validity() {
@@ -229,16 +229,19 @@ export class Button extends LitElement {
 
     /** Simulates a click on the button. */
     click() {
+        if (!this.button) return;
         this.button.click();
     }
 
     /** Sets focus on the button. */
     focus(options?: FocusOptions) {
+        if (!this.button) return;
         this.button.focus(options);
     }
 
     /** Removes focus from the button. */
     blur() {
+        if (!this.button) return;
         this.button.blur();
     }
 
