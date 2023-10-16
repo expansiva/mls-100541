@@ -28,50 +28,50 @@ export class FormatDate extends LitElement {
     /** The format for displaying the weekday. 
     *  @fieldType { "propertyType":"list", "items": ["", "narrow","short","long"] }
     */
-    @property() weekday: 'narrow' | 'short' | 'long';
+    @property() weekday: 'narrow' | 'short' | 'long' | undefined;
 
     /** The format for displaying the era.
      *  @fieldType { "propertyType":"list", "items": ["", "narrow","short","long"] }
      */
-    @property() era: 'narrow' | 'short' | 'long';
+    @property() era: 'narrow' | 'short' | 'long' | undefined;
 
     /** The format for displaying the year. 
      * @fieldType { "propertyType":"list", "items": ["", "numeric","2-digit"] }
     */
-    @property() year: 'numeric' | '2-digit';
+    @property() year: 'numeric' | '2-digit' | undefined;
 
     /** The format for displaying the month. 
      * @fieldType { "propertyType":"list", "items": ["", "numeric","2-digit","narrow","short","long"] }
     */
-    @property() month: 'numeric' | '2-digit' | 'narrow' | 'short' | 'long';
+    @property() month: 'numeric' | '2-digit' | 'narrow' | 'short' | 'long' | undefined;
 
     /** The format for displaying the day. 
      * @fieldType { "propertyType":"list", "items": ["", "numeric","2-digit"] }
     */
-    @property() day: 'numeric' | '2-digit';
+    @property() day: 'numeric' | '2-digit' | undefined;
 
     /** The format for displaying the hour. 
      * @fieldType { "propertyType":"list", "items": ["", "numeric","2-digit"] }
     */
-    @property() hour: 'numeric' | '2-digit';
+    @property() hour: 'numeric' | '2-digit' | undefined;
 
     /** The format for displaying the minute. 
      * @fieldType { "propertyType":"list", "items": ["", "numeric","2-digit"] }
     */
-    @property() minute: 'numeric' | '2-digit';
+    @property() minute: 'numeric' | '2-digit' | undefined;
 
     /** The format for displaying the second. 
      * @fieldType { "propertyType":"list", "items": ["", "numeric","2-digit"] }
     */
-    @property() second: 'numeric' | '2-digit';
+    @property() second: 'numeric' | '2-digit' | undefined;
 
     /** The format for displaying the time. 
      * @fieldType { "propertyType":"list", "items": ["", "short","long"] }
     */
-    @property({ attribute: 'time-zone-name' }) timeZoneName: 'short' | 'long';
+    @property({ attribute: 'time-zone-name' }) timeZoneName: 'short' | 'long' | undefined;
 
     /** The time zone to express the time in. */
-    @property({ attribute: 'time-zone' }) timeZone: string;
+    @property({ attribute: 'time-zone' }) timeZone: string | undefined;
 
     /** The format for displaying the hour. 
      * @fieldType { "propertyType":"list", "defaultValue": "auto", "items": ["auto","12","24"] }
