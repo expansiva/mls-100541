@@ -5,7 +5,7 @@ import type { IJSDoc} from './_100541_propiertiesLit';
 
 export function getComponentDependencies(model: mls.l2.editor.IMFile): string[] {
 
-    const { devDoc } = model.compilerResults;
+    const devDoc = model.compilerResults?.devDoc;
     if (!devDoc) return [];
     const objDocs: IJSDoc[] = JSON.parse(devDoc);
     const tagsInfoString = getJsDocInfoTags(objDocs);
@@ -31,7 +31,7 @@ export function getComponentDependencies(model: mls.l2.editor.IMFile): string[] 
     return dependenciesArray;
 }
 
-function getJsDocInfoTags(objDocs: IJSDoc[]): string {
+function getJsDocInfoTags(objDocs: IJSDoc[]): string | undefined {
     for (const doc of objDocs) {
         if (doc.type !== 'constructor') continue;
         const tagComponentDetails = doc.tags.find((tag) => tag.tagName === 'mlsComponentDetails');
