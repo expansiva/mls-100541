@@ -16,8 +16,8 @@ export class Breadcrumb extends LitElement {
     private readonly localize = new LocalizeController(this);
     private separatorDir = this.localize.dir();
 
-    @query('slot') defaultSlot: HTMLSlotElement;
-    @query('slot[name="separator"]') separatorSlot: HTMLSlotElement;
+    @query('slot') defaultSlot: HTMLSlotElement | undefined;
+    @query('slot[name="separator"]') separatorSlot: HTMLSlotElement | undefined;
 
     /**
      * The label to use for the breadcrumb control. This will not be shown on the screen, but it will be announced by
@@ -27,6 +27,7 @@ export class Breadcrumb extends LitElement {
 
     // Generates a clone of the separator element to use for each breadcrumb item
     private getSeparator() {
+        if (!this.separatorSlot) return;
         const separator = this.separatorSlot.assignedElements({ flatten: true })[0] as HTMLElement;
 
         // Clone it, remove ids, and slot it
@@ -39,6 +40,7 @@ export class Breadcrumb extends LitElement {
     }
 
     private handleSlotChange() {
+        if (!this.defaultSlot) return;
         const items = [...this.defaultSlot.assignedElements({ flatten: true })].filter(
             item => item.tagName.toLowerCase() === 'breadcrumb-item-100541'
         ) as any[];
