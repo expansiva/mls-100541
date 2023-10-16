@@ -6,7 +6,8 @@ const locks = new Set();
 
 /** Returns the width of the document's scrollbar */
 function getScrollbarWidth() {
-  const documentWidth = document.documentElement.clientWidth;
+  const documentWidth = document?.documentElement?.clientWidth;
+  if (documentWidth === undefined) return;
   return Math.abs(window.innerWidth - documentWidth);
 }
 
