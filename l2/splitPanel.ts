@@ -17,12 +17,12 @@ import ShoaleceElement from './_100541_internalShoelaceElement';
 @customElement('split-panel-100541')
 export class SplitPanel extends ShoaleceElement {
 
-    private cachedPositionInPixels: number;
+    private cachedPositionInPixels: number | undefined;
     private readonly localize = new LocalizeController(this);
     private resizeObserver: any;
-    private size: number;
+    private size: number | undefined;
 
-    @query('.divider') divider: HTMLElement;
+    @query('.divider') divider: HTMLElement | undefined;
 
     /**
      * The current position of the divider from the primary panel's edge as a percentage 0-100. Defaults to 50% of the
@@ -31,7 +31,7 @@ export class SplitPanel extends ShoaleceElement {
     @property({ type: Number, reflect: true }) position = 50;
 
     /** The current position of the divider from the primary panel's edge in pixels. */
-    @property({ attribute: 'position-in-pixels', type: Number }) positionInPixels: number;
+    @property({ attribute: 'position-in-pixels', type: Number }) positionInPixels: number | undefined;
 
     /** Draws the split panel in a vertical orientation with the start and end panels stacked. */
     @property({ type: Boolean, reflect: true }) vertical = false;
@@ -75,10 +75,12 @@ export class SplitPanel extends ShoaleceElement {
     }
 
     private percentageToPixels(value: number) {
+        if (!this.size) return;
         return this.size * (value / 100);
     }
 
     private pixelsToPercentage(value: number) {
+        if (!this.size) return;
         return (value / this.size) * 100;
     }
 
@@ -100,6 +102,7 @@ export class SplitPanel extends ShoaleceElement {
 
                 // Flip for end panels
                 if (this.primary === 'end') {
+                    if (!this.size) return;
                     newPositionInPixels = this.size - newPositionInPixels;
                 }
 
@@ -111,12 +114,14 @@ export class SplitPanel extends ShoaleceElement {
                         let snapPoint: number;
 
                         if (value.endsWith('%')) {
+                            if (!this.size) return;
                             snapPoint = this.size * (parseFloat(value) / 100);
                         } else {
                             snapPoint = parseFloat(value);
                         }
 
                         if (isRtl && !this.vertical) {
+                            if (!this.size) return;
                             snapPoint = this.size - snapPoint;
                         }
 
@@ -129,7 +134,7 @@ export class SplitPanel extends ShoaleceElement {
                     });
                 }
 
-                this.position = clamp(this.pixelsToPercentage(newPositionInPixels), 0, 100);
+                this.position = clamp((this.pixelsToPercentage(newPositionInPixels) ) as any, 0, 100);
             },
             initialEvent: event
         });
@@ -172,7 +177,8 @@ export class SplitPanel extends ShoaleceElement {
 
         // Resize when a primary panel is set
         if (this.primary) {
-            this.position = this.pixelsToPercentage(this.cachedPositionInPixels);
+            if (!this.cachedPositionInPixels ) return;
+            this.position = this.pixelsToPercentage(this.cachedPositionInPixels) as number;
         }
     }
 
@@ -185,7 +191,8 @@ export class SplitPanel extends ShoaleceElement {
 
     @watch('positionInPixels')
     handlePositionInPixelsChange() {
-        this.position = this.pixelsToPercentage(this.positionInPixels);
+        if (!this.positionInPixels ) return;
+        this.position = this.pixelsToPercentage(this.positionInPixels) as number;
     }
 
     @watch('vertical')
