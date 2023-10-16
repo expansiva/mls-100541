@@ -28,9 +28,9 @@ import { customElement, property, query, state } from 'lit/decorators.js';
  */
 @customElement('progress-ring-100541')
 export class ProgressRing extends LitElement {
-    @query('.progress-ring__indicator') indicator: SVGCircleElement;
+    @query('.progress-ring__indicator') indicator: SVGCircleElement | undefined;
 
-    @state() indicatorOffset: string;
+    @state() indicatorOffset: string | undefined;
 
     /** The current progress as a percentage, 0 to 100. 
     * @fieldType { "propertyType":"number", "min":"0", "max": "100", "defaultValue": "0"}
@@ -49,7 +49,7 @@ export class ProgressRing extends LitElement {
         // change, possibly because of a mix of pixel + unit-less values in the calc() function. It seems like a Safari bug,
         // but I couldn't pinpoint it so this works around the problem.
         //
-        if (changedProps.has('value')) {
+        if (changedProps.has('value') && this.indicator) {
             const radius = parseFloat(getComputedStyle(this.indicator).getPropertyValue('r'));
             const circumference = 2 * Math.PI * radius;
             const offset = circumference - (this.value / 100) * circumference;
