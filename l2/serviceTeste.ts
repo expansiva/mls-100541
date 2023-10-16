@@ -8,10 +8,10 @@ export class ServiceTeste extends LitElement {
 
     
     @property({ type: String, reflect: true })
-    private level: mls.events.Level;
+    private level: mls.events.Level | undefined;
 
     @property({ type: String, reflect: true })
-    public position: 'left' | 'right';
+    public position: 'left' | 'right' | undefined;
 
     private projectActual = 0;
 
