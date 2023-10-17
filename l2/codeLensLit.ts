@@ -13,14 +13,12 @@ export function setCodeLens(mfile: mls.l2.editor.IMFile) {
 }
 
 function clearCodeLens(mfile: mls.l2.editor.IMFile) {
-    const keys = Object.keys(mfile.codeLens);
-    keys.forEach((line) => {
-        const codeLen = mfile.codeLens[line];
+    for (let slineNr in mfile.codeLens) {
+        const codeLen = mfile.codeLens[slineNr];
         if (codeLen[0].id === 'helpAssistant') {
-            mls.l2.codeLens.removeCodeLen(mfile.model, Number.parseInt(line))
+            mls.l2.codeLens.removeCodeLen(mfile.model, Number.parseInt(slineNr))
         }
-    })
-
+    }
 }
 
 function setCodeLensDecoratorClass(model: monaco.editor.ITextModel, decorators: string) {
