@@ -35,7 +35,7 @@ export class ServiceTeste extends LitElement {
 
     render() {
 
-        return html` estou no service teste`;
+        return html` estou no service teste 2`;
     }
 
     
