@@ -44,7 +44,7 @@ export class StarRating100541 extends LitElement {
   render() {
 
     return html`
-      <div class="rating-container ">
+      <div class="rating-container">
         ${this.myArrayTot().map(
       (index) => html`
             <span
