@@ -28,7 +28,7 @@ function setCodeLensDecoratorClass(model: monaco.editor.ITextModel, decorators: 
         if (!decoratorInfo || decoratorInfo.type !== 'ClassDeclaration') return;
         decoratorInfo.decorators.forEach((_decorator) => {
             if (_decorator.text.startsWith('customElement(')) {
-                mls.l2.codeLens.addCodeLen(model, _decorator.line + 1, { id: 'helpAssistant', title: `customElement`, jsComm: '', refs: '_100532_doc_customElement' });
+                mls.l2.codeLens.addCodeLen(model, _decorator.line + 1, { id: 'helpAssistant', title: `customElement`, jsComm: '', refs: '_100529_codelens_customElement' });
             }
         })
     })
@@ -37,7 +37,7 @@ function setCodeLensDecoratorClass(model: monaco.editor.ITextModel, decorators: 
 function setCodeLensMlsComponents(model: monaco.editor.ITextModel) {
     const lines = findLinesByText(model, '@mlsComponentDetails');
     lines.forEach((line) => {
-        mls.l2.codeLens.addCodeLen(model, line, { id: 'helpAssistant', title: `mlsComponentDetails`, jsComm: '', refs: '_100532_doc_mlsComponentDetails' });
+        mls.l2.codeLens.addCodeLen(model, line, { id: 'helpAssistant', title: `mlsComponentDetails`, jsComm: '', refs: '_100529_codelens_mlsComponentDetails' });
     })
 }
 
