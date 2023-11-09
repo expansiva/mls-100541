@@ -65,7 +65,7 @@ export const getDesignDetails = (model: mls.l2.editor.IMFile): Promise<mls.l2.en
             ret.defaultHtmlExamplePreview = getDefaultHtmlExamplePreview(model);
             ret.properties = getPropierties(model);
             ret.webComponentDependencies = getComponentDependencies(model);
-            (ret as any)['servicePreviewDefault'] = '_100532_service_preview';
+            (ret as any)['servicePreviewDefault'] = '_100529_service_preview';
             resolve(ret);
         } catch (e) {
             reject(e);
