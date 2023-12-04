@@ -27,7 +27,7 @@ import { watch } from './_100541_internalWatch';
 export class Avatar extends LitElement {
   @state() private hasError = false;
 
-  /** The image source to use for the avatars. */
+  /** The image source to use for the avatarss. */
   @property() image = '';
 
   /** A label to use to describe the avatar to assistive devices. */
