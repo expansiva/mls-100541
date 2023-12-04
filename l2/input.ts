@@ -34,7 +34,7 @@ export class Input extends LitElement {
         assumeInteractionOn: ['sl-blur', 'sl-input']
     });
 
-    @query('.input__control') input: HTMLInputElement;
+    @query('.input__control') input: HTMLInputElement | undefined;
 
     @state() private hasFocus = false;
     @property() title = ''; // make reactive to pass through
@@ -137,49 +137,49 @@ export class Input extends LitElement {
     @property({ reflect: true }) required = false;
 
     /** A regular expression pattern to validate input against. */
-    @property() pattern: string;
+    @property() pattern: string = '';
 
     /** The minimum length of input that will be considered valid. */
-    @property({ type: Number }) minlength: number;
+    @property({ type: Number }) minlength: number | undefined = undefined;
 
     /** The maximum length of input that will be considered valid. */
-    @property({ type: Number }) maxlength: number;
+    @property({ type: Number }) maxlength: number | undefined = undefined;
 
     /** The input's minimum value. Only applies to date and number input types. */
-    @property() min: number | string;
+    @property() min: number | string | undefined = undefined;
 
     /** The input's maximum value. Only applies to date and number input types. */
-    @property() max: number | string;
+    @property() max: number | string| undefined = undefined;;
 
     /**
      * Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is
      * implied, allowing any numeric value. Only applies to date and number input types.
      */
-    @property() step: number | 'any';
+    @property() step: number | 'any'| undefined = undefined;;
 
     /** Controls whether and how text input is automatically capitalized as it is entered by the user. 
      *  @fieldType { "propertyType":"list",  "items": ["off","none", "on","sentences","words", "characters"]}
      */
-    @property() autocapitalize: 'off' | 'none' | 'on' | 'sentences' | 'words' | 'characters';
+    @property() autocapitalize: 'off' | 'none' | 'on' | 'sentences' | 'words' | 'characters' = 'off';
 
     /** Indicates whether the browser's autocorrect feature is on or off.
      *  @fieldType { "propertyType":"list",  "items": ["off", "on"]}
      */
-    @property() autocorrect: 'off' | 'on';
+    @property() autocorrect: 'off' | 'on' = 'off';
 
     /**
      * Specifies what permission the browser has to provide assistance in filling out form field values. Refer to
      * [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.
      */
-    @property() autocomplete: string;
+    @property() autocomplete: string = '';
 
     /** Indicates that the input should receive focus on page load. */
-    @property({ type: Boolean }) autofocus: boolean;
+    @property({ type: Boolean }) autofocus: boolean = false;
 
     /** Used to customize the label or icon of the Enter key on virtual keyboards. 
      *  @fieldType { "propertyType":"list",  "items": ["enter","done", "go","next","previous", "search", "send"]}
     */
-    @property() enterkeyhint: 'enter' | 'done' | 'go' | 'next' | 'previous' | 'search' | 'send';
+    @property() enterkeyhint: 'enter' | 'done' | 'go' | 'next' | 'previous' | 'search' | 'send' = 'enter';
 
     /** Enables spell checking on the input. */
     @property({
@@ -196,7 +196,7 @@ export class Input extends LitElement {
      * Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual
      * keyboard on supportive devices.
      */
-    @property() inputmode: 'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url';
+    @property() inputmode: 'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url' = 'none';
 
     //
     // NOTE: We use an in-memory input for these getters/setters instead of the one in the template because the properties
@@ -231,12 +231,12 @@ export class Input extends LitElement {
 
     /** Gets the validity state object */
     get validity() {
-        return this.input.validity;
+        return this.input?.validity;
     }
 
     /** Gets the validation message */
     get validationMessage() {
-        return this.input.validationMessage;
+        return this.input?.validationMessage;
     }
 
     firstUpdated() {
@@ -248,12 +248,12 @@ export class Input extends LitElement {
     }
 
     private handleChange() {
-        this.value = this.input.value;
+        this.value = this.input?.value || '';
     }
 
     private handleClearClick(event: MouseEvent) {
         this.value = '';
-        this.input.focus();
+        this.input?.focus();
 
         event.stopPropagation();
     }
@@ -263,7 +263,7 @@ export class Input extends LitElement {
     }
 
     private handleInput() {
-        this.value = this.input.value;
+        this.value = this.input?.value || '';
         this.formControlController.updateValidity();
     }
 
@@ -306,7 +306,7 @@ export class Input extends LitElement {
     handleStepChange() {
         // If step changes, the value may become invalid so we need to recheck after the update. We set the new step
         // imperatively so we don't have to wait for the next render to report the updated validity.
-        this.input.step = String(this.step);
+        if(this.input) this.input.step = String(this.step);
         this.formControlController.updateValidity();
     }
 
@@ -317,17 +317,17 @@ export class Input extends LitElement {
 
     /** Sets focus on the input. */
     focus(options?: FocusOptions) {
-        this.input.focus(options);
+        this.input?.focus(options);
     }
 
     /** Removes focus from the input. */
     blur() {
-        this.input.blur();
+        this.input?.blur();
     }
 
     /** Selects all the text in the input. */
     select() {
-        this.input.select();
+        this.input?.select();
     }
 
     /** Sets the start and end positions of the text selection (0-based). */
@@ -336,7 +336,7 @@ export class Input extends LitElement {
         selectionEnd: number,
         selectionDirection: 'forward' | 'backward' | 'none' = 'none'
     ) {
-        this.input.setSelectionRange(selectionStart, selectionEnd, selectionDirection);
+        this.input?.setSelectionRange(selectionStart, selectionEnd, selectionDirection);
     }
 
     /** Replaces a range of text with a new string. */
@@ -347,39 +347,39 @@ export class Input extends LitElement {
         selectMode?: 'select' | 'start' | 'end' | 'preserve'
     ) {
 
-        this.input.setRangeText(replacement, start, end, selectMode);
+        this.input?.setRangeText(replacement, start as any, end as any, selectMode);
 
-        if (this.value !== this.input.value) {
-            this.value = this.input.value;
+        if (this.value !== this.input?.value) {
+            this.value = this.input?.value || '';
         }
     }
 
     /** Displays the browser picker for an input element (only works if the browser supports it for the input type). */
     showPicker() {
         if ('showPicker' in HTMLInputElement.prototype) {
-            this.input['showPicker']();
+            if(this.input) this.input['showPicker']();
         }
     }
 
     /** Increments the value of a numeric input type by the value of the step attribute. */
     stepUp() {
-        this.input.stepUp();
-        if (this.value !== this.input.value) {
-            this.value = this.input.value;
+        this.input?.stepUp();
+        if (this.value !== this.input?.value) {
+            this.value = this.input?.value || '';
         }
     }
 
     /** Decrements the value of a numeric input type by the value of the step attribute. */
     stepDown() {
-        this.input.stepDown();
-        if (this.value !== this.input.value) {
-            this.value = this.input.value;
+        this.input?.stepDown();
+        if (this.value !== this.input?.value) {
+            this.value = this.input?.value || "";
         }
     }
 
     /** Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid. */
     checkValidity() {
-        return this.input.checkValidity();
+        return this.input?.checkValidity();
     }
 
     /** Gets the associated form, if one exists. */
@@ -389,12 +389,12 @@ export class Input extends LitElement {
 
     /** Checks for validity and shows the browser's validation message if the control is invalid. */
     reportValidity() {
-        return this.input.reportValidity();
+        return this.input?.reportValidity();
     }
 
     /** Sets a custom validation message. Pass an empty string to restore validity. */
     setCustomValidity(message: string) {
-        this.input.setCustomValidity(message);
+        this.input?.setCustomValidity(message);
         this.formControlController.updateValidity();
     }
 
