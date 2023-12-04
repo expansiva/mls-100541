@@ -103,7 +103,7 @@ export class Animations extends LitElement {
 
                         if (oldValue !== newValue) {
                             if (!resolvedOptions.waitUntilFirstUpdate || this.hasUpdated) {
-                                (this[decoratedFnName] as unknown as any)(oldValue, newValue);
+                                ((this as any)[decoratedFnName] as unknown as any)(oldValue, newValue);
                             }
                         }
                     }
@@ -151,7 +151,7 @@ export class Animations extends LitElement {
     }
 
     private async createAnimation() {
-        const easing = animations.easings[this.easing] ?? this.easing;
+        const easing = (animations as any).easings[this.easing] ?? this.easing;
         const keyframes = this.keyframes ?? (animations as unknown as Partial<Record<string, Keyframe[]>>)[this.name];
         const slot = await this.defaultSlot;
         const element = slot?.assignedElements()[0] as HTMLElement | undefined;
