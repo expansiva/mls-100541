@@ -3,15 +3,17 @@
 import type { IDecoratorDictionary, IDecoratorDetails, IDecoratorClassInfo } from './_100541_propiertiesLit';
 import { convertFileNameToTag } from './_100541_utilsLit';
 
-export function validateTagName(mfile: mls.l2.editor.IMFile) {
+export function validateTagName(mfile: mls.l2.editor.IMFile): boolean {
+
     mfile.storFile.hasError = false;
     clearErrorsOnModel(mfile.model)
 
-    if (!mfile || !mfile.compilerResults) return;
-    if (mfile.shortName === 'enhancementLit' && mfile.project === 100541) return;
+    if (!mfile || !mfile.compilerResults) return false;
+    if (mfile.shortName === 'enhancementLit' && mfile.project === 100541) return false;
     const decorators: IDecoratorDictionary = JSON.parse(mfile.compilerResults.decorators);
-    if (!decorators) return;
-    const decoratorToCheck = 'customElement'
+    if (!decorators) return false;
+    const decoratorToCheck = 'customElement';
+    let rc: boolean = false;
 
     Object.entries(decorators).forEach((entrie) => {
         const decoratorInfo: IDecoratorDetails = entrie[1];
@@ -21,20 +23,24 @@ export function validateTagName(mfile: mls.l2.editor.IMFile) {
             if (!decoratorInfo || decoratorInfo.decoratorName !== decoratorToCheck) return;
             const correctTagName = convertFileNameToTag(`_${mfile.project}_${mfile.shortName}`);
             if (correctTagName !== decoratorInfo.tagName) {
+                rc = true;
                 setErrorOnModel(mfile.model, _decorator.line + 1, decoratorToCheck.length + 3, _decorator.text.length + 1, `Invalid web component tag name, the correct definition is: ${correctTagName}`);
                 mfile.storFile.hasError = true;
             }
         })
     })
+
+    return rc;
 }
 
-export function validateRender(mfile: mls.l2.editor.IMFile) {
+export function validateRender(mfile: mls.l2.editor.IMFile): boolean {
+
     mfile.storFile.hasError = false;
     clearErrorsOnModel(mfile.model);
-    if (!mfile || !mfile.compilerResults) return;
-    if (mfile.shortName === 'enhancementLit' && mfile.project === 100541) return;
+    if (!mfile || !mfile.compilerResults) return false;
+    if (mfile.shortName === 'enhancementLit' && mfile.project === 100541) return false;
     const shortName = `_${mfile.project}_${mfile.shortName}`
-    verify(mfile.model, shortName, mfile)
+    return verify(mfile.model, shortName, mfile)
 }
 
 function getDecoratorClassInfo(decoratorString: string): IDecoratorClassInfo | undefined {
@@ -68,34 +74,41 @@ function clearErrorsOnModel(model: monaco.editor.ITextModel) {
     monaco.editor.setModelMarkers(model, 'markerSource', []);
 }
 
-function verify(model: monaco.editor.ITextModel, shortName: string, mfile: mls.l2.editor.IMFile) {
+function verify(model: monaco.editor.ITextModel, shortName: string, mfile: mls.l2.editor.IMFile):boolean {
     const lines = model.getLinesContent();
     const tag = convertFileNameToTag(shortName);
     const msgError = `Do not use the same component tag (${tag}) within the rendering`;
     let htmlCount: number = 0;
+
+    let rc: boolean = false;
+
     for (let i = 0; i < lines.length; i++) {
         let line = lines[i];
         line = line.replace(/\/\/.*/, ''); // remove inline comment 
         const lineInCommentBlock = isInCommentBlock(lines, i + 1);
         line = line.replace(/\s+/g, ''); // remove blank spaces
-        if (line.indexOf(`document.createElement('${tag}')`) >= 0) {
+        if (line.indexOf(`document.createElement('${tag}')`) >= 0 || 
+        line.indexOf(`document.createElement("${tag}")`) >= 0) {
             mfile.storFile.hasError = true;
             setErrorOnModel(model, i + 1, 0, line.length, msgError);
+            rc = true;
             break;
         }
         if (line.indexOf('html`') >= 0 && !lineInCommentBlock) htmlCount += 1;
         if (line.indexOf('`') >= 0 && line.indexOf('html`') === -1 && !lineInCommentBlock) htmlCount -= 1;
 
         if (htmlCount != 0) {
-            if (line.indexOf('<' + tag + '>') >= 0) {
+            if (line.indexOf('<' + tag) >= 0) {
                 mfile.storFile.hasError = true;
                 const column = model.getLineFirstNonWhitespaceColumn(i + 1);
                 const length = model.getLineLength(i + 1)
                 setErrorOnModel(model, i + 1, column, length, msgError);
+                rc = true;
                 break;
             }
         }
     }
+    return rc;
 }
 
 function isInCommentBlock(lines: string[], lineNumber: number): boolean {

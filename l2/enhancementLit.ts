@@ -92,10 +92,9 @@ export const prepareAdd = (prompt: string): { sourceTS: string, aiHeader: string
 
 export const onAfterChange = async (mfile: mls.l2.editor.IMFile): Promise<void> => {
     try {
-        validateTagName(mfile);
-        validateRender(mfile)
         setCodeLens(mfile);
-        // await injectStyle(mfile, 0);
+        if (validateTagName(mfile)) return;
+        if (validateRender(mfile)) return;
     } catch (e: any) {
         return e.message || e;
     }
@@ -109,9 +108,7 @@ export const getPromptDefault = (): string => {
 }
 
 export const onAfterCompile = async (mfile: mls.l2.editor.IMFile): Promise<void> => {
-
     await injectStyle(mfile, 0);
     return;
-
 }
 
