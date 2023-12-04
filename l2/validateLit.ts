@@ -21,6 +21,7 @@ export function validateTagName(mfile: mls.l2.editor.IMFile): boolean {
         decoratorInfo.decorators.forEach((_decorator) => {
             const decoratorInfo = getDecoratorClassInfo(_decorator.text);
             if (!decoratorInfo || decoratorInfo.decoratorName !== decoratorToCheck) return;
+        
             const correctTagName = convertFileNameToTag(`_${mfile.project}_${mfile.shortName}`);
             if (correctTagName !== decoratorInfo.tagName) {
                 rc = true;
@@ -58,14 +59,24 @@ function getDecoratorClassInfo(decoratorString: string): IDecoratorClassInfo | u
     return result;
 }
 
+function getLineIndent(model: monaco.editor.ITextModel, lineNumber:number): number {
+    if (model) {
+        var lineContent = model.getLineContent(lineNumber);
+        var match = lineContent.match(/^\s*/);
+        return match ? match[0].length : 0;
+    }
+    return 0;
+}
+
 function setErrorOnModel(model: monaco.editor.ITextModel, line: number, startColumn: number, endColumn: number, message: string,): void {
+    const lineIndent = getLineIndent(model, line)
     const markerOptions = {
         severity: monaco.MarkerSeverity.Error,
         message,
         startLineNumber: line,
-        startColumn,
+        startColumn: startColumn + lineIndent,
         endLineNumber: line,
-        endColumn: endColumn,
+        endColumn: endColumn + lineIndent,
     };;
     monaco.editor.setModelMarkers(model, 'markerSource', [markerOptions]);
 }
