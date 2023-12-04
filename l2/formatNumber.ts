@@ -70,7 +70,7 @@ export class FormatNumber extends LitElement {
             maximumFractionDigits: this.maximumFractionDigits,
             minimumSignificantDigits: this.minimumSignificantDigits,
             maximumSignificantDigits: this.maximumSignificantDigits
-        });
+        } as any);
     }
 }
 
