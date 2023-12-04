@@ -119,7 +119,7 @@ export class LocalizeController<UserTranslation extends Translation = DefaultTra
   }
 
   private getTranslationData(lang: string) {
-    const locale = new Intl['Locale'](lang);
+    const locale = new (Intl as any)['Locale'] (lang);
     const language = locale?.language.toLowerCase();
     const region = locale?.region?.toLowerCase() ?? '';
     const primary = <UserTranslation>translations.get(`${language}-${region}`);
@@ -186,6 +186,6 @@ export class LocalizeController<UserTranslation extends Translation = DefaultTra
 
   /** Outputs a localized time in relative format. */
   relativeTime(value: number, unit:any, options?: any): string {
-    return new Intl['RelativeTimeFormat'](this.lang(), options).format(value, unit);
+    return new (Intl as any)['RelativeTimeFormat'](this.lang(), options).format(value, unit);
   }
 }

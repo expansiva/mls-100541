@@ -67,8 +67,8 @@ type ValidEventTypeMap = EventTypesWithRequiredDetail | EventTypesWithoutRequire
 
 export default class ShoelaceElement extends LitElement {
   // Make localization attributes reactive
-  @property() dir: string;
-  @property() lang: string;
+  @property() dir: string = '';
+  @property() lang: string = '';
 
   /** Emits a custom event with more convenient defaults. */
   emit<T extends string & keyof EventTypesWithoutRequiredDetail>(

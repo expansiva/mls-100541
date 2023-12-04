@@ -850,7 +850,7 @@ export abstract class ReactiveElement
       // Dedupe the flattened array in reverse order to preserve the last items.
       // Casting to Array<unknown> works around TS error that
       // appears to come from trying to flatten a type CSSResultArray.
-      const set = new Set((styles as Array<unknown>)['flat'](Infinity).reverse());
+      const set = new Set((styles as Array<any>)[('flat' as any)](Infinity).reverse());
       // Then preserve original order by adding the set items in reverse order.
       for (const s of set) {
         elementStyles.unshift(getCompatibleStyle(s as CSSResultOrNative));
