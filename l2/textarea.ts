@@ -18,7 +18,7 @@ export class SimpleGreeting extends LitElement {
 
     private resizeObserver:any;
 
-    @query('.textarea__control') input: HTMLTextAreaElement;
+    @query('.textarea__control') input: HTMLTextAreaElement | undefined;
 
     @state() private hasFocus = false;
     @property() title = ''; // make reactive to pass through
@@ -64,28 +64,28 @@ export class SimpleGreeting extends LitElement {
     @property({ type: Boolean, reflect: true }) required = false;
 
     /** The minimum length of input that will be considered valid. */
-    @property({ type: Number }) minlength: number;
+    @property({ type: Number }) minlength: number | undefined;
 
     /** The maximum length of input that will be considered valid. */
-    @property({ type: Number }) maxlength: number;
+    @property({ type: Number }) maxlength: number | undefined;
 
     /** Controls whether and how text input is automatically capitalized as it is entered by the user. */
-    @property() autocapitalize: 'off' | 'none' | 'on' | 'sentences' | 'words' | 'characters';
+    @property() autocapitalize: 'off' | 'none' | 'on' | 'sentences' | 'words' | 'characters' | '' = '';
 
     /** Indicates whether the browser's autocorrect feature is on or off. */
-    @property() autocorrect: string;
+    @property() autocorrect: string | undefined;
 
     /**
      * Specifies what permission the browser has to provide assistance in filling out form field values. Refer to
      * [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.
      */
-    @property() autocomplete: string;
+    @property() autocomplete: string | undefined;
 
     /** Indicates that the input should receive focus on page load. */
-    @property({ type: Boolean }) autofocus: boolean;
+    @property({ type: Boolean }) autofocus: boolean = false;
 
     /** Used to customize the label or icon of the Enter key on virtual keyboards. */
-    @property() enterkeyhint: 'enter' | 'done' | 'go' | 'next' | 'previous' | 'search' | 'send';
+    @property() enterkeyhint: 'enter' | 'done' | 'go' | 'next' | 'previous' | 'search' | 'send' | '' = '';
 
     /** Enables spell checking on the textarea. */
     @property({
@@ -102,19 +102,19 @@ export class SimpleGreeting extends LitElement {
      * Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual
      * keyboard on supportive devices.
      */
-    @property() inputmode: 'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url';
+    @property() inputmode: 'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url' | '' = '';
 
     /** The default value of the form control. Primarily used for resetting the form control. */
     defaultValue = '';
 
     /** Gets the validity state object */
     get validity() {
-        return this.input.validity;
+        if(this.input) return this.input.validity;
     }
 
     /** Gets the validation message */
     get validationMessage() {
-        return this.input.validationMessage;
+        if(this.input) return this.input.validationMessage;
     }
 
     connectedCallback() {
@@ -137,6 +137,7 @@ export class SimpleGreeting extends LitElement {
     }
 
     private handleChange() {
+        if (!this.input) return;
         this.value = this.input.value;
         this.setTextareaHeight();
     }
@@ -146,10 +147,12 @@ export class SimpleGreeting extends LitElement {
     }
 
     private handleInput() {
+        if (!this.input) return;
         this.value = this.input.value;
     }
 
     private setTextareaHeight() {
+        if (!this.input) return;
         if (this.resize === 'auto') {
             this.input.style.height = 'auto';
             this.input.style.height = `${this.input.scrollHeight}px`;
@@ -161,21 +164,25 @@ export class SimpleGreeting extends LitElement {
 
     /** Sets focus on the textarea. */
     focus(options?: FocusOptions) {
+        if (!this.input) return;
         this.input.focus(options);
     }
 
     /** Removes focus from the textarea. */
     blur() {
+        if (!this.input) return;
         this.input.blur();
     }
 
     /** Selects all the text in the textarea. */
     select() {
+        if (!this.input) return;
         this.input.select();
     }
 
     /** Gets or sets the textarea's scroll position. */
     scrollPosition(position?: { top?: number; left?: number }): { top: number; left: number } | undefined {
+        if (!this.input) return;
         if (position) {
             if (typeof position.top === 'number') this.input.scrollTop = position.top;
             if (typeof position.left === 'number') this.input.scrollLeft = position.left;
@@ -194,6 +201,7 @@ export class SimpleGreeting extends LitElement {
         selectionEnd: number,
         selectionDirection: 'forward' | 'backward' | 'none' = 'none'
     ) {
+        if (!this.input) return;
         this.input.setSelectionRange(selectionStart, selectionEnd, selectionDirection);
     }
 
@@ -204,6 +212,7 @@ export class SimpleGreeting extends LitElement {
         end?: number,
         selectMode?: 'select' | 'start' | 'end' | 'preserve'
     ) {
+        if (!this.input || !start || !end) return;
 
         this.input.setRangeText(replacement, start, end, selectMode);
 
@@ -219,16 +228,19 @@ export class SimpleGreeting extends LitElement {
 
     /** Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid. */
     checkValidity() {
+        if (!this.input) return;
         return this.input.checkValidity();
     }
 
     /** Checks for validity and shows the browser's validation message if the control is invalid. */
     reportValidity() {
+        if (!this.input) return;
         return this.input.reportValidity();
     }
 
     /** Sets a custom validation message. Pass an empty string to restore validity. */
     setCustomValidity(message: string) {
+        if (!this.input) return;
         this.input.setCustomValidity(message);
     }
 
