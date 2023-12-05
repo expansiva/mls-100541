@@ -8,8 +8,10 @@
 import { customElement, property } from 'lit/decorators.js';
 import { html, LitElement, classMap } from 'lit';
 
+
 @customElement('badge-100541')
 export default class Badge extends LitElement {
+
 
   /**
   * The badge's theme variant.
@@ -31,9 +33,9 @@ export default class Badge extends LitElement {
   }
 
   render() {
-
+    
     return html`
-      <span
+      <div
         part="base"
         class=${classMap({
       badge: true,
@@ -47,7 +49,7 @@ export default class Badge extends LitElement {
         role="status"
       >
       ${this.text}
-      </span>
+      </div>
     `;
   }
 }
