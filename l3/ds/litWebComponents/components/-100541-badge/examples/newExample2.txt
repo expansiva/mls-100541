@@ -1,1 +1,1 @@
-{ "_100541_badge": {"class":"style1","variant":"danger","text":"Danger"} }
+{ "_100541_badge": {"variant":"danger","pill":"true","text":"Danger"} }
