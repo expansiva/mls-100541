@@ -1,1 +1,0 @@
-{ "_100541_badge": {"class":"style1","variant":"success","pill":"true","pulse":"true","text":"Success"} }
