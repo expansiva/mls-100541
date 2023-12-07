@@ -17,7 +17,7 @@ export default class Badge extends LitElement {
   * The badge's theme variant.
   * @fieldType { "propertyType":"list", "items": ["primary" , "success" , "warning" , "danger"]}
   */
-  @property({ reflect: true }) variant: 'primary' | 'success' | 'warning' | 'danger' = 'primary';
+  @property({ reflect: true }) variant: 'primary' | 'success' | 'warning' | 'danger' | undefined;
 
   /** Draws a pill-style badge with rounded edges. */
   @property({ type: Boolean, reflect: true }) pill = false;

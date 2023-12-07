@@ -93,8 +93,16 @@ export const prepareAdd = (prompt: string): { sourceTS: string, aiHeader: string
 export const onAfterChange = async (mfile: mls.l2.editor.IMFile): Promise<void> => {
     try {
         setCodeLens(mfile);
-        if (validateTagName(mfile)) return;
-        if (validateRender(mfile)) return;
+        if (validateTagName(mfile)) {
+            mls.events.fireFileAction('statusOrErrorChanged', mfile.storFile, 'left');
+            mls.events.fireFileAction('statusOrErrorChanged', mfile.storFile, 'right');
+            return;
+        }
+        if (validateRender(mfile)) {
+            mls.events.fireFileAction('statusOrErrorChanged', mfile.storFile, 'left');
+            mls.events.fireFileAction('statusOrErrorChanged', mfile.storFile, 'right');
+            return;
+        }
     } catch (e: any) {
         return e.message || e;
     }
