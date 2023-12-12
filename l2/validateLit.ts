@@ -68,7 +68,7 @@ function getLineIndent(model: monaco.editor.ITextModel, lineNumber:number): numb
     return 0;
 }
 
-function setErrorOnModel(model: monaco.editor.ITextModel, line: number, startColumn: number, endColumn: number, message: string,): void {
+export function setErrorOnModel(model: monaco.editor.ITextModel, line: number, startColumn: number, endColumn: number, message: string,): void {
     const lineIndent = getLineIndent(model, line)
     const markerOptions = {
         severity: monaco.MarkerSeverity.Error,

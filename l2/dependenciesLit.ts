@@ -1,7 +1,8 @@
 /// <mls shortName="dependenciesLit" project="100541" enhancement="_blank" />
-				
+
 import { convertTagToFileName } from './_100541_utilsLit'
-import type { IJSDoc} from './_100541_propiertiesLit';
+import type { IJSDoc } from './_100541_propiertiesLit';
+import { setErrorOnModel } from './_100541_validateLit'
 
 export function getComponentDependencies(model: mls.l2.editor.IMFile): string[] {
 
@@ -24,7 +25,13 @@ export function getComponentDependencies(model: mls.l2.editor.IMFile): string[] 
             dependenciesArray = dependenciesArray.map((tag: string) => convertTagToFileName(tag));
         } catch (error) {
             // Handle the error if the JSON parsing fails
-            console.error('Error parsing webComponentDependencies array :', error);
+            //console.error('Error parsing webComponentDependencies array :', error);
+            model.storFile.hasError = true;
+            
+            setErrorOnModel(model.model, 1, 0, 10, 'Error parsing webComponentDependencies array :');
+
+            mls.events.fireFileAction('statusOrErrorChanged', model.storFile, 'left');
+            mls.events.fireFileAction('statusOrErrorChanged', model.storFile, 'right');
             dependenciesArray = [];
         }
     }
