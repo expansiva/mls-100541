@@ -14,8 +14,24 @@ export function getComponentDependencies(model: mls.l2.editor.IMFile): string[] 
 
     // Regular expression to match the dependencies array
     const regex = /"webComponentDependencies"\s*:\s*(\[.*?\])/;
+    // Regular expression to match the dependencies array
+    const regexVerify = /"webComponentDependencies"\s*:\s*(\[.*?)/;
     // Executing the regular expression and extracting the matched group
     const match = tagsInfoString.match(regex);
+    const matchVerify = tagsInfoString.match(regexVerify);
+
+    if (matchVerify && !match) {
+
+        model.storFile.hasError = true;
+
+        setErrorOnModel(model.model, 1, 0, 10, 'Line breaks are not allowed in webComponentDependencies');
+
+        mls.events.fireFileAction('statusOrErrorChanged', model.storFile, 'left');
+        mls.events.fireFileAction('statusOrErrorChanged', model.storFile, 'right');
+
+        return [];
+
+    }
 
     // Check if the regex found a match and extract the dependencies array
     let dependenciesArray = [];
@@ -27,7 +43,7 @@ export function getComponentDependencies(model: mls.l2.editor.IMFile): string[] 
             // Handle the error if the JSON parsing fails
             //console.error('Error parsing webComponentDependencies array :', error);
             model.storFile.hasError = true;
-            
+
             setErrorOnModel(model.model, 1, 0, 10, 'Error parsing webComponentDependencies array :');
 
             mls.events.fireFileAction('statusOrErrorChanged', model.storFile, 'left');
