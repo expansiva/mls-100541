@@ -1,0 +1,1 @@
+{ "_100541_badge": {"variant":"primary","pill":"true","pulse":"true","text":"Primary"} }
