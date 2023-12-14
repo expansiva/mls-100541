@@ -3,9 +3,9 @@ import { convertFileNameToTag } from './_100541_utilsLit'
 
 export const MLS_GETDEFAULTDESIGNSYSTEM = '[[mls_getDefaultDesignSystem]]';
 export async function injectStyle(model: mls.l2.editor.IMFile, dsIndex: number): Promise<void> {
+
     const js = model.compilerResults?.prodJS;
     if (js && js.indexOf(MLS_GETDEFAULTDESIGNSYSTEM) === -1) return;
-
     const ds = mls.l3.getDSInstance(model.project, dsIndex);
     if (!ds) return;
     await ds.init();
@@ -14,6 +14,7 @@ export async function injectStyle(model: mls.l2.editor.IMFile, dsIndex: number):
     const css = await ds.components.getCSS(fileName);
     if (!css) return;
     const css2 = getCssWithoutTag(css, tagName);
+    console.info({ css, css2 })
     if (model && model.compilerResults) {
         model.compilerResults.prodJS = model.compilerResults.prodJS.replace(MLS_GETDEFAULTDESIGNSYSTEM, css2)
     }
@@ -28,7 +29,7 @@ function getCssWithoutTag(css: string, tag: string): string {
     const replacementString = '';
     modifiedString = modifiedString.replace(new RegExp(searchString, "g"), replacementString);
     modifiedString = replaceBackTicks(modifiedString);
-    modifiedString = decodeString(modifiedString)
+    // modifiedString = decodeString(modifiedString)
     return modifiedString;
 }
 
@@ -38,5 +39,10 @@ function replaceBackTicks(originalString: string): string {
 }
 
 function decodeString(cssString: string) {
-    return decodeURIComponent(cssString)
+    try {
+        return decodeURIComponent(cssString)
+    } catch (err) {
+        console.info(err)
+        return ''
+    }
 }

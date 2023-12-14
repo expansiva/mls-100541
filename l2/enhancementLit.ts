@@ -10,7 +10,6 @@ import { injectStyle, MLS_GETDEFAULTDESIGNSYSTEM } from './_100541_processCssLit
 
 export const description = "Use this enhancement for model using lit - a simple and fast web component.\nRef: https://lit.dev/"
 
-
 export const example = `
     import { html, css, LitElement } from 'lit'; 
     import { customElement, property } from 'lit/decorators.js';
